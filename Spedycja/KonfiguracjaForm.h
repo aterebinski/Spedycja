@@ -14,13 +14,16 @@ namespace Spedycja {
 	/// </summary>
 	public ref class KonfiguracjaForm : public System::Windows::Forms::Form
 	{
+	private:
+		String^ connectionString;
 	public:
-		KonfiguracjaForm(void)
+		KonfiguracjaForm(String^ connectionString)
 		{
 			InitializeComponent();
 			//
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
+			this->connectionString = connectionString;
 		}
 
 	protected:

@@ -88,6 +88,7 @@ namespace Spedycja {
 			this->btnUsun->TabIndex = 9;
 			this->btnUsun->Text = L"Usuń";
 			this->btnUsun->UseVisualStyleBackColor = true;
+			this->btnUsun->Click += gcnew System::EventHandler(this, &SamochodyForm::btnUsun_Click);
 			// 
 			// btnEdytuj
 			// 
@@ -99,6 +100,7 @@ namespace Spedycja {
 			this->btnEdytuj->TabIndex = 10;
 			this->btnEdytuj->Text = L"Popraw";
 			this->btnEdytuj->UseVisualStyleBackColor = true;
+			this->btnEdytuj->Click += gcnew System::EventHandler(this, &SamochodyForm::btnEdytuj_Click);
 			// 
 			// btnDodaj
 			// 
@@ -110,24 +112,25 @@ namespace Spedycja {
 			this->btnDodaj->TabIndex = 11;
 			this->btnDodaj->Text = L"Dodaj";
 			this->btnDodaj->UseVisualStyleBackColor = true;
+			this->btnDodaj->Click += gcnew System::EventHandler(this, &SamochodyForm::btnDodaj_Click);
 			// 
 			// dataGridViewSamochody
 			// 
+			this->dataGridViewSamochody->AllowUserToAddRows = false;
+			this->dataGridViewSamochody->AllowUserToDeleteRows = false;
 			this->dataGridViewSamochody->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridViewSamochody->Location = System::Drawing::Point(31, 124);
 			this->dataGridViewSamochody->Name = L"dataGridViewSamochody";
-			this->dataGridViewSamochody->Size = System::Drawing::Size(715, 228);
-			this->dataGridViewSamochody->TabIndex = 8;
 			this->dataGridViewSamochody->ReadOnly = true;
 			this->dataGridViewSamochody->RowHeadersVisible = false;
-			this->dataGridViewSamochody->AllowUserToAddRows = false;
-			this->dataGridViewSamochody->AllowUserToDeleteRows = false;
+			this->dataGridViewSamochody->Size = System::Drawing::Size(1111, 228);
+			this->dataGridViewSamochody->TabIndex = 8;
 			// 
 			// SamochodyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(790, 517);
+			this->ClientSize = System::Drawing::Size(1253, 517);
 			this->Controls->Add(this->labelSamochody);
 			this->Controls->Add(this->btnUsun);
 			this->Controls->Add(this->btnEdytuj);
@@ -149,7 +152,8 @@ namespace Spedycja {
 			try
 			{
 				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-				SqlCommand^ sqlCommand = gcnew SqlCommand("select p.id, p.Imie, p.Nazwisko, s.Stanowisko, l.Miasto, p.Pensja from dbo.Pracownicy p, dbo.Stanowiska s, dbo.Lokalizacje l where p.IdStanowiska = s.id and p.IdLokalizacji = l.ID; ", sqlConnection);
+				String^ sqlString = "select * from dbo.Samochody s; ";
+				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
 
 				SqlDataAdapter^ sqlDataAdapter = gcnew SqlDataAdapter();
 				sqlDataAdapter->SelectCommand = sqlCommand;
@@ -177,5 +181,11 @@ namespace Spedycja {
 			//https://www.youtube.com/watch?v=r_cj1uhs9-c
 		};
 #pragma endregion
-	};
+	private: System::Void btnDodaj_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+private: System::Void btnEdytuj_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void btnUsun_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+};
 }

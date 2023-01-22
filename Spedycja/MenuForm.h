@@ -3,6 +3,7 @@
 #include "KierowcyForm.h"
 #include "SamochodyForm.h"
 #include "ZleceniaForm.h"
+#include "KonfiguracjaForm.h"
 
 namespace Spedycja {
 
@@ -92,6 +93,7 @@ namespace Spedycja {
 			this->konfiguracjaBtn->TabIndex = 1;
 			this->konfiguracjaBtn->Text = L"Konfiguracja";
 			this->konfiguracjaBtn->UseVisualStyleBackColor = true;
+			this->konfiguracjaBtn->Click += gcnew System::EventHandler(this, &MenuForm::konfiguracjaBtn_Click);
 			// 
 			// exitBtn
 			// 
@@ -101,6 +103,7 @@ namespace Spedycja {
 			this->exitBtn->TabIndex = 2;
 			this->exitBtn->Text = L"Wyjœcie";
 			this->exitBtn->UseVisualStyleBackColor = true;
+			this->exitBtn->Click += gcnew System::EventHandler(this, &MenuForm::exitBtn_Click);
 			// 
 			// zleceniaBtn
 			// 
@@ -197,5 +200,12 @@ namespace Spedycja {
 		ZleceniaForm^ zleceniaForm = gcnew ZleceniaForm(connectionString);
 		zleceniaForm->ShowDialog();
 	}
-	};
+	private: System::Void konfiguracjaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		KonfiguracjaForm^ konfiguracjaForm = gcnew KonfiguracjaForm(connectionString);
+		konfiguracjaForm->ShowDialog();
+	}
+private: System::Void exitBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	Application::Exit();
+}
+};
 }
