@@ -121,30 +121,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EditKontrahentForm.cpp" />
-    <ClCompile Include="ListKontrahenciForm.cpp" />
+    <ClCompile Include="EdytujKontrahentaForm.cpp" />
+    <ClCompile Include="KierowcyForm.cpp" />
+    <ClCompile Include="KonfiguracjaForm.cpp" />
+    <ClCompile Include="KontrahenciForm.cpp" />
     <ClCompile Include="MenuForm.cpp" />
+    <ClCompile Include="SamochodyForm.cpp" />
+    <ClCompile Include="ZleceniaForm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EditKontrahentForm.h">
+    <ClInclude Include="EdytujKontrahentaForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="ListKontrahenciForm.h">
+    <ClInclude Include="KierowcyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="KonfiguracjaForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="KontrahenciForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="MenuForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="SamochodyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ZleceniaForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EditKontrahentForm.resx">
-      <DependentUpon>EditKontrahentForm.h</DependentUpon>
+    <EmbeddedResource Include="EdytujKontrahentaForm.resx">
+      <DependentUpon>EdytujKontrahentaForm.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListKontrahenciForm.resx">
-      <DependentUpon>ListKontrahenciForm.h</DependentUpon>
+    <EmbeddedResource Include="KierowcyForm.resx">
+      <DependentUpon>KierowcyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KonfiguracjaForm.resx">
+      <DependentUpon>KonfiguracjaForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KontrahenciForm.resx">
+      <DependentUpon>KontrahenciForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MenuForm.resx">
       <DependentUpon>MenuForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SamochodyForm.resx">
+      <DependentUpon>SamochodyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZleceniaForm.resx">
+      <DependentUpon>ZleceniaForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

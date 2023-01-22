@@ -1,4 +1,8 @@
 #pragma once
+#include "KontrahenciForm.h"
+#include "KierowcyForm.h"
+#include "SamochodyForm.h"
+#include "ZleceniaForm.h"
 
 namespace Spedycja {
 
@@ -50,7 +54,7 @@ namespace Spedycja {
 		/// <summary>
 		/// Wymagana zmienna projektanta.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -108,6 +112,7 @@ namespace Spedycja {
 			this->zleceniaBtn->TabIndex = 3;
 			this->zleceniaBtn->Text = L"Zlecenia";
 			this->zleceniaBtn->UseVisualStyleBackColor = true;
+			this->zleceniaBtn->Click += gcnew System::EventHandler(this, &MenuForm::zleceniaBtn_Click);
 			// 
 			// trasyBtn
 			// 
@@ -142,6 +147,7 @@ namespace Spedycja {
 			this->kierowcyBtn->TabIndex = 3;
 			this->kierowcyBtn->Text = L"Kierowcy";
 			this->kierowcyBtn->UseVisualStyleBackColor = true;
+			this->kierowcyBtn->Click += gcnew System::EventHandler(this, &MenuForm::kierowcyBtn_Click);
 			// 
 			// samochodyBtn
 			// 
@@ -153,6 +159,7 @@ namespace Spedycja {
 			this->samochodyBtn->TabIndex = 3;
 			this->samochodyBtn->Text = L"Samochody";
 			this->samochodyBtn->UseVisualStyleBackColor = true;
+			this->samochodyBtn->Click += gcnew System::EventHandler(this, &MenuForm::samochodyBtn_Click);
 			// 
 			// MenuForm
 			// 
@@ -175,7 +182,20 @@ namespace Spedycja {
 		}
 #pragma endregion
 	private: System::Void kontrahenciBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		
+		KontrahenciForm^ kontrahenciForm = gcnew KontrahenciForm(connectionString);
+		kontrahenciForm->ShowDialog();
 	}
-};
+	private: System::Void kierowcyBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		KierowcyForm^ kierowcyForm = gcnew KierowcyForm(connectionString);
+		kierowcyForm->ShowDialog();
+	}
+	private: System::Void samochodyBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		SamochodyForm^ samochodyForm = gcnew SamochodyForm(connectionString);
+		samochodyForm->ShowDialog();
+	}
+	private: System::Void zleceniaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		ZleceniaForm^ zleceniaForm = gcnew ZleceniaForm(connectionString);
+		zleceniaForm->ShowDialog();
+	}
+	};
 }

@@ -12,10 +12,10 @@ namespace Spedycja {
 	/// <summary>
 	/// Podsumowanie informacji o EditKontrahentForm
 	/// </summary>
-	public ref class EditKontrahentForm : public System::Windows::Forms::Form
+	public ref class EdytujKontrahentaForm : public System::Windows::Forms::Form
 	{
 	public:
-		EditKontrahentForm(void)
+		EdytujKontrahentaForm(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +27,7 @@ namespace Spedycja {
 		/// <summary>
 		/// Wyczyœæ wszystkie u¿ywane zasoby.
 		/// </summary>
-		~EditKontrahentForm()
+		~EdytujKontrahentaForm()
 		{
 			if (components)
 			{
@@ -36,8 +36,10 @@ namespace Spedycja {
 		}
 	private: System::Windows::Forms::Label^ labelEditKontrahent;
 	private: System::Windows::Forms::Label^ labelNazwa;
-	private: System::Windows::Forms::Button^ btnDodajKontrahenta;
-	private: System::Windows::Forms::Button^ btnUsunKontrahenta;
+	private: System::Windows::Forms::Button^ btnZatwierdz;
+	private: System::Windows::Forms::Button^ btnAnuluj;
+
+
 	private: System::Windows::Forms::TextBox^ textBoxNazwa;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
@@ -74,8 +76,8 @@ namespace Spedycja {
 		{
 			this->labelEditKontrahent = (gcnew System::Windows::Forms::Label());
 			this->labelNazwa = (gcnew System::Windows::Forms::Label());
-			this->btnDodajKontrahenta = (gcnew System::Windows::Forms::Button());
-			this->btnUsunKontrahenta = (gcnew System::Windows::Forms::Button());
+			this->btnZatwierdz = (gcnew System::Windows::Forms::Button());
+			this->btnAnuluj = (gcnew System::Windows::Forms::Button());
 			this->textBoxNazwa = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -100,7 +102,7 @@ namespace Spedycja {
 			this->labelEditKontrahent->AutoSize = true;
 			this->labelEditKontrahent->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->labelEditKontrahent->Location = System::Drawing::Point(64, 51);
+			this->labelEditKontrahent->Location = System::Drawing::Point(168, 53);
 			this->labelEditKontrahent->Name = L"labelEditKontrahent";
 			this->labelEditKontrahent->Size = System::Drawing::Size(190, 24);
 			this->labelEditKontrahent->TabIndex = 3;
@@ -117,27 +119,27 @@ namespace Spedycja {
 			this->labelNazwa->TabIndex = 4;
 			this->labelNazwa->Text = L"Nazwa";
 			// 
-			// btnDodajKontrahenta
+			// btnZatwierdz
 			// 
-			this->btnDodajKontrahenta->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->btnDodajKontrahenta->Location = System::Drawing::Point(68, 611);
-			this->btnDodajKontrahenta->Name = L"btnDodajKontrahenta";
-			this->btnDodajKontrahenta->Size = System::Drawing::Size(87, 34);
-			this->btnDodajKontrahenta->TabIndex = 5;
-			this->btnDodajKontrahenta->Text = L"Dodaj";
-			this->btnDodajKontrahenta->UseVisualStyleBackColor = true;
-			// 
-			// btnUsunKontrahenta
-			// 
-			this->btnUsunKontrahenta->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->btnZatwierdz->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnUsunKontrahenta->Location = System::Drawing::Point(208, 611);
-			this->btnUsunKontrahenta->Name = L"btnUsunKontrahenta";
-			this->btnUsunKontrahenta->Size = System::Drawing::Size(87, 34);
-			this->btnUsunKontrahenta->TabIndex = 6;
-			this->btnUsunKontrahenta->Text = L"Usuñ";
-			this->btnUsunKontrahenta->UseVisualStyleBackColor = true;
+			this->btnZatwierdz->Location = System::Drawing::Point(162, 611);
+			this->btnZatwierdz->Name = L"btnZatwierdz";
+			this->btnZatwierdz->Size = System::Drawing::Size(98, 34);
+			this->btnZatwierdz->TabIndex = 5;
+			this->btnZatwierdz->Text = L"ZatwierdŸ";
+			this->btnZatwierdz->UseVisualStyleBackColor = true;
+			// 
+			// btnAnuluj
+			// 
+			this->btnAnuluj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->btnAnuluj->Location = System::Drawing::Point(293, 611);
+			this->btnAnuluj->Name = L"btnAnuluj";
+			this->btnAnuluj->Size = System::Drawing::Size(87, 34);
+			this->btnAnuluj->TabIndex = 6;
+			this->btnAnuluj->Text = L"Anuluj";
+			this->btnAnuluj->UseVisualStyleBackColor = true;
 			// 
 			// textBoxNazwa
 			// 
@@ -330,8 +332,8 @@ namespace Spedycja {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->textBoxNazwa);
-			this->Controls->Add(this->btnUsunKontrahenta);
-			this->Controls->Add(this->btnDodajKontrahenta);
+			this->Controls->Add(this->btnAnuluj);
+			this->Controls->Add(this->btnZatwierdz);
 			this->Controls->Add(this->labelNazwa);
 			this->Controls->Add(this->labelEditKontrahent);
 			this->Name = L"EditKontrahentForm";

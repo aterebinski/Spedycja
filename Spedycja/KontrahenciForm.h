@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 namespace Spedycja {
 
@@ -7,27 +7,33 @@ namespace Spedycja {
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
+	using namespace System::Data::SqlClient;
 	using namespace System::Drawing;
 
 	/// <summary>
 	/// Podsumowanie informacji o ListKontrahenciForm
 	/// </summary>
-	public ref class ListKontrahenciForm : public System::Windows::Forms::Form
+	public ref class KontrahenciForm : public System::Windows::Forms::Form
 	{
+	private:
+		String^ connectionString;
+
 	public:
-		ListKontrahenciForm(void)
+		KontrahenciForm(String^ connectionString)
 		{
 			InitializeComponent();
 			//
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
+			this->connectionString = connectionString;
+			this->generateView();
 		}
 
 	protected:
 		/// <summary>
-		/// Wyczyœæ wszystkie u¿ywane zasoby.
+		/// WyczyÅ›Ä‡ wszystkie uÅ¼ywane zasoby.
 		/// </summary>
-		~ListKontrahenciForm()
+		~KontrahenciForm()
 		{
 			if (components)
 			{
@@ -53,8 +59,8 @@ namespace Spedycja {
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Metoda wymagana do obs³ugi projektanta — nie nale¿y modyfikowaæ
-		/// jej zawartoœci w edytorze kodu.
+		/// Metoda wymagana do obsÅ‚ugi projektanta â€” nie naleÅ¼y modyfikowaÄ‡
+		/// jej zawartoÅ›ci w edytorze kodu.
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -73,6 +79,10 @@ namespace Spedycja {
 			this->dataGridViewKontrahenci->Name = L"dataGridViewKontrahenci";
 			this->dataGridViewKontrahenci->Size = System::Drawing::Size(715, 228);
 			this->dataGridViewKontrahenci->TabIndex = 0;
+			this->dataGridViewKontrahenci->ReadOnly = true;
+			this->dataGridViewKontrahenci->RowHeadersVisible = false;
+			this->dataGridViewKontrahenci->AllowUserToAddRows = false;
+			this->dataGridViewKontrahenci->AllowUserToDeleteRows = false;
 			// 
 			// btnDodajKontrahenta
 			// 
@@ -106,7 +116,7 @@ namespace Spedycja {
 			this->btnEdytujKontrahenta->TabIndex = 1;
 			this->btnEdytujKontrahenta->Text = L"Popraw";
 			this->btnEdytujKontrahenta->UseVisualStyleBackColor = true;
-			this->btnEdytujKontrahenta->Click += gcnew System::EventHandler(this, &ListKontrahenciForm::btnEdytujKontrahenta_Click);
+			this->btnEdytujKontrahenta->Click += gcnew System::EventHandler(this, &KontrahenciForm::btnEdytujKontrahenta_Click);
 			// 
 			// btnUsunKontrahenta
 			// 
@@ -116,7 +126,7 @@ namespace Spedycja {
 			this->btnUsunKontrahenta->Name = L"btnUsunKontrahenta";
 			this->btnUsunKontrahenta->Size = System::Drawing::Size(87, 34);
 			this->btnUsunKontrahenta->TabIndex = 1;
-			this->btnUsunKontrahenta->Text = L"Usuñ";
+			this->btnUsunKontrahenta->Text = L"UsuÅ„";
 			this->btnUsunKontrahenta->UseVisualStyleBackColor = true;
 			// 
 			// ListKontrahenciForm
@@ -129,13 +139,51 @@ namespace Spedycja {
 			this->Controls->Add(this->btnEdytujKontrahenta);
 			this->Controls->Add(this->btnDodajKontrahenta);
 			this->Controls->Add(this->dataGridViewKontrahenci);
-			this->Name = L"ListKontrahenciForm";
-			this->Text = L"ListKontrahenciForm";
+			this->Name = L"KontrahenciForm";
+			this->Text = L"Kontrahenci";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewKontrahenci))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
+
+		System::Void generateView() {
+
+
+
+			//SqlDataReader^ sqlDataReader;
+			try
+			{
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				String^ sqlString = "select * from dbo.Kontrahenci k; ";
+				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
+
+				SqlDataAdapter^ sqlDataAdapter = gcnew SqlDataAdapter();
+				sqlDataAdapter->SelectCommand = sqlCommand;
+				DataTable^ dataTable = gcnew DataTable();
+				sqlDataAdapter->Fill(dataTable);
+				BindingSource^ bindingSource = gcnew BindingSource();
+
+				//bindingSource->DataSource = dataTable;
+				//PracownicyDataGridView->DataSource = bindingSource;
+
+
+				dataGridViewKontrahenci->DataSource = dataTable;
+				sqlDataAdapter->Update(dataTable);
+
+				//chowa kolumnï¿½ ID w dataGridView
+				this->dataGridViewKontrahenci->Columns["ID"]->Visible = false;
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show(ex->Message);
+			}
+
+
+
+			//https://www.youtube.com/watch?v=r_cj1uhs9-c
+		};
+
 #pragma endregion
 	private: System::Void btnEdytujKontrahenta_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
