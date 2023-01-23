@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <EdytujKontrahentaForm.h>
+#include "EdytujKontrahentaForm.h"
 
 namespace Spedycja {
 
@@ -75,15 +75,15 @@ namespace Spedycja {
 			// 
 			// dataGridViewKontrahenci
 			// 
+			this->dataGridViewKontrahenci->AllowUserToAddRows = false;
+			this->dataGridViewKontrahenci->AllowUserToDeleteRows = false;
 			this->dataGridViewKontrahenci->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridViewKontrahenci->Location = System::Drawing::Point(59, 84);
 			this->dataGridViewKontrahenci->Name = L"dataGridViewKontrahenci";
-			this->dataGridViewKontrahenci->Size = System::Drawing::Size(715, 228);
-			this->dataGridViewKontrahenci->TabIndex = 0;
 			this->dataGridViewKontrahenci->ReadOnly = true;
 			this->dataGridViewKontrahenci->RowHeadersVisible = false;
-			this->dataGridViewKontrahenci->AllowUserToAddRows = false;
-			this->dataGridViewKontrahenci->AllowUserToDeleteRows = false;
+			this->dataGridViewKontrahenci->Size = System::Drawing::Size(715, 228);
+			this->dataGridViewKontrahenci->TabIndex = 0;
 			// 
 			// btnDodajKontrahenta
 			// 
@@ -95,6 +95,7 @@ namespace Spedycja {
 			this->btnDodajKontrahenta->TabIndex = 1;
 			this->btnDodajKontrahenta->Text = L"Dodaj";
 			this->btnDodajKontrahenta->UseVisualStyleBackColor = true;
+			this->btnDodajKontrahenta->Click += gcnew System::EventHandler(this, &KontrahenciForm::btnDodajKontrahenta_Click);
 			// 
 			// labelKontrahenci
 			// 
@@ -129,12 +130,13 @@ namespace Spedycja {
 			this->btnUsunKontrahenta->TabIndex = 1;
 			this->btnUsunKontrahenta->Text = L"Usuń";
 			this->btnUsunKontrahenta->UseVisualStyleBackColor = true;
+			this->btnUsunKontrahenta->Click += gcnew System::EventHandler(this, &KontrahenciForm::btnUsunKontrahenta_Click);
 			// 
-			// ListKontrahenciForm
+			// KontrahenciForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(821, 553);
+			this->ClientSize = System::Drawing::Size(821, 419);
 			this->Controls->Add(this->labelKontrahenci);
 			this->Controls->Add(this->btnUsunKontrahenta);
 			this->Controls->Add(this->btnEdytujKontrahenta);
@@ -189,10 +191,57 @@ namespace Spedycja {
 	private: System::Void btnEdytujKontrahenta_Click(System::Object^ sender, System::EventArgs^ e) {
 		int idKontrahenta = 0;
 		idKontrahenta = (int)dataGridViewKontrahenci->CurrentRow->Cells[0]->Value;
-		//MessageBox::Show(idPracownika.ToString());
+
 		EdytujKontrahentaForm^ EditForm = gcnew EdytujKontrahentaForm(idKontrahenta, connectionString);
 		EditForm->ShowDialog();
 		this->generateView();
 	}
+private: System::Void btnDodajKontrahenta_Click(System::Object^ sender, System::EventArgs^ e) {
+	EdytujKontrahentaForm^ EditForm = gcnew EdytujKontrahentaForm(0, connectionString);
+	EditForm->ShowDialog();
+	this->generateView();
+}
+private: System::Void btnUsunKontrahenta_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	
+
+
+
+	if (MessageBox::Show("Usunąć kontrahenta?", "Usuwanie kontrahenta", MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes) {
+
+		
+
+		int idKontrahenta = (int)dataGridViewKontrahenci->CurrentRow->Cells[0]->Value;
+		if (idKontrahenta) {
+			try {
+
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				sqlConnection->Open();
+				SqlCommand^ sqlCommand = gcnew SqlCommand("select count(*) as liczba from dbo.Zlecenia where idKontrahenta = " + idKontrahenta, sqlConnection);
+				SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+				sqlDataReader->Read();
+				int liczba = (int)sqlDataReader["liczba"];
+				sqlDataReader->Close();
+				if (liczba > 0) { //jeśli istnieją jakieś zlecdenia dla danego kontrahenta
+					MessageBox::Show("Nie można usunąć kontrahenta który złożył już zlecenie.");
+				}
+				else {
+					sqlCommand = gcnew SqlCommand("delete from dbo.Kontrahenci where id = @id", sqlConnection);
+					sqlCommand->Parameters->Add("@id", idKontrahenta);
+					sqlCommand->ExecuteNonQuery();
+				}
+				sqlConnection->Close();
+			}
+			catch (Exception^ e) {
+				MessageBox::Show(e->ToString());
+			}
+
+			this->generateView();
+		}
+
+
+
+	}
+}
 };
 }

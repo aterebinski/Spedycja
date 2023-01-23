@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "EdytujKierowceForm.h"
 
 namespace Spedycja {
 
@@ -100,6 +101,7 @@ namespace Spedycja {
 			this->btnEdytuj->TabIndex = 5;
 			this->btnEdytuj->Text = L"Popraw";
 			this->btnEdytuj->UseVisualStyleBackColor = true;
+			this->btnEdytuj->Click += gcnew System::EventHandler(this, &KierowcyForm::btnEdytuj_Click);
 			// 
 			// btnDodaj
 			// 
@@ -111,18 +113,19 @@ namespace Spedycja {
 			this->btnDodaj->TabIndex = 6;
 			this->btnDodaj->Text = L"Dodaj";
 			this->btnDodaj->UseVisualStyleBackColor = true;
+			this->btnDodaj->Click += gcnew System::EventHandler(this, &KierowcyForm::btnDodaj_Click);
 			// 
 			// dataGridViewKierowcy
 			// 
+			this->dataGridViewKierowcy->AllowUserToAddRows = false;
+			this->dataGridViewKierowcy->AllowUserToDeleteRows = false;
 			this->dataGridViewKierowcy->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridViewKierowcy->Location = System::Drawing::Point(49, 97);
 			this->dataGridViewKierowcy->Name = L"dataGridViewKierowcy";
-			this->dataGridViewKierowcy->Size = System::Drawing::Size(715, 228);
-			this->dataGridViewKierowcy->TabIndex = 3;
 			this->dataGridViewKierowcy->ReadOnly = true;
 			this->dataGridViewKierowcy->RowHeadersVisible = false;
-			this->dataGridViewKierowcy->AllowUserToAddRows = false;
-			this->dataGridViewKierowcy->AllowUserToDeleteRows = false;
+			this->dataGridViewKierowcy->Size = System::Drawing::Size(715, 228);
+			this->dataGridViewKierowcy->TabIndex = 3;
 			// 
 			// KierowcyForm
 			// 
@@ -179,5 +182,18 @@ namespace Spedycja {
 			//https://www.youtube.com/watch?v=r_cj1uhs9-c
 		};
 #pragma endregion
-	};
+	private: System::Void btnDodaj_Click(System::Object^ sender, System::EventArgs^ e) {
+		EdytujKierowceForm^ EditForm = gcnew EdytujKierowceForm(0, connectionString);
+		EditForm->ShowDialog();
+		this->generateView();
+	}
+private: System::Void btnEdytuj_Click(System::Object^ sender, System::EventArgs^ e) {
+	int idKierowcy = 0;
+	idKierowcy = (int)dataGridViewKierowcy->CurrentRow->Cells[0]->Value;
+
+	EdytujKierowceForm^ EditForm = gcnew EdytujKierowceForm(idKierowcy, connectionString);
+	EditForm->ShowDialog();
+	this->generateView();
+}
+};
 }

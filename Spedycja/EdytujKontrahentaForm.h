@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 namespace Spedycja {
 
@@ -7,6 +7,7 @@ namespace Spedycja {
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
+	using namespace System::Data::SqlClient;
 	using namespace System::Drawing;
 
 	/// <summary>
@@ -14,18 +15,79 @@ namespace Spedycja {
 	/// </summary>
 	public ref class EdytujKontrahentaForm : public System::Windows::Forms::Form
 	{
+	private:
+		String^ connectionString;
+		String^ nazwa;
+		String^ adres;
+		String^ kod;
+		String^ miejscowosc;
+		String^ NIP;
+		String^ REGON;
+		String^ zadluzenie;
+		int idKontrahenta;
 	public:
-		EdytujKontrahentaForm(void)
+		EdytujKontrahentaForm(int idKontrahenta, String^ connectionString)
 		{
 			InitializeComponent();
 			//
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
+			this->idKontrahenta = idKontrahenta;
+			this->connectionString = connectionString;
+
+
+			SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+			SqlCommand^ sqlCommand;
+			SqlDataReader^ sqlDataReader;
+			sqlConnection->Open();
+
+
+
+			//https://www.functionx.com/vccli/controls/combobox.htm
+
+
+			if (idKontrahenta != 0) //jesli edytujemy dane to trzeba wyswietlic dane w odpowiednich polach
+			{
+				try {
+
+					sqlCommand = gcnew SqlCommand("select * from dbo.Kontrahenci where id = " + idKontrahenta, sqlConnection);
+					SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+					sqlDataReader->Read();
+					nazwa = sqlDataReader["nazwa"]->ToString();
+					this->textBoxNazwa->Text = nazwa;
+					adres = sqlDataReader["adres"]->ToString();
+					this->textBoxAdres->Text = adres;
+					kod = sqlDataReader["kod"]->ToString();
+					this->textBoxKod->Text = kod;
+					miejscowosc = sqlDataReader["miejscowosc"]->ToString();
+					this->textBoxMiejscowosc->Text = miejscowosc;
+					NIP = sqlDataReader["NIP"]->ToString();
+					this->textBoxNIP->Text = NIP;
+					REGON = sqlDataReader["REGON"]->ToString();
+					this->textBoxREGON->Text = REGON;
+					zadluzenie = sqlDataReader["zadluzenie"]->ToString();
+					this->textBoxZadluzenie->Text = Convert::ToString(zadluzenie);
+					nazwa = sqlDataReader["nazwa"]->ToString();
+					this->textBoxNazwa->Text = nazwa;
+					
+					//idStanowiska = sqlDataReader["idStanowiska"]->ToString();
+					//idLokalizacji = sqlDataReader["idLokalizacji"]->ToString();
+
+					sqlDataReader->Close();
+				}
+				catch (Exception^ ex)
+				{
+					MessageBox::Show(ex->Message);
+				}
+
+			}
+			
+
 		}
 
 	protected:
 		/// <summary>
-		/// Wyczyœæ wszystkie u¿ywane zasoby.
+		/// WyczyÅ›Ä‡ wszystkie uÅ¼ywane zasoby.
 		/// </summary>
 		~EdytujKontrahentaForm()
 		{
@@ -44,7 +106,8 @@ namespace Spedycja {
 	private: System::Windows::Forms::Label^ label1;
 
 	private: System::Windows::Forms::Label^ label3;
-	private: System::Windows::Forms::TextBox^ textBoxUlica;
+private: System::Windows::Forms::TextBox^ textBoxAdres;
+
 
 	private: System::Windows::Forms::TextBox^ textBoxMiejscowosc;
 
@@ -53,9 +116,11 @@ namespace Spedycja {
 	private: System::Windows::Forms::Label^ label5;
 	private: System::Windows::Forms::TextBox^ textBoxNIP;
 	private: System::Windows::Forms::Label^ label6;
-	private: System::Windows::Forms::TextBox^ textBoxRegon;
+private: System::Windows::Forms::TextBox^ textBoxREGON;
+
 	private: System::Windows::Forms::Label^ label7;
-	private: System::Windows::Forms::TextBox^ textBoxZAdluzenie;
+private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
+
 	private: System::Windows::Forms::Label^ label8;
 	protected:
 
@@ -69,8 +134,8 @@ namespace Spedycja {
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Metoda wymagana do obs³ugi projektanta — nie nale¿y modyfikowaæ
-		/// jej zawartoœci w edytorze kodu.
+		/// Metoda wymagana do obsÅ‚ugi projektanta â€” nie naleÅ¼y modyfikowaÄ‡
+		/// jej zawartoÅ›ci w edytorze kodu.
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -81,15 +146,15 @@ namespace Spedycja {
 			this->textBoxNazwa = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->textBoxUlica = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxAdres = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxMiejscowosc = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxKod = (gcnew System::Windows::Forms::TextBox());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->textBoxNIP = (gcnew System::Windows::Forms::TextBox());
 			this->label6 = (gcnew System::Windows::Forms::Label());
-			this->textBoxRegon = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxREGON = (gcnew System::Windows::Forms::TextBox());
 			this->label7 = (gcnew System::Windows::Forms::Label());
-			this->textBoxZAdluzenie = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxZadluzenie = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
@@ -122,8 +187,8 @@ namespace Spedycja {
 			this->btnZatwierdz->Location = System::Drawing::Point(165, 532);
 			this->btnZatwierdz->Name = L"btnZatwierdz";
 			this->btnZatwierdz->Size = System::Drawing::Size(98, 34);
-			this->btnZatwierdz->TabIndex = 5;
-			this->btnZatwierdz->Text = L"ZatwierdŸ";
+			this->btnZatwierdz->TabIndex = 8;
+			this->btnZatwierdz->Text = L"ZatwierdÅº";
 			this->btnZatwierdz->UseVisualStyleBackColor = true;
 			this->btnZatwierdz->Click += gcnew System::EventHandler(this, &EdytujKontrahentaForm::btnZatwierdz_Click);
 			// 
@@ -134,7 +199,7 @@ namespace Spedycja {
 			this->btnAnuluj->Location = System::Drawing::Point(296, 532);
 			this->btnAnuluj->Name = L"btnAnuluj";
 			this->btnAnuluj->Size = System::Drawing::Size(87, 34);
-			this->btnAnuluj->TabIndex = 6;
+			this->btnAnuluj->TabIndex = 9;
 			this->btnAnuluj->Text = L"Anuluj";
 			this->btnAnuluj->UseVisualStyleBackColor = true;
 			this->btnAnuluj->Click += gcnew System::EventHandler(this, &EdytujKontrahentaForm::btnAnuluj_Click);
@@ -146,7 +211,7 @@ namespace Spedycja {
 			this->textBoxNazwa->Location = System::Drawing::Point(131, 117);
 			this->textBoxNazwa->Name = L"textBoxNazwa";
 			this->textBoxNazwa->Size = System::Drawing::Size(361, 26);
-			this->textBoxNazwa->TabIndex = 7;
+			this->textBoxNazwa->TabIndex = 1;
 			// 
 			// label1
 			// 
@@ -168,16 +233,16 @@ namespace Spedycja {
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(98, 20);
 			this->label3->TabIndex = 10;
-			this->label3->Text = L"Miejscowoœæ";
+			this->label3->Text = L"MiejscowoÅ›Ä‡";
 			// 
-			// textBoxUlica
+			// textBoxAdres
 			// 
-			this->textBoxUlica->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->textBoxAdres->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxUlica->Location = System::Drawing::Point(131, 178);
-			this->textBoxUlica->Name = L"textBoxUlica";
-			this->textBoxUlica->Size = System::Drawing::Size(361, 26);
-			this->textBoxUlica->TabIndex = 11;
+			this->textBoxAdres->Location = System::Drawing::Point(131, 178);
+			this->textBoxAdres->Name = L"textBoxAdres";
+			this->textBoxAdres->Size = System::Drawing::Size(361, 26);
+			this->textBoxAdres->TabIndex = 2;
 			// 
 			// textBoxMiejscowosc
 			// 
@@ -186,7 +251,7 @@ namespace Spedycja {
 			this->textBoxMiejscowosc->Location = System::Drawing::Point(186, 285);
 			this->textBoxMiejscowosc->Name = L"textBoxMiejscowosc";
 			this->textBoxMiejscowosc->Size = System::Drawing::Size(306, 26);
-			this->textBoxMiejscowosc->TabIndex = 13;
+			this->textBoxMiejscowosc->TabIndex = 4;
 			// 
 			// textBoxKod
 			// 
@@ -195,7 +260,7 @@ namespace Spedycja {
 			this->textBoxKod->Location = System::Drawing::Point(131, 232);
 			this->textBoxKod->Name = L"textBoxKod";
 			this->textBoxKod->Size = System::Drawing::Size(92, 26);
-			this->textBoxKod->TabIndex = 17;
+			this->textBoxKod->TabIndex = 3;
 			// 
 			// label5
 			// 
@@ -215,7 +280,7 @@ namespace Spedycja {
 			this->textBoxNIP->Location = System::Drawing::Point(143, 337);
 			this->textBoxNIP->Name = L"textBoxNIP";
 			this->textBoxNIP->Size = System::Drawing::Size(153, 26);
-			this->textBoxNIP->TabIndex = 19;
+			this->textBoxNIP->TabIndex = 5;
 			// 
 			// label6
 			// 
@@ -228,14 +293,14 @@ namespace Spedycja {
 			this->label6->TabIndex = 18;
 			this->label6->Text = L"NIP";
 			// 
-			// textBoxRegon
+			// textBoxREGON
 			// 
-			this->textBoxRegon->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->textBoxREGON->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxRegon->Location = System::Drawing::Point(143, 384);
-			this->textBoxRegon->Name = L"textBoxRegon";
-			this->textBoxRegon->Size = System::Drawing::Size(153, 26);
-			this->textBoxRegon->TabIndex = 21;
+			this->textBoxREGON->Location = System::Drawing::Point(143, 384);
+			this->textBoxREGON->Name = L"textBoxREGON";
+			this->textBoxREGON->Size = System::Drawing::Size(153, 26);
+			this->textBoxREGON->TabIndex = 6;
 			// 
 			// label7
 			// 
@@ -248,14 +313,14 @@ namespace Spedycja {
 			this->label7->TabIndex = 20;
 			this->label7->Text = L"REGON";
 			// 
-			// textBoxZAdluzenie
+			// textBoxZadluzenie
 			// 
-			this->textBoxZAdluzenie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->textBoxZadluzenie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxZAdluzenie->Location = System::Drawing::Point(163, 440);
-			this->textBoxZAdluzenie->Name = L"textBoxZAdluzenie";
-			this->textBoxZAdluzenie->Size = System::Drawing::Size(133, 26);
-			this->textBoxZAdluzenie->TabIndex = 23;
+			this->textBoxZadluzenie->Location = System::Drawing::Point(163, 440);
+			this->textBoxZadluzenie->Name = L"textBoxZadluzenie";
+			this->textBoxZadluzenie->Size = System::Drawing::Size(133, 26);
+			this->textBoxZadluzenie->TabIndex = 7;
 			// 
 			// label8
 			// 
@@ -266,23 +331,23 @@ namespace Spedycja {
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(88, 20);
 			this->label8->TabIndex = 22;
-			this->label8->Text = L"Zad³u¿enie";
+			this->label8->Text = L"ZadÅ‚uÅ¼enie";
 			// 
 			// EdytujKontrahentaForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(543, 605);
-			this->Controls->Add(this->textBoxZAdluzenie);
+			this->Controls->Add(this->textBoxZadluzenie);
 			this->Controls->Add(this->label8);
-			this->Controls->Add(this->textBoxRegon);
+			this->Controls->Add(this->textBoxREGON);
 			this->Controls->Add(this->label7);
 			this->Controls->Add(this->textBoxNIP);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->textBoxKod);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->textBoxMiejscowosc);
-			this->Controls->Add(this->textBoxUlica);
+			this->Controls->Add(this->textBoxAdres);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->textBoxNazwa);
@@ -297,6 +362,57 @@ namespace Spedycja {
 
 		}
 	private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventArgs^ e) {
+		nazwa = this->textBoxNazwa->Text;
+		adres = this->textBoxAdres->Text;
+		kod = this->textBoxKod->Text;
+		miejscowosc = this->textBoxMiejscowosc->Text;
+		NIP = this->textBoxNIP->Text;
+		REGON = this->textBoxREGON->Text;
+		zadluzenie = this->textBoxZadluzenie->Text;
+		
+		String^ sqlString;
+
+		if ((nazwa == "") || (adres == "") || (kod == "") || (miejscowosc == "") || (NIP == "") || (REGON == ""))
+		{
+			MessageBox::Show("Wypeï¿½nij wszystkie pola");
+		}
+		else {
+			
+			if (idKontrahenta == 0) //dodanie nowego rekordu do tabeli Kontrahenci
+			{
+				sqlString = "insert into dbo.Kontrahenci(nazwa,adres,kod,miejscowosc,NIP, REGON, zadluzenie) values (@nazwa,@adres,@kod,@miejscowosc,@NIP, @REGON, @zadluzenie);";
+			}
+			else { //edycja rekordu tabeli Pracownicy
+				sqlString = "update dbo.Kontrahenci set nazwa = @nazwa, adres = @adres, kod = @kod, miejscowosc = @miejscowosc, NIP = @NIP, REGON = @REGON, zadluzenie = @zadluzenie " +
+					"where ID = @idKontrahenta ;";
+			}
+
+			try {
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				sqlConnection->Open();
+				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
+				sqlCommand->Parameters->Add("@nazwa", nazwa);
+				sqlCommand->Parameters->Add("@adres", adres);
+				sqlCommand->Parameters->Add("@kod", kod);
+				sqlCommand->Parameters->Add("@miejscowosc", miejscowosc);
+				sqlCommand->Parameters->Add("@NIP", NIP);
+				sqlCommand->Parameters->Add("@REGON", REGON);
+				sqlCommand->Parameters->Add("@zadluzenie", zadluzenie);
+				if (idKontrahenta != 0) sqlCommand->Parameters->Add("@idKontrahenta", idKontrahenta);
+
+				sqlCommand->ExecuteNonQuery();
+
+				sqlConnection->Close();
+			}
+			catch (Exception^ e) {
+				MessageBox::Show(e->ToString());
+			}
+
+			this->Close();
+
+
+
+		}
 	}
 private: System::Void btnAnuluj_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Close();

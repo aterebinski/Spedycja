@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "EdytujSamochodForm.h"
 
 namespace Spedycja {
 
@@ -72,7 +73,7 @@ namespace Spedycja {
 			this->labelSamochody->AutoSize = true;
 			this->labelSamochody->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelSamochody->Location = System::Drawing::Point(55, 73);
+			this->labelSamochody->Location = System::Drawing::Point(40, 66);
 			this->labelSamochody->Name = L"labelSamochody";
 			this->labelSamochody->Size = System::Drawing::Size(111, 24);
 			this->labelSamochody->TabIndex = 12;
@@ -184,6 +185,12 @@ namespace Spedycja {
 	private: System::Void btnDodaj_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 private: System::Void btnEdytuj_Click(System::Object^ sender, System::EventArgs^ e) {
+	int idSamochodu = 0;
+	idSamochodu = (int)dataGridViewSamochody->CurrentRow->Cells[0]->Value;
+
+	EdytujSamochodForm^ EditForm = gcnew EdytujSamochodForm(idSamochodu, connectionString);
+	EditForm->ShowDialog();
+	this->generateView();
 }
 private: System::Void btnUsun_Click(System::Object^ sender, System::EventArgs^ e) {
 }

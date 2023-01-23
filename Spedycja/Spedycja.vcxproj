@@ -25,7 +25,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>Spedycja</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -121,7 +121,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EdytujKierowceForm.cpp" />
     <ClCompile Include="EdytujKontrahentaForm.cpp" />
+    <ClCompile Include="EdytujSamochodForm.cpp" />
     <ClCompile Include="KierowcyForm.cpp" />
     <ClCompile Include="KonfiguracjaForm.cpp" />
     <ClCompile Include="KontrahenciForm.cpp" />
@@ -130,7 +132,13 @@
     <ClCompile Include="ZleceniaForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EdytujKierowceForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="EdytujKontrahentaForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="EdytujSamochodForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="KierowcyForm.h">
@@ -153,8 +161,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EdytujKierowceForm.resx">
+      <DependentUpon>EdytujKierowceForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EdytujKontrahentaForm.resx">
       <DependentUpon>EdytujKontrahentaForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EdytujSamochodForm.resx">
+      <DependentUpon>EdytujSamochodForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KierowcyForm.resx">
       <DependentUpon>KierowcyForm.h</DependentUpon>
