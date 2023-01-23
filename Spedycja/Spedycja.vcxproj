@@ -121,6 +121,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComboBoxItem.cpp" />
     <ClCompile Include="EdytujKierowceForm.cpp" />
     <ClCompile Include="EdytujKontrahentaForm.cpp" />
     <ClCompile Include="EdytujSamochodForm.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="ZleceniaForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ComboBoxItem.h" />
     <ClInclude Include="EdytujKierowceForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>

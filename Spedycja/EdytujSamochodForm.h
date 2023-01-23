@@ -8,6 +8,7 @@ namespace Spedycja {
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
+	using namespace System::Data::SqlClient;
 	using namespace System::Drawing;
 
 	/// <summary>
@@ -67,12 +68,12 @@ namespace Spedycja {
 					this->textBoxSpalanieZLadunkiem->Text = spalanieZLadunkiem;
 
 					DMC = sqlDataReader["DMC"]->ToString();
-					this->textBoxMarka->Text = DMC;
+					this->textBoxDMC->Text = DMC;
 					iloscPalet = sqlDataReader["ilosc_palet"]->ToString();
-					this->textBoxMarka->Text = iloscPalet;
+					this->textBoxIloscPalet->Text = iloscPalet;
 
 					objetosc = sqlDataReader["Objetosc"]->ToString();
-					this->textBoxMarka->Text = objetosc;
+					this->textBoxObjetosc->Text = objetosc;
 
 					
 
@@ -92,7 +93,7 @@ namespace Spedycja {
 			try {
 
 
-				sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
+				sqlCommand = gcnew SqlCommand("select * from dbo.Ladunki", sqlConnection);
 
 				ComboBoxItem^ tempComboBoxItem;
 				String^ tempId;
@@ -100,25 +101,13 @@ namespace Spedycja {
 
 				sqlDataReader = sqlCommand->ExecuteReader();
 				while (sqlDataReader->Read()) {
-					tempId = sqlDataReader["id"]->ToString();
-					tempValue = sqlDataReader["stanowisko"]->ToString();
+					tempId = sqlDataReader["ID"]->ToString();
+					tempValue = sqlDataReader["Nazwa"]->ToString();
 					tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
-					this->StanowiskoCBox->Items->Add(tempComboBoxItem);
-					if ((idPracownika != 0) && (idStanowiska == tempId)) this->StanowiskoCBox->SelectedItem = tempComboBoxItem;
+					this->comboBoxLadunek->Items->Add(tempComboBoxItem);
+					if ((idSamochodu != 0) && (idLadunku == tempId)) this->comboBoxLadunek->SelectedItem = tempComboBoxItem;
 				}
-				sqlDataReader->Close();
-
-				sqlCommand = gcnew SqlCommand("select * from dbo.Lokalizacje", sqlConnection);
-
-				sqlDataReader = sqlCommand->ExecuteReader();
-				while (sqlDataReader->Read()) {
-					tempId = sqlDataReader["id"]->ToString();
-					tempValue = sqlDataReader["miasto"]->ToString();
-					tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
-					this->LokalizacjaCBox->Items->Add(tempComboBoxItem);
-					if ((idPracownika != 0) && (idLokalizacji == tempId)) this->LokalizacjaCBox->SelectedItem = tempComboBoxItem;
-				}
-				//MessageBox::Show(this->LokalizacjaCBox->SelectedValue->ToString());
+				
 
 			}
 			catch (Exception^ e) {
@@ -353,23 +342,25 @@ namespace Spedycja {
 			// 
 			this->btnAnuluj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnAnuluj->Location = System::Drawing::Point(423, 613);
+			this->btnAnuluj->Location = System::Drawing::Point(191, 589);
 			this->btnAnuluj->Name = L"btnAnuluj";
 			this->btnAnuluj->Size = System::Drawing::Size(87, 34);
 			this->btnAnuluj->TabIndex = 13;
 			this->btnAnuluj->Text = L"Anuluj";
 			this->btnAnuluj->UseVisualStyleBackColor = true;
+			this->btnAnuluj->Click += gcnew System::EventHandler(this, &EdytujSamochodForm::btnAnuluj_Click);
 			// 
 			// btnZatwierdz
 			// 
 			this->btnZatwierdz->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnZatwierdz->Location = System::Drawing::Point(292, 613);
+			this->btnZatwierdz->Location = System::Drawing::Point(73, 589);
 			this->btnZatwierdz->Name = L"btnZatwierdz";
 			this->btnZatwierdz->Size = System::Drawing::Size(98, 34);
 			this->btnZatwierdz->TabIndex = 12;
 			this->btnZatwierdz->Text = L"Zatwierdź";
 			this->btnZatwierdz->UseVisualStyleBackColor = true;
+			this->btnZatwierdz->Click += gcnew System::EventHandler(this, &EdytujSamochodForm::btnZatwierdz_Click);
 			// 
 			// labelNazwa
 			// 
@@ -403,7 +394,6 @@ namespace Spedycja {
 			this->label2->Size = System::Drawing::Size(209, 20);
 			this->label2->TabIndex = 41;
 			this->label2->Text = L"Typ ładunku/rodzaj naczepy:";
-			this->label2->Click += gcnew System::EventHandler(this, &EdytujSamochodForm::label2_Click);
 			// 
 			// comboBoxLadunek
 			// 
@@ -512,7 +502,81 @@ namespace Spedycja {
 
 		}
 #pragma endregion
-	private: System::Void label2_Click(System::Object^ sender, System::EventArgs^ e) {
+
+private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventArgs^ e) {
+	ComboBoxItem^ selectedLadunek = (ComboBoxItem^)this->comboBoxLadunek->SelectedItem;
+	//MessageBox::Show(selectedLokalizacja->getId());
+
+	marka = this->textBoxMarka->Text;
+	model = this->textBoxModel->Text;
+	nrRejestracyjny = this->textBoxNrRej->Text;
+	ladownosc = this->textBoxLadownosc->Text;
+	przebieg = this->textBoxPrzebieg->Text;
+	spalanieNaPusto = this->textBoxSpalanieBezLadunku->Text;
+	spalanieZLadunkiem = this->textBoxSpalanieZLadunkiem->Text;
+	DMC = this->textBoxDMC->Text;
+	iloscPalet = this->textBoxIloscPalet->Text;
+	objetosc = this->textBoxObjetosc->Text;
+
+	idLadunku = selectedLadunek->getId();
+
+	double dlPensja;
+	int intIdLadunku;
+	String^ sqlString;
+
+	if ((marka == "") || (model == "") || (nrRejestracyjny == "") || (ladownosc == "") || (przebieg == "") || (spalanieNaPusto == "") || (spalanieZLadunkiem == "") || (DMC == "") || (iloscPalet == "") || (objetosc == "") || (idLadunku == ""))
+	{
+		MessageBox::Show("Wypełnij wszystkie pola");
 	}
+	else {
+		//intIdLadunku = Convert::ToInt32(idLadunku);
+
+		if (idSamochodu == 0) //dodanie nowego rekordu do tabeli Samochod
+		{
+			sqlString = "insert into dbo.Samochody(marka,model,nr_rejestracyjny,ladownosc,przebieg,spalanie_na_pusto,spalanie_z_ladunkiem,DMC,ilosc_palet,objetosc,idLadunku) " +
+				"values(@marka, @model, @nrRejestracyjny, @ladownosc, @przebieg, @spalanieNaPusto,@spalanieZLadunkiem,@DMC,@iloscPalet,@objetosc,@idLadunku); ";
+		}
+		else { //edycja rekordu tabeli Pracownicy
+			sqlString = "update dbo.Samochody set marka = @marka, model = @model, nr_rejestracyjny = @nrRejestracyjny, ladownosc = @ladownosc, przebieg = @przebieg, " +
+				"spalanie_na_pusto = @spalanieNaPusto, spalanie_z_ladunkiem = @spalanieZLadunkiem, DMC = @DMC, ilosc_palet = @iloscPalet,objetosc=@objetosc,idLadunku=@idLadunku " +
+				"where ID = @idSamochodu ;";
+		}
+
+		try {
+			SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+			sqlConnection->Open();
+			SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
+			sqlCommand->Parameters->Add("@marka", marka);
+			sqlCommand->Parameters->Add("@model", model);
+			sqlCommand->Parameters->Add("@nr_rejestracyjny", nrRejestracyjny);
+			sqlCommand->Parameters->Add("@ladownosc", ladownosc);
+			sqlCommand->Parameters->Add("@przebieg", przebieg);
+			sqlCommand->Parameters->Add("@spalanieNaPusto", spalanieNaPusto);
+			sqlCommand->Parameters->Add("@spalanieZLadunkiem", spalanieZLadunkiem);
+			sqlCommand->Parameters->Add("@DMC", DMC);
+			sqlCommand->Parameters->Add("@iloscPalet", iloscPalet);
+			sqlCommand->Parameters->Add("@objetosc", objetosc);
+			sqlCommand->Parameters->Add("@idLadunku", idLadunku);
+
+			if (idSamochodu != 0) sqlCommand->Parameters->Add("@idSamochodu", idSamochodu);
+
+			sqlCommand->ExecuteNonQuery();
+
+			sqlConnection->Close();
+		}
+		catch (Exception^ e) {
+			MessageBox::Show(e->ToString());
+		}
+
+		this->Close();
+
+
+
+	}
+	
+}
+private: System::Void btnAnuluj_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Close();
+}
 };
 }

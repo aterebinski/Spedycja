@@ -231,7 +231,6 @@ namespace Spedycja {
 			this->labelNazwa->Size = System::Drawing::Size(43, 20);
 			this->labelNazwa->TabIndex = 25;
 			this->labelNazwa->Text = L"Imie:";
-			this->labelNazwa->Click += gcnew System::EventHandler(this, &EdytujKierowceForm::labelNazwa_Click);
 			// 
 			// labelEditKierowce
 			// 
@@ -272,6 +271,51 @@ private: System::Void btnAnuluj_Click(System::Object^ sender, System::EventArgs^
 	this->Close();
 }
 private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventArgs^ e) {
+	imie = this->textBoxImie->Text;
+	nazwisko = this->textBoxNazwisko->Text;
+	pensja = this->textBoxPensja->Text;
+	wspPremii = this->textBoxPremia->Text;
+	
+	String^ sqlString;
+
+	if ((imie == "") || (nazwisko == "") || (pensja == "") || (wspPremii == ""))
+	{
+		MessageBox::Show("Wype³nij wszystkie pola");
+	}
+	else {
+
+		if (idKierowcy == 0) //dodanie nowego rekordu do tabeli Kierowcy
+		{
+			sqlString = "insert into dbo.Kierowcy(imie,nazwisko,pensja,wsp_premii) values (@imie,@nazwisko,@pensja,@wspPremii);";
+		}
+		else { //edycja rekordu tabeli Pracownicy
+			sqlString = "update dbo.Kierowcy set imie = @imie, nazwisko = @nazwisko, pensja = @pensja, wsp_premii = @wspPremii " +
+				"where ID = @idKierowcy ;";
+		}
+
+		try {
+			SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+			sqlConnection->Open();
+			SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
+			sqlCommand->Parameters->Add("@imie", imie);
+			sqlCommand->Parameters->Add("@nazwisko", nazwisko);
+			sqlCommand->Parameters->Add("@pensja", pensja);
+			sqlCommand->Parameters->Add("@wspPremii", wspPremii);
+			if (idKierowcy != 0) sqlCommand->Parameters->Add("@idKierowcy", idKierowcy);
+
+			sqlCommand->ExecuteNonQuery();
+
+			sqlConnection->Close();
+		}
+		catch (Exception^ e) {
+			MessageBox::Show(e->ToString());
+		}
+
+		this->Close();
+
+
+
+	}
 }
 };
 }
