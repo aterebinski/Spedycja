@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <EdytujKontrahentaForm.h>
 
 namespace Spedycja {
 
@@ -186,6 +187,12 @@ namespace Spedycja {
 
 #pragma endregion
 	private: System::Void btnEdytujKontrahenta_Click(System::Object^ sender, System::EventArgs^ e) {
+		int idKontrahenta = 0;
+		idKontrahenta = (int)dataGridViewKontrahenci->CurrentRow->Cells[0]->Value;
+		//MessageBox::Show(idPracownika.ToString());
+		EdytujKontrahentaForm^ EditForm = gcnew EdytujKontrahentaForm(idKontrahenta, connectionString);
+		EditForm->ShowDialog();
+		this->generateView();
 	}
 };
 }
