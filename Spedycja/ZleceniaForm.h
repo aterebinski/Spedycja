@@ -192,7 +192,7 @@ namespace Spedycja {
 			try
 			{
 				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-				String^ sqlString = "select z.id, k.Nazwa, z.data_zamowienia as 'Data zamówienia', z.Skad, z.Dokad, l.Nazwa as Ładunek, z.Opis, z.data_realizacji as 'Data realizacji', s.status, z.naleznosc as Należność " +
+				String^ sqlString = "select z.id, z.nrZlecenia as 'Numer zlecenia', k.Nazwa as Kontrahent, z.data_zamowienia as 'Data zamówienia', z.Skad, z.Dokad, l.Nazwa as Ładunek, z.Opis, z.data_realizacji as 'Data realizacji', s.status, z.naleznosc as Należność " +
 					"from dbo.Zlecenia z, dbo.Kontrahenci k, dbo.Ladunki l, dbo.Statusy s " +
 					"where z.idKontrahenta = k.id and z.idLadunku = l.id and z.status = s.id; ";
 				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);

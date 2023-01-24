@@ -22,7 +22,11 @@ namespace Spedycja {
 
 
 	public: String^ getValue() {
-		return value;
+		if (value) {
+			return value;
+		}
+		else return "";
+		
 	}
 
 	public: int getId() {

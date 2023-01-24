@@ -4,6 +4,7 @@
 #include "SamochodyForm.h"
 #include "ZleceniaForm.h"
 #include "KonfiguracjaForm.h"
+#include "TrasyForm.h"
 
 namespace Spedycja {
 
@@ -127,6 +128,7 @@ namespace Spedycja {
 			this->trasyBtn->TabIndex = 3;
 			this->trasyBtn->Text = L"Trasy";
 			this->trasyBtn->UseVisualStyleBackColor = true;
+			this->trasyBtn->Click += gcnew System::EventHandler(this, &MenuForm::trasyBtn_Click);
 			// 
 			// kontrahenciBtn
 			// 
@@ -206,6 +208,10 @@ namespace Spedycja {
 	}
 private: System::Void exitBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	Application::Exit();
+}
+private: System::Void trasyBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	TrasyForm^ trasyForm = gcnew TrasyForm(connectionString);
+	trasyForm->ShowDialog();
 }
 };
 }

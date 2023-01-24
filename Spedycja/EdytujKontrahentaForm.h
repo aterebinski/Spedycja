@@ -18,13 +18,16 @@ namespace Spedycja {
 	private:
 		String^ connectionString;
 		String^ nazwa;
+		String^ skrot;
 		String^ adres;
 		String^ kod;
 		String^ miejscowosc;
 		String^ NIP;
 		String^ REGON;
 		String^ zadluzenie;
-		int idKontrahenta;
+	private: System::Windows::Forms::TextBox^ textBoxSkrot;
+	private: System::Windows::Forms::Label^ label2;
+		   int idKontrahenta;
 	public:
 		EdytujKontrahentaForm(int idKontrahenta, String^ connectionString)
 		{
@@ -55,6 +58,8 @@ namespace Spedycja {
 					sqlDataReader->Read();
 					nazwa = sqlDataReader["nazwa"]->ToString();
 					this->textBoxNazwa->Text = nazwa;
+					skrot = sqlDataReader["skrot"]->ToString();
+					this->textBoxSkrot->Text = skrot;
 					adres = sqlDataReader["adres"]->ToString();
 					this->textBoxAdres->Text = adres;
 					kod = sqlDataReader["kod"]->ToString();
@@ -156,6 +161,8 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->textBoxZadluzenie = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->textBoxSkrot = (gcnew System::Windows::Forms::TextBox());
+			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// labelEditKontrahent
@@ -174,7 +181,7 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			this->labelNazwa->AutoSize = true;
 			this->labelNazwa->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelNazwa->Location = System::Drawing::Point(68, 123);
+			this->labelNazwa->Location = System::Drawing::Point(68, 114);
 			this->labelNazwa->Name = L"labelNazwa";
 			this->labelNazwa->Size = System::Drawing::Size(57, 20);
 			this->labelNazwa->TabIndex = 4;
@@ -184,10 +191,10 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			// 
 			this->btnZatwierdz->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnZatwierdz->Location = System::Drawing::Point(165, 532);
+			this->btnZatwierdz->Location = System::Drawing::Point(165, 578);
 			this->btnZatwierdz->Name = L"btnZatwierdz";
 			this->btnZatwierdz->Size = System::Drawing::Size(98, 34);
-			this->btnZatwierdz->TabIndex = 8;
+			this->btnZatwierdz->TabIndex = 9;
 			this->btnZatwierdz->Text = L"Zatwierdź";
 			this->btnZatwierdz->UseVisualStyleBackColor = true;
 			this->btnZatwierdz->Click += gcnew System::EventHandler(this, &EdytujKontrahentaForm::btnZatwierdz_Click);
@@ -196,10 +203,10 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			// 
 			this->btnAnuluj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnAnuluj->Location = System::Drawing::Point(296, 532);
+			this->btnAnuluj->Location = System::Drawing::Point(296, 578);
 			this->btnAnuluj->Name = L"btnAnuluj";
 			this->btnAnuluj->Size = System::Drawing::Size(87, 34);
-			this->btnAnuluj->TabIndex = 9;
+			this->btnAnuluj->TabIndex = 10;
 			this->btnAnuluj->Text = L"Anuluj";
 			this->btnAnuluj->UseVisualStyleBackColor = true;
 			this->btnAnuluj->Click += gcnew System::EventHandler(this, &EdytujKontrahentaForm::btnAnuluj_Click);
@@ -208,7 +215,7 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			// 
 			this->textBoxNazwa->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxNazwa->Location = System::Drawing::Point(131, 117);
+			this->textBoxNazwa->Location = System::Drawing::Point(131, 108);
 			this->textBoxNazwa->Name = L"textBoxNazwa";
 			this->textBoxNazwa->Size = System::Drawing::Size(361, 26);
 			this->textBoxNazwa->TabIndex = 1;
@@ -218,7 +225,7 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label1->Location = System::Drawing::Point(68, 184);
+			this->label1->Location = System::Drawing::Point(68, 230);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(51, 20);
 			this->label1->TabIndex = 8;
@@ -229,7 +236,7 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label3->Location = System::Drawing::Point(68, 288);
+			this->label3->Location = System::Drawing::Point(68, 334);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(98, 20);
 			this->label3->TabIndex = 10;
@@ -239,35 +246,35 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			// 
 			this->textBoxAdres->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxAdres->Location = System::Drawing::Point(131, 178);
+			this->textBoxAdres->Location = System::Drawing::Point(131, 224);
 			this->textBoxAdres->Name = L"textBoxAdres";
 			this->textBoxAdres->Size = System::Drawing::Size(361, 26);
-			this->textBoxAdres->TabIndex = 2;
+			this->textBoxAdres->TabIndex = 3;
 			// 
 			// textBoxMiejscowosc
 			// 
 			this->textBoxMiejscowosc->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxMiejscowosc->Location = System::Drawing::Point(186, 285);
+			this->textBoxMiejscowosc->Location = System::Drawing::Point(186, 331);
 			this->textBoxMiejscowosc->Name = L"textBoxMiejscowosc";
 			this->textBoxMiejscowosc->Size = System::Drawing::Size(306, 26);
-			this->textBoxMiejscowosc->TabIndex = 4;
+			this->textBoxMiejscowosc->TabIndex = 5;
 			// 
 			// textBoxKod
 			// 
 			this->textBoxKod->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxKod->Location = System::Drawing::Point(131, 232);
+			this->textBoxKod->Location = System::Drawing::Point(131, 278);
 			this->textBoxKod->Name = L"textBoxKod";
 			this->textBoxKod->Size = System::Drawing::Size(92, 26);
-			this->textBoxKod->TabIndex = 3;
+			this->textBoxKod->TabIndex = 4;
 			// 
 			// label5
 			// 
 			this->label5->AutoSize = true;
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label5->Location = System::Drawing::Point(68, 238);
+			this->label5->Location = System::Drawing::Point(68, 284);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(37, 20);
 			this->label5->TabIndex = 16;
@@ -277,17 +284,17 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			// 
 			this->textBoxNIP->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxNIP->Location = System::Drawing::Point(143, 337);
+			this->textBoxNIP->Location = System::Drawing::Point(143, 383);
 			this->textBoxNIP->Name = L"textBoxNIP";
 			this->textBoxNIP->Size = System::Drawing::Size(153, 26);
-			this->textBoxNIP->TabIndex = 5;
+			this->textBoxNIP->TabIndex = 6;
 			// 
 			// label6
 			// 
 			this->label6->AutoSize = true;
 			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label6->Location = System::Drawing::Point(68, 340);
+			this->label6->Location = System::Drawing::Point(68, 386);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(35, 20);
 			this->label6->TabIndex = 18;
@@ -297,17 +304,17 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			// 
 			this->textBoxREGON->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxREGON->Location = System::Drawing::Point(143, 384);
+			this->textBoxREGON->Location = System::Drawing::Point(143, 430);
 			this->textBoxREGON->Name = L"textBoxREGON";
 			this->textBoxREGON->Size = System::Drawing::Size(153, 26);
-			this->textBoxREGON->TabIndex = 6;
+			this->textBoxREGON->TabIndex = 7;
 			// 
 			// label7
 			// 
 			this->label7->AutoSize = true;
 			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label7->Location = System::Drawing::Point(68, 387);
+			this->label7->Location = System::Drawing::Point(68, 433);
 			this->label7->Name = L"label7";
 			this->label7->Size = System::Drawing::Size(68, 20);
 			this->label7->TabIndex = 20;
@@ -317,27 +324,49 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			// 
 			this->textBoxZadluzenie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxZadluzenie->Location = System::Drawing::Point(163, 440);
+			this->textBoxZadluzenie->Location = System::Drawing::Point(163, 486);
 			this->textBoxZadluzenie->Name = L"textBoxZadluzenie";
 			this->textBoxZadluzenie->Size = System::Drawing::Size(133, 26);
-			this->textBoxZadluzenie->TabIndex = 7;
+			this->textBoxZadluzenie->TabIndex = 8;
 			// 
 			// label8
 			// 
 			this->label8->AutoSize = true;
 			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label8->Location = System::Drawing::Point(68, 443);
+			this->label8->Location = System::Drawing::Point(68, 489);
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(88, 20);
 			this->label8->TabIndex = 22;
 			this->label8->Text = L"Zadłużenie";
 			// 
+			// textBoxSkrot
+			// 
+			this->textBoxSkrot->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->textBoxSkrot->Location = System::Drawing::Point(131, 163);
+			this->textBoxSkrot->Name = L"textBoxSkrot";
+			this->textBoxSkrot->Size = System::Drawing::Size(165, 26);
+			this->textBoxSkrot->TabIndex = 2;
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->label2->Location = System::Drawing::Point(68, 169);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(47, 20);
+			this->label2->TabIndex = 24;
+			this->label2->Text = L"Skrót";
+			// 
 			// EdytujKontrahentaForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(543, 605);
+			this->ClientSize = System::Drawing::Size(543, 648);
+			this->Controls->Add(this->textBoxSkrot);
+			this->Controls->Add(this->label2);
 			this->Controls->Add(this->textBoxZadluzenie);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->textBoxREGON);
@@ -363,6 +392,7 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 		}
 	private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventArgs^ e) {
 		nazwa = this->textBoxNazwa->Text;
+		skrot = this->textBoxSkrot->Text;
 		adres = this->textBoxAdres->Text;
 		kod = this->textBoxKod->Text;
 		miejscowosc = this->textBoxMiejscowosc->Text;
@@ -372,7 +402,7 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 		
 		String^ sqlString;
 
-		if ((nazwa == "") || (adres == "") || (kod == "") || (miejscowosc == "") || (NIP == "") || (REGON == ""))
+		if ((nazwa == "") || (skrot == "") || (adres == "") || (kod == "") || (miejscowosc == "") || (NIP == "") || (REGON == ""))
 		{
 			MessageBox::Show("Wypełnij wszystkie pola");
 		}
@@ -380,10 +410,10 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 			
 			if (idKontrahenta == 0) //dodanie nowego rekordu do tabeli Kontrahenci
 			{
-				sqlString = "insert into dbo.Kontrahenci(nazwa,adres,kod,miejscowosc,NIP, REGON, zadluzenie) values (@nazwa,@adres,@kod,@miejscowosc,@NIP, @REGON, @zadluzenie);";
+				sqlString = "insert into dbo.Kontrahenci(nazwa,skrot,adres,kod,miejscowosc,NIP, REGON, zadluzenie) values (@nazwa,@skrot,@adres,@kod,@miejscowosc,@NIP, @REGON, @zadluzenie);";
 			}
 			else { //edycja rekordu tabeli Pracownicy
-				sqlString = "update dbo.Kontrahenci set nazwa = @nazwa, adres = @adres, kod = @kod, miejscowosc = @miejscowosc, NIP = @NIP, REGON = @REGON, zadluzenie = @zadluzenie " +
+				sqlString = "update dbo.Kontrahenci set nazwa = @nazwa, skrot = @skrot, adres = @adres, kod = @kod, miejscowosc = @miejscowosc, NIP = @NIP, REGON = @REGON, zadluzenie = @zadluzenie " +
 					"where ID = @idKontrahenta ;";
 			}
 
@@ -392,6 +422,7 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 				sqlConnection->Open();
 				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
 				sqlCommand->Parameters->Add("@nazwa", nazwa);
+				sqlCommand->Parameters->Add("@skrot", skrot);
 				sqlCommand->Parameters->Add("@adres", adres);
 				sqlCommand->Parameters->Add("@kod", kod);
 				sqlCommand->Parameters->Add("@miejscowosc", miejscowosc);

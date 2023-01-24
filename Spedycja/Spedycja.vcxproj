@@ -25,7 +25,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>Spedycja</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -125,12 +125,14 @@
     <ClCompile Include="EdytujKierowceForm.cpp" />
     <ClCompile Include="EdytujKontrahentaForm.cpp" />
     <ClCompile Include="EdytujSamochodForm.cpp" />
+    <ClCompile Include="EdytujTraseForm.cpp" />
     <ClCompile Include="EdytujZlecenieForm.cpp" />
     <ClCompile Include="KierowcyForm.cpp" />
     <ClCompile Include="KonfiguracjaForm.cpp" />
     <ClCompile Include="KontrahenciForm.cpp" />
     <ClCompile Include="MenuForm.cpp" />
     <ClCompile Include="SamochodyForm.cpp" />
+    <ClCompile Include="TrasyForm.cpp" />
     <ClCompile Include="ZleceniaForm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +144,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="EdytujSamochodForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="EdytujTraseForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="EdytujZlecenieForm.h">
@@ -162,6 +167,9 @@
     <ClInclude Include="SamochodyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="TrasyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="ZleceniaForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -175,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EdytujSamochodForm.resx">
       <DependentUpon>EdytujSamochodForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EdytujTraseForm.resx">
+      <DependentUpon>EdytujTraseForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EdytujZlecenieForm.resx">
       <DependentUpon>EdytujZlecenieForm.h</DependentUpon>
@@ -193,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SamochodyForm.resx">
       <DependentUpon>SamochodyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrasyForm.resx">
+      <DependentUpon>TrasyForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ZleceniaForm.resx">
       <DependentUpon>ZleceniaForm.h</DependentUpon>

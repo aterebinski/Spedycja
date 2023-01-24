@@ -21,6 +21,7 @@ namespace Spedycja {
 		String^ connectionString;
 
 		int idKontrahenta;
+		String^ nrZlecenia;
 		String^ dataZamowienia;
 		String^ skad;
 		String^ dokad;
@@ -28,7 +29,10 @@ namespace Spedycja {
 		String^ opis;
 		String^ dataRealizacji;
 		int status;
-		String^ naleznosc;
+	private: System::Windows::Forms::TextBox^ textBoxNrZlecenia;
+
+	private: System::Windows::Forms::Label^ label7;
+		   double naleznosc;
 
 	public:
 		EdytujZlecenieForm(int idZlecenia,int idKontrahenta, String^ connectionString)
@@ -43,6 +47,7 @@ namespace Spedycja {
 			SqlDataReader^ sqlDataReader;
 			sqlConnection->Open();
 
+
 			if (idZlecenia != 0) //jesli edytujemy dane to trzeba wyswietlic dane w odpowiednich polach
 			{
 				try {
@@ -50,6 +55,9 @@ namespace Spedycja {
 					sqlCommand = gcnew SqlCommand("select * from dbo.Zlecenia where id = " + idZlecenia, sqlConnection);
 					SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
 					sqlDataReader->Read();
+
+					nrZlecenia = sqlDataReader["nrZlecenia"]->ToString();
+					this->textBoxNrZlecenia->Text = nrZlecenia;
 
 					dataZamowienia = sqlDataReader["data_zamowienia"]->ToString();
 					this->dateTimeDataZlecenia->Text = dataZamowienia;
@@ -64,12 +72,9 @@ namespace Spedycja {
 					opis = sqlDataReader["opis"]->ToString();
 					this->textBoxOpis->Text = opis;
 
-					naleznosc = sqlDataReader["naleznosc"]->ToString();
-					this->textBoxNaleznosc->Text = naleznosc;
+					naleznosc = (double)sqlDataReader["naleznosc"];
+					this->textBoxNaleznosc->Text = naleznosc.ToString();
 					
-
-
-
 					idKontrahenta = (int)sqlDataReader["idKontrahenta"];
 					idLadunku = (int)sqlDataReader["idLadunku"];
 					status = (int)sqlDataReader["status"];
@@ -82,6 +87,19 @@ namespace Spedycja {
 					MessageBox::Show(ex->Message);
 				}
 
+			}
+			else {
+				this->textBoxNaleznosc->Text = "0";
+				status = 1;
+
+				DateTime^ DateTimeNow = gcnew DateTime;
+				DateTimeNow = DateTime::Now;
+
+				String^ currentDate = String::Format(L"{0:D4}-{1:D2}-{2:D2}", DateTimeNow->Year, DateTimeNow->Month, DateTimeNow->Day);
+
+				//String^ currentDate = "" + DateTimeNow->Year +"-" + DateTimeNow->Month + "-" + DateTimeNow->Day;
+				dateTimeDataZlecenia->Text = currentDate;
+				dateTimeDataRealizacji->Text = currentDate;
 			}
 
 			//uzupelnianie comboboxow
@@ -107,7 +125,7 @@ namespace Spedycja {
 				sqlDataReader = sqlCommand->ExecuteReader();
 				while (sqlDataReader->Read()) {
 					tempId = (int)sqlDataReader["ID"];
-					tempValue = sqlDataReader["Nazwa"]->ToString();
+					tempValue = sqlDataReader["Skrot"]->ToString();
 					tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
 					this->comboBoxKontrahent->Items->Add(tempComboBoxItem);
 					if ((idZlecenia != 0) && (idKontrahenta == tempId)) this->comboBoxKontrahent->SelectedItem = tempComboBoxItem;
@@ -122,7 +140,7 @@ namespace Spedycja {
 					tempValue = sqlDataReader["status"]->ToString();
 					tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
 					this->comboBoxStatus->Items->Add(tempComboBoxItem);
-					if ((idZlecenia != 0) && (status == tempId)) this->comboBoxStatus->SelectedItem = tempComboBoxItem;
+					if (status == tempId) this->comboBoxStatus->SelectedItem = tempComboBoxItem;
 				}
 
 
@@ -215,27 +233,27 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			this->label11 = (gcnew System::Windows::Forms::Label());
 			this->comboBoxStatus = (gcnew System::Windows::Forms::ComboBox());
 			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->textBoxNrZlecenia = (gcnew System::Windows::Forms::TextBox());
+			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// textBoxNaleznosc
 			// 
 			this->textBoxNaleznosc->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxNaleznosc->Location = System::Drawing::Point(268, 460);
-			this->textBoxNaleznosc->Margin = System::Windows::Forms::Padding(4);
+			this->textBoxNaleznosc->Location = System::Drawing::Point(200, 424);
 			this->textBoxNaleznosc->Name = L"textBoxNaleznosc";
-			this->textBoxNaleznosc->Size = System::Drawing::Size(179, 30);
-			this->textBoxNaleznosc->TabIndex = 55;
+			this->textBoxNaleznosc->Size = System::Drawing::Size(135, 26);
+			this->textBoxNaleznosc->TabIndex = 9;
 			// 
 			// label10
 			// 
 			this->label10->AutoSize = true;
 			this->label10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label10->Location = System::Drawing::Point(117, 463);
-			this->label10->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label10->Location = System::Drawing::Point(87, 426);
 			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(143, 25);
+			this->label10->Size = System::Drawing::Size(113, 20);
 			this->label10->TabIndex = 71;
 			this->label10->Text = L"Należność (zł):";
 			// 
@@ -244,21 +262,20 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			this->comboBoxKontrahent->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->comboBoxKontrahent->FormattingEnabled = true;
-			this->comboBoxKontrahent->Location = System::Drawing::Point(239, 131);
-			this->comboBoxKontrahent->Margin = System::Windows::Forms::Padding(4);
+			this->comboBoxKontrahent->Location = System::Drawing::Point(179, 106);
 			this->comboBoxKontrahent->Name = L"comboBoxKontrahent";
-			this->comboBoxKontrahent->Size = System::Drawing::Size(728, 33);
-			this->comboBoxKontrahent->TabIndex = 52;
+			this->comboBoxKontrahent->Size = System::Drawing::Size(547, 28);
+			this->comboBoxKontrahent->TabIndex = 1;
+			this->comboBoxKontrahent->SelectedIndexChanged += gcnew System::EventHandler(this, &EdytujZlecenieForm::comboBoxKontrahent_SelectedIndexChanged);
 			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label2->Location = System::Drawing::Point(117, 134);
-			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label2->Location = System::Drawing::Point(88, 109);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(114, 25);
+			this->label2->Size = System::Drawing::Size(92, 20);
 			this->label2->TabIndex = 69;
 			this->label2->Text = L"Kontrahent:";
 			// 
@@ -266,21 +283,19 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			// 
 			this->textBoxDokad->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxDokad->Location = System::Drawing::Point(602, 387);
-			this->textBoxDokad->Margin = System::Windows::Forms::Padding(4);
+			this->textBoxDokad->Location = System::Drawing::Point(451, 364);
 			this->textBoxDokad->Name = L"textBoxDokad";
-			this->textBoxDokad->Size = System::Drawing::Size(365, 30);
-			this->textBoxDokad->TabIndex = 51;
+			this->textBoxDokad->Size = System::Drawing::Size(275, 26);
+			this->textBoxDokad->TabIndex = 8;
 			// 
 			// label6
 			// 
 			this->label6->AutoSize = true;
 			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label6->Location = System::Drawing::Point(519, 392);
-			this->label6->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label6->Location = System::Drawing::Point(388, 368);
 			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(75, 25);
+			this->label6->Size = System::Drawing::Size(60, 20);
 			this->label6->TabIndex = 66;
 			this->label6->Text = L"Dokąd:";
 			// 
@@ -288,21 +303,19 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			// 
 			this->textBoxSkad->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxSkad->Location = System::Drawing::Point(189, 389);
-			this->textBoxSkad->Margin = System::Windows::Forms::Padding(4);
+			this->textBoxSkad->Location = System::Drawing::Point(141, 366);
 			this->textBoxSkad->Name = L"textBoxSkad";
-			this->textBoxSkad->Size = System::Drawing::Size(308, 30);
-			this->textBoxSkad->TabIndex = 50;
+			this->textBoxSkad->Size = System::Drawing::Size(232, 26);
+			this->textBoxSkad->TabIndex = 7;
 			// 
 			// label5
 			// 
 			this->label5->AutoSize = true;
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label5->Location = System::Drawing::Point(117, 391);
-			this->label5->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label5->Location = System::Drawing::Point(87, 368);
 			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(64, 25);
+			this->label5->Size = System::Drawing::Size(50, 20);
 			this->label5->TabIndex = 65;
 			this->label5->Text = L"Skąd:";
 			// 
@@ -310,21 +323,19 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			// 
 			this->textBoxOpis->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxOpis->Location = System::Drawing::Point(239, 318);
-			this->textBoxOpis->Margin = System::Windows::Forms::Padding(4);
+			this->textBoxOpis->Location = System::Drawing::Point(178, 308);
 			this->textBoxOpis->Name = L"textBoxOpis";
-			this->textBoxOpis->Size = System::Drawing::Size(728, 30);
-			this->textBoxOpis->TabIndex = 53;
+			this->textBoxOpis->Size = System::Drawing::Size(547, 26);
+			this->textBoxOpis->TabIndex = 6;
 			// 
 			// label3
 			// 
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label3->Location = System::Drawing::Point(117, 322);
-			this->label3->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label3->Location = System::Drawing::Point(87, 312);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(59, 25);
+			this->label3->Size = System::Drawing::Size(45, 20);
 			this->label3->TabIndex = 64;
 			this->label3->Text = L"Opis:";
 			// 
@@ -333,10 +344,9 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label1->Location = System::Drawing::Point(523, 203);
-			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label1->Location = System::Drawing::Point(391, 215);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(243, 25);
+			this->label1->Size = System::Drawing::Size(196, 20);
 			this->label1->TabIndex = 63;
 			this->label1->Text = L"Data planowanej realizacji:";
 			// 
@@ -344,11 +354,10 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			// 
 			this->btnAnuluj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnAnuluj->Location = System::Drawing::Point(575, 594);
-			this->btnAnuluj->Margin = System::Windows::Forms::Padding(4);
+			this->btnAnuluj->Location = System::Drawing::Point(423, 537);
 			this->btnAnuluj->Name = L"btnAnuluj";
-			this->btnAnuluj->Size = System::Drawing::Size(116, 42);
-			this->btnAnuluj->TabIndex = 60;
+			this->btnAnuluj->Size = System::Drawing::Size(87, 34);
+			this->btnAnuluj->TabIndex = 12;
 			this->btnAnuluj->Text = L"Anuluj";
 			this->btnAnuluj->UseVisualStyleBackColor = true;
 			this->btnAnuluj->Click += gcnew System::EventHandler(this, &EdytujZlecenieForm::btnAnuluj_Click);
@@ -357,11 +366,10 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			// 
 			this->btnZatwierdz->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnZatwierdz->Location = System::Drawing::Point(417, 594);
-			this->btnZatwierdz->Margin = System::Windows::Forms::Padding(4);
+			this->btnZatwierdz->Location = System::Drawing::Point(305, 537);
 			this->btnZatwierdz->Name = L"btnZatwierdz";
-			this->btnZatwierdz->Size = System::Drawing::Size(131, 42);
-			this->btnZatwierdz->TabIndex = 59;
+			this->btnZatwierdz->Size = System::Drawing::Size(98, 34);
+			this->btnZatwierdz->TabIndex = 11;
 			this->btnZatwierdz->Text = L"Zatwierdź";
 			this->btnZatwierdz->UseVisualStyleBackColor = true;
 			this->btnZatwierdz->Click += gcnew System::EventHandler(this, &EdytujZlecenieForm::btnZatwierdz_Click);
@@ -371,10 +379,9 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			this->labelNazwa->AutoSize = true;
 			this->labelNazwa->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelNazwa->Location = System::Drawing::Point(117, 203);
-			this->labelNazwa->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->labelNazwa->Location = System::Drawing::Point(87, 215);
 			this->labelNazwa->Name = L"labelNazwa";
-			this->labelNazwa->Size = System::Drawing::Size(136, 25);
+			this->labelNazwa->Size = System::Drawing::Size(110, 20);
 			this->labelNazwa->TabIndex = 62;
 			this->labelNazwa->Text = L"Data zlecenia:";
 			// 
@@ -383,10 +390,9 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			this->labelEditKontrahent->AutoSize = true;
 			this->labelEditKontrahent->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->labelEditKontrahent->Location = System::Drawing::Point(461, 48);
-			this->labelEditKontrahent->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->labelEditKontrahent->Location = System::Drawing::Point(346, 39);
 			this->labelEditKontrahent->Name = L"labelEditKontrahent";
-			this->labelEditKontrahent->Size = System::Drawing::Size(183, 29);
+			this->labelEditKontrahent->Size = System::Drawing::Size(145, 24);
 			this->labelEditKontrahent->TabIndex = 61;
 			this->labelEditKontrahent->Text = L"Edycja Zlecenia";
 			// 
@@ -395,41 +401,42 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			this->dateTimeDataZlecenia->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
 			this->dateTimeDataZlecenia->Format = System::Windows::Forms::DateTimePickerFormat::Short;
-			this->dateTimeDataZlecenia->Location = System::Drawing::Point(260, 198);
+			this->dateTimeDataZlecenia->Location = System::Drawing::Point(194, 211);
+			this->dateTimeDataZlecenia->Margin = System::Windows::Forms::Padding(2);
 			this->dateTimeDataZlecenia->Name = L"dateTimeDataZlecenia";
-			this->dateTimeDataZlecenia->Size = System::Drawing::Size(200, 30);
-			this->dateTimeDataZlecenia->TabIndex = 73;
+			this->dateTimeDataZlecenia->Size = System::Drawing::Size(151, 26);
+			this->dateTimeDataZlecenia->TabIndex = 3;
+			this->dateTimeDataZlecenia->ValueChanged += gcnew System::EventHandler(this, &EdytujZlecenieForm::dateTimeDataZlecenia_ValueChanged);
 			// 
 			// dateTimeDataRealizacji
 			// 
 			this->dateTimeDataRealizacji->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
 			this->dateTimeDataRealizacji->Format = System::Windows::Forms::DateTimePickerFormat::Short;
-			this->dateTimeDataRealizacji->Location = System::Drawing::Point(767, 198);
+			this->dateTimeDataRealizacji->Location = System::Drawing::Point(574, 211);
+			this->dateTimeDataRealizacji->Margin = System::Windows::Forms::Padding(2);
 			this->dateTimeDataRealizacji->Name = L"dateTimeDataRealizacji";
-			this->dateTimeDataRealizacji->Size = System::Drawing::Size(200, 30);
-			this->dateTimeDataRealizacji->TabIndex = 74;
+			this->dateTimeDataRealizacji->Size = System::Drawing::Size(151, 26);
+			this->dateTimeDataRealizacji->TabIndex = 4;
 			// 
 			// comboBoxLadunek
 			// 
 			this->comboBoxLadunek->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->comboBoxLadunek->FormattingEnabled = true;
-			this->comboBoxLadunek->Location = System::Drawing::Point(357, 262);
-			this->comboBoxLadunek->Margin = System::Windows::Forms::Padding(4);
+			this->comboBoxLadunek->Location = System::Drawing::Point(267, 263);
 			this->comboBoxLadunek->Name = L"comboBoxLadunek";
-			this->comboBoxLadunek->Size = System::Drawing::Size(409, 33);
-			this->comboBoxLadunek->TabIndex = 75;
+			this->comboBoxLadunek->Size = System::Drawing::Size(308, 28);
+			this->comboBoxLadunek->TabIndex = 5;
 			// 
 			// label11
 			// 
 			this->label11->AutoSize = true;
 			this->label11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label11->Location = System::Drawing::Point(117, 265);
-			this->label11->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label11->Location = System::Drawing::Point(87, 265);
 			this->label11->Name = L"label11";
-			this->label11->Size = System::Drawing::Size(232, 25);
+			this->label11->Size = System::Drawing::Size(187, 20);
 			this->label11->TabIndex = 76;
 			this->label11->Text = L"Rodzaj ładunku/naczepy:";
 			// 
@@ -438,29 +445,49 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			this->comboBoxStatus->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->comboBoxStatus->FormattingEnabled = true;
-			this->comboBoxStatus->Location = System::Drawing::Point(730, 455);
-			this->comboBoxStatus->Margin = System::Windows::Forms::Padding(4);
+			this->comboBoxStatus->Location = System::Drawing::Point(547, 420);
 			this->comboBoxStatus->Name = L"comboBoxStatus";
-			this->comboBoxStatus->Size = System::Drawing::Size(237, 33);
-			this->comboBoxStatus->TabIndex = 77;
+			this->comboBoxStatus->Size = System::Drawing::Size(179, 28);
+			this->comboBoxStatus->TabIndex = 10;
 			// 
 			// label4
 			// 
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label4->Location = System::Drawing::Point(648, 458);
-			this->label4->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label4->Location = System::Drawing::Point(485, 422);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(74, 25);
+			this->label4->Size = System::Drawing::Size(60, 20);
 			this->label4->TabIndex = 78;
 			this->label4->Text = L"Status:";
 			// 
+			// textBoxNrZlecenia
+			// 
+			this->textBoxNrZlecenia->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->textBoxNrZlecenia->Location = System::Drawing::Point(212, 157);
+			this->textBoxNrZlecenia->Name = L"textBoxNrZlecenia";
+			this->textBoxNrZlecenia->Size = System::Drawing::Size(298, 26);
+			this->textBoxNrZlecenia->TabIndex = 2;
+			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->label7->Location = System::Drawing::Point(88, 160);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(118, 20);
+			this->label7->TabIndex = 80;
+			this->label7->Text = L"Numer zlecenia";
+			// 
 			// EdytujZlecenieForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1064, 666);
+			this->ClientSize = System::Drawing::Size(798, 629);
+			this->Controls->Add(this->textBoxNrZlecenia);
+			this->Controls->Add(this->label7);
 			this->Controls->Add(this->comboBoxStatus);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->comboBoxLadunek);
@@ -482,6 +509,7 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			this->Controls->Add(this->btnZatwierdz);
 			this->Controls->Add(this->labelNazwa);
 			this->Controls->Add(this->labelEditKontrahent);
+			this->Margin = System::Windows::Forms::Padding(2);
 			this->Name = L"EdytujZlecenieForm";
 			this->Text = L"EdytujZlecenieForm";
 			this->ResumeLayout(false);
@@ -496,6 +524,7 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 		//MessageBox::Show(selectedLokalizacja->getId());
 
 		int idKontrahenta;
+		String^ nrZlecenia;
 		String^ dataZamowienia;
 		String^ skad;
 		String^ dokad;
@@ -505,6 +534,7 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 		int status;
 		String^ naleznosc;
 
+		nrZlecenia = this->textBoxNrZlecenia->Text;
 		dataZamowienia = this->dateTimeDataZlecenia->Text;
 		dataRealizacji = this->dateTimeDataRealizacji->Text;
 		skad = this->textBoxSkad->Text;
@@ -521,7 +551,7 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 		//int intIdLadunku;
 		String^ sqlString;
 
-		if ((dataZamowienia == "") || (dataRealizacji == "") || (skad == "") || (dokad == "") || (opis == "") || (naleznosc == "") || (idLadunku == 0) || (idKontrahenta == 0) || (status == 0))
+		if ((nrZlecenia == "") || (dataZamowienia == "") || (dataRealizacji == "") || (skad == "") || (dokad == "") || (opis == "") || (naleznosc == "") || (idLadunku == 0) || (idKontrahenta == 0) || (status == 0))
 		{
 			MessageBox::Show("Wypełnij wszystkie pola");
 		}
@@ -530,11 +560,11 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 
 			if (idZlecenia == 0) //dodanie nowego rekordu do tabeli Samochod
 			{
-				sqlString = "INSERT INTO dbo.Zlecenia (idKontrahenta,data_zamowienia, skad, dokad, idLadunku, opis, data_realizacji, status, naleznosc) " +
-					"VALUES (@idKontrahenta,@data_zamowienia, @skad, @dokad, @idLadunku, @opis, @data_realizacji, @status, @naleznosc)  ";
+				sqlString = "INSERT INTO dbo.Zlecenia (idKontrahenta,nrZlecenia,data_zamowienia, skad, dokad, idLadunku, opis, data_realizacji, status, naleznosc) " +
+					"VALUES (@idKontrahenta,@nrZlecenia,@data_zamowienia, @skad, @dokad, @idLadunku, @opis, @data_realizacji, @status, @naleznosc)  ";
 			}
 			else { //edycja rekordu tabeli Samochod
-				sqlString = "UPDATE dbo.Zlecenia SET idKontrahenta = @idKontrahenta, data_zamowienia = @data_zamowienia, skad = @skad, dokad = @dokad, idLadunku = @idLadunku, opis = @opis, data_realizacji = @data_realizacji, status = @status, naleznosc = @naleznosc " +
+				sqlString = "UPDATE dbo.Zlecenia SET idKontrahenta = @idKontrahenta, nrZlecenia=@nrZlecenia, data_zamowienia = @data_zamowienia, skad = @skad, dokad = @dokad, idLadunku = @idLadunku, opis = @opis, data_realizacji = @data_realizacji, status = @status, naleznosc = @naleznosc " +
 					"WHERE id = @idZlecenia;";
 			}
 
@@ -542,6 +572,7 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
 				sqlConnection->Open();
 				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
+				sqlCommand->Parameters->Add("@nrZlecenia", nrZlecenia);
 				sqlCommand->Parameters->Add("@idKontrahenta", idKontrahenta);
 				sqlCommand->Parameters->Add("@data_zamowienia", dataZamowienia);
 				sqlCommand->Parameters->Add("@skad", skad);
@@ -563,10 +594,24 @@ private: System::Windows::Forms::ComboBox^  comboBoxStatus;
 			}
 
 			this->Close();
+		}
 	}
 private: System::Void btnAnuluj_Click(System::Object^  sender, System::EventArgs^  e) {
 	this->Close();
 }
+private: System::Void comboBoxKontrahent_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+	zmienNumerZlecenia();
+}
+private: System::Void dateTimeDataZlecenia_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+	zmienNumerZlecenia();
+}
+
+	   private: System::Void zmienNumerZlecenia() {
+		   if (this->comboBoxKontrahent->SelectedItem) { //jesli cos jest wybrane w comboboxie
+			   ComboBoxItem^ comboBoxItem = (ComboBoxItem^)this->comboBoxKontrahent->SelectedItem;
+			   textBoxNrZlecenia->Text = comboBoxItem->getValue() + "/" + dateTimeDataZlecenia->Text;
+		   }
+	   };
 };
 }
 

@@ -82,7 +82,7 @@ namespace Spedycja {
 			this->dataGridViewKontrahenci->Name = L"dataGridViewKontrahenci";
 			this->dataGridViewKontrahenci->ReadOnly = true;
 			this->dataGridViewKontrahenci->RowHeadersVisible = false;
-			this->dataGridViewKontrahenci->Size = System::Drawing::Size(715, 228);
+			this->dataGridViewKontrahenci->Size = System::Drawing::Size(855, 228);
 			this->dataGridViewKontrahenci->TabIndex = 0;
 			// 
 			// btnDodajKontrahenta
@@ -136,7 +136,7 @@ namespace Spedycja {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(821, 419);
+			this->ClientSize = System::Drawing::Size(976, 419);
 			this->Controls->Add(this->labelKontrahenci);
 			this->Controls->Add(this->btnUsunKontrahenta);
 			this->Controls->Add(this->btnEdytujKontrahenta);
