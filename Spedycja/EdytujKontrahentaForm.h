@@ -374,7 +374,7 @@ private: System::Windows::Forms::TextBox^ textBoxZadluzenie;
 
 		if ((nazwa == "") || (adres == "") || (kod == "") || (miejscowosc == "") || (NIP == "") || (REGON == ""))
 		{
-			MessageBox::Show("Wype�nij wszystkie pola");
+			MessageBox::Show("Wypełnij wszystkie pola");
 		}
 		else {
 			

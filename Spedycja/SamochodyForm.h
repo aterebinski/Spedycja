@@ -153,7 +153,8 @@ namespace Spedycja {
 			try
 			{
 				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-				String^ sqlString = "select * from dbo.Samochody s; ";
+				String^ sqlString = "select s.ID, s.Marka, s.Model, s.Nr_rejestracyjny as 'Numer rejestracyjny', l.Nazwa, s.Ladownosc, s.Przebieg,  s.Spalanie_na_pusto as 'Spalanie bez ladunku', s.Spalanie_z_ladunkiem as 'Spalanie z ladunkiem', s.Ilosc_palet as 'Ilość palet', s.Objetosc " +
+					"from dbo.Samochody s, dbo.Ladunki l where s.idLadunku = l.id; ";
 				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
 
 				SqlDataAdapter^ sqlDataAdapter = gcnew SqlDataAdapter();

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "EdytujZlecenieForm.h"
 
 
 
@@ -79,9 +80,10 @@ namespace Spedycja {
 			this->labelZlecenia->AutoSize = true;
 			this->labelZlecenia->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelZlecenia->Location = System::Drawing::Point(65, 49);
+			this->labelZlecenia->Location = System::Drawing::Point(87, 60);
+			this->labelZlecenia->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->labelZlecenia->Name = L"labelZlecenia";
-			this->labelZlecenia->Size = System::Drawing::Size(88, 24);
+			this->labelZlecenia->Size = System::Drawing::Size(111, 29);
 			this->labelZlecenia->TabIndex = 17;
 			this->labelZlecenia->Text = L" Zlecenia";
 			// 
@@ -89,54 +91,62 @@ namespace Spedycja {
 			// 
 			this->btnUsun->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnUsun->Location = System::Drawing::Point(308, 516);
+			this->btnUsun->Location = System::Drawing::Point(340, 635);
+			this->btnUsun->Margin = System::Windows::Forms::Padding(4);
 			this->btnUsun->Name = L"btnUsun";
-			this->btnUsun->Size = System::Drawing::Size(87, 34);
+			this->btnUsun->Size = System::Drawing::Size(116, 42);
 			this->btnUsun->TabIndex = 14;
 			this->btnUsun->Text = L"Usuń";
 			this->btnUsun->UseVisualStyleBackColor = true;
+			this->btnUsun->Click += gcnew System::EventHandler(this, &ZleceniaForm::btnUsun_Click);
 			// 
 			// btnEdytuj
 			// 
 			this->btnEdytuj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnEdytuj->Location = System::Drawing::Point(193, 516);
+			this->btnEdytuj->Location = System::Drawing::Point(216, 635);
+			this->btnEdytuj->Margin = System::Windows::Forms::Padding(4);
 			this->btnEdytuj->Name = L"btnEdytuj";
-			this->btnEdytuj->Size = System::Drawing::Size(87, 34);
+			this->btnEdytuj->Size = System::Drawing::Size(116, 42);
 			this->btnEdytuj->TabIndex = 15;
 			this->btnEdytuj->Text = L"Popraw";
 			this->btnEdytuj->UseVisualStyleBackColor = true;
+			this->btnEdytuj->Click += gcnew System::EventHandler(this, &ZleceniaForm::btnEdytuj_Click);
 			// 
 			// btnDodaj
 			// 
 			this->btnDodaj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnDodaj->Location = System::Drawing::Point(69, 516);
+			this->btnDodaj->Location = System::Drawing::Point(92, 635);
+			this->btnDodaj->Margin = System::Windows::Forms::Padding(4);
 			this->btnDodaj->Name = L"btnDodaj";
-			this->btnDodaj->Size = System::Drawing::Size(87, 34);
+			this->btnDodaj->Size = System::Drawing::Size(116, 42);
 			this->btnDodaj->TabIndex = 16;
 			this->btnDodaj->Text = L"Dodaj";
 			this->btnDodaj->UseVisualStyleBackColor = true;
+			this->btnDodaj->Click += gcnew System::EventHandler(this, &ZleceniaForm::btnDodaj_Click);
 			// 
 			// dataGridViewZlecenia
 			// 
-			this->dataGridViewZlecenia->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridViewZlecenia->Location = System::Drawing::Point(45, 243);
-			this->dataGridViewZlecenia->Name = L"dataGridViewZlecenia";
-			this->dataGridViewZlecenia->Size = System::Drawing::Size(715, 228);
-			this->dataGridViewZlecenia->TabIndex = 13;
-			this->dataGridViewZlecenia->ReadOnly = true;
-			this->dataGridViewZlecenia->RowHeadersVisible = false;
 			this->dataGridViewZlecenia->AllowUserToAddRows = false;
 			this->dataGridViewZlecenia->AllowUserToDeleteRows = false;
+			this->dataGridViewZlecenia->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataGridViewZlecenia->Location = System::Drawing::Point(92, 125);
+			this->dataGridViewZlecenia->Margin = System::Windows::Forms::Padding(4);
+			this->dataGridViewZlecenia->Name = L"dataGridViewZlecenia";
+			this->dataGridViewZlecenia->ReadOnly = true;
+			this->dataGridViewZlecenia->RowHeadersVisible = false;
+			this->dataGridViewZlecenia->Size = System::Drawing::Size(1388, 460);
+			this->dataGridViewZlecenia->TabIndex = 13;
 			// 
 			// btnRezerwuj
 			// 
 			this->btnRezerwuj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnRezerwuj->Location = System::Drawing::Point(69, 578);
+			this->btnRezerwuj->Location = System::Drawing::Point(618, 635);
+			this->btnRezerwuj->Margin = System::Windows::Forms::Padding(4);
 			this->btnRezerwuj->Name = L"btnRezerwuj";
-			this->btnRezerwuj->Size = System::Drawing::Size(241, 34);
+			this->btnRezerwuj->Size = System::Drawing::Size(321, 42);
 			this->btnRezerwuj->TabIndex = 18;
 			this->btnRezerwuj->Text = L"Rezerwuj kierowcę/samochód";
 			this->btnRezerwuj->UseVisualStyleBackColor = true;
@@ -145,18 +155,19 @@ namespace Spedycja {
 			// 
 			this->btnWykonaj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnWykonaj->Location = System::Drawing::Point(341, 578);
+			this->btnWykonaj->Location = System::Drawing::Point(947, 635);
+			this->btnWykonaj->Margin = System::Windows::Forms::Padding(4);
 			this->btnWykonaj->Name = L"btnWykonaj";
-			this->btnWykonaj->Size = System::Drawing::Size(87, 34);
+			this->btnWykonaj->Size = System::Drawing::Size(116, 42);
 			this->btnWykonaj->TabIndex = 19;
 			this->btnWykonaj->Text = L"Usuń";
 			this->btnWykonaj->UseVisualStyleBackColor = true;
 			// 
 			// ZleceniaForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(818, 636);
+			this->ClientSize = System::Drawing::Size(1587, 783);
 			this->Controls->Add(this->btnWykonaj);
 			this->Controls->Add(this->btnRezerwuj);
 			this->Controls->Add(this->labelZlecenia);
@@ -164,6 +175,7 @@ namespace Spedycja {
 			this->Controls->Add(this->btnEdytuj);
 			this->Controls->Add(this->btnDodaj);
 			this->Controls->Add(this->dataGridViewZlecenia);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"ZleceniaForm";
 			this->Text = L"ZleceniaForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewZlecenia))->EndInit();
@@ -180,7 +192,9 @@ namespace Spedycja {
 			try
 			{
 				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-				String^ sqlString = "select * from dbo.Zlecenia z; ";
+				String^ sqlString = "select z.id, k.Nazwa, z.data_zamowienia as 'Data zamówienia', z.Skad, z.Dokad, l.Nazwa as Ładunek, z.Opis, z.data_realizacji as 'Data realizacji', s.status, z.naleznosc as Należność " +
+					"from dbo.Zlecenia z, dbo.Kontrahenci k, dbo.Ladunki l, dbo.Statusy s " +
+					"where z.idKontrahenta = k.id and z.idLadunku = l.id and z.status = s.id; ";
 				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
 
 				SqlDataAdapter^ sqlDataAdapter = gcnew SqlDataAdapter();
@@ -209,5 +223,20 @@ namespace Spedycja {
 			//https://www.youtube.com/watch?v=r_cj1uhs9-c
 		};
 #pragma endregion
-	};
+	private: System::Void btnDodaj_Click(System::Object^  sender, System::EventArgs^  e) {
+		EdytujZlecenieForm^ EditForm = gcnew EdytujZlecenieForm(0, 0, connectionString);
+		EditForm->ShowDialog();
+		this->generateView();
+	}
+private: System::Void btnEdytuj_Click(System::Object^  sender, System::EventArgs^  e) {
+	int idZlecenia = 0;
+	idZlecenia = (int)dataGridViewZlecenia->CurrentRow->Cells[0]->Value;
+
+	EdytujZlecenieForm^ EditForm = gcnew EdytujZlecenieForm(idZlecenia, 0 , connectionString);
+	EditForm->ShowDialog();
+	this->generateView();
+}
+private: System::Void btnUsun_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+};
 }

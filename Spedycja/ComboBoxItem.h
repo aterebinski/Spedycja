@@ -5,13 +5,13 @@ namespace Spedycja {
 	public ref class ComboBoxItem
 	{
 	public:
-		ComboBoxItem(String^ id, String^ value)
+		ComboBoxItem(int id, String^ value)
 		{
 			this->id = id;
 			this->value = value;
 		}
 	private:
-		String^ id = "";
+		int id;
 		String^ value;
 
 	public:  String^ ToString() override
@@ -25,7 +25,7 @@ namespace Spedycja {
 		return value;
 	}
 
-	public: String^ getId() {
+	public: int getId() {
 		return id;
 	}
 

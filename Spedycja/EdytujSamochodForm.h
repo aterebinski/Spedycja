@@ -23,7 +23,7 @@ namespace Spedycja {
 		String^ marka;
 		String^ model;
 		String^ nrRejestracyjny;
-		String^ idLadunku;
+		int idLadunku;
 		String^ ladownosc;
 		String^ przebieg;
 		String^ spalanieNaPusto;
@@ -77,7 +77,7 @@ namespace Spedycja {
 
 					
 
-					idLadunku = sqlDataReader["idLadunku"]->ToString();
+					idLadunku = (int)sqlDataReader["idLadunku"];
 					
 
 					sqlDataReader->Close();
@@ -89,19 +89,19 @@ namespace Spedycja {
 
 			}
 
-			//uzupe�nianie combobox�w
+			//uzupelnianie comboboxow
 			try {
 
 
 				sqlCommand = gcnew SqlCommand("select * from dbo.Ladunki", sqlConnection);
 
 				ComboBoxItem^ tempComboBoxItem;
-				String^ tempId;
+				int tempId;
 				String^ tempValue;
 
 				sqlDataReader = sqlCommand->ExecuteReader();
 				while (sqlDataReader->Read()) {
-					tempId = sqlDataReader["ID"]->ToString();
+					tempId = (int)sqlDataReader["ID"];
 					tempValue = sqlDataReader["Nazwa"]->ToString();
 					tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
 					this->comboBoxLadunek->Items->Add(tempComboBoxItem);
@@ -518,13 +518,13 @@ private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventAr
 	iloscPalet = this->textBoxIloscPalet->Text;
 	objetosc = this->textBoxObjetosc->Text;
 
-	idLadunku = selectedLadunek->getId();
+	idLadunku = (int)selectedLadunek->getId();
 
-	double dlPensja;
-	int intIdLadunku;
+
+	//int intIdLadunku;
 	String^ sqlString;
 
-	if ((marka == "") || (model == "") || (nrRejestracyjny == "") || (ladownosc == "") || (przebieg == "") || (spalanieNaPusto == "") || (spalanieZLadunkiem == "") || (DMC == "") || (iloscPalet == "") || (objetosc == "") || (idLadunku == ""))
+	if ((marka == "") || (model == "") || (nrRejestracyjny == "") || (ladownosc == "") || (przebieg == "") || (spalanieNaPusto == "") || (spalanieZLadunkiem == "") || (DMC == "") || (iloscPalet == "") || (objetosc == "") || (idLadunku == 0))
 	{
 		MessageBox::Show("Wypełnij wszystkie pola");
 	}
@@ -536,7 +536,7 @@ private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventAr
 			sqlString = "insert into dbo.Samochody(marka,model,nr_rejestracyjny,ladownosc,przebieg,spalanie_na_pusto,spalanie_z_ladunkiem,DMC,ilosc_palet,objetosc,idLadunku) " +
 				"values(@marka, @model, @nrRejestracyjny, @ladownosc, @przebieg, @spalanieNaPusto,@spalanieZLadunkiem,@DMC,@iloscPalet,@objetosc,@idLadunku); ";
 		}
-		else { //edycja rekordu tabeli Pracownicy
+		else { //edycja rekordu tabeli Samochod
 			sqlString = "update dbo.Samochody set marka = @marka, model = @model, nr_rejestracyjny = @nrRejestracyjny, ladownosc = @ladownosc, przebieg = @przebieg, " +
 				"spalanie_na_pusto = @spalanieNaPusto, spalanie_z_ladunkiem = @spalanieZLadunkiem, DMC = @DMC, ilosc_palet = @iloscPalet,objetosc=@objetosc,idLadunku=@idLadunku " +
 				"where ID = @idSamochodu ;";
