@@ -236,6 +236,28 @@ private: System::Void btnEdytuj_Click(System::Object^ sender, System::EventArgs^
 	this->generateView();
 }
 private: System::Void btnUsun_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (MessageBox::Show("Usunąć trasę?", "Usuwanie trasy", MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes) {
+
+		int idTrasy = (int)dataGridViewTrasy->CurrentRow->Cells[0]->Value;
+		if (idTrasy) {
+			try {
+
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				sqlConnection->Open();
+
+				SqlCommand^ sqlCommand = gcnew SqlCommand("delete from dbo.Trasy where id = @id", sqlConnection);
+				sqlCommand->Parameters->Add("@id", idTrasy);
+				sqlCommand->ExecuteNonQuery();
+
+				sqlConnection->Close();
+			}
+			catch (Exception^ e) {
+				MessageBox::Show(e->ToString());
+			}
+
+			this->generateView();
+		}
+	}
 }
 };
 }

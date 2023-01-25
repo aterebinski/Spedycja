@@ -74,9 +74,10 @@ namespace Spedycja {
 			this->labelKierowcy->AutoSize = true;
 			this->labelKierowcy->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelKierowcy->Location = System::Drawing::Point(49, 44);
+			this->labelKierowcy->Location = System::Drawing::Point(65, 54);
+			this->labelKierowcy->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->labelKierowcy->Name = L"labelKierowcy";
-			this->labelKierowcy->Size = System::Drawing::Size(87, 24);
+			this->labelKierowcy->Size = System::Drawing::Size(112, 29);
 			this->labelKierowcy->TabIndex = 7;
 			this->labelKierowcy->Text = L"Kierowcy";
 			// 
@@ -84,20 +85,23 @@ namespace Spedycja {
 			// 
 			this->btnUsun->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnUsun->Location = System::Drawing::Point(288, 368);
+			this->btnUsun->Location = System::Drawing::Point(384, 453);
+			this->btnUsun->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btnUsun->Name = L"btnUsun";
-			this->btnUsun->Size = System::Drawing::Size(87, 34);
+			this->btnUsun->Size = System::Drawing::Size(116, 42);
 			this->btnUsun->TabIndex = 4;
 			this->btnUsun->Text = L"Usuń";
 			this->btnUsun->UseVisualStyleBackColor = true;
+			this->btnUsun->Click += gcnew System::EventHandler(this, &KierowcyForm::btnUsun_Click);
 			// 
 			// btnEdytuj
 			// 
 			this->btnEdytuj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnEdytuj->Location = System::Drawing::Point(173, 368);
+			this->btnEdytuj->Location = System::Drawing::Point(231, 453);
+			this->btnEdytuj->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btnEdytuj->Name = L"btnEdytuj";
-			this->btnEdytuj->Size = System::Drawing::Size(87, 34);
+			this->btnEdytuj->Size = System::Drawing::Size(116, 42);
 			this->btnEdytuj->TabIndex = 5;
 			this->btnEdytuj->Text = L"Popraw";
 			this->btnEdytuj->UseVisualStyleBackColor = true;
@@ -107,9 +111,10 @@ namespace Spedycja {
 			// 
 			this->btnDodaj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnDodaj->Location = System::Drawing::Point(49, 368);
+			this->btnDodaj->Location = System::Drawing::Point(65, 453);
+			this->btnDodaj->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btnDodaj->Name = L"btnDodaj";
-			this->btnDodaj->Size = System::Drawing::Size(87, 34);
+			this->btnDodaj->Size = System::Drawing::Size(116, 42);
 			this->btnDodaj->TabIndex = 6;
 			this->btnDodaj->Text = L"Dodaj";
 			this->btnDodaj->UseVisualStyleBackColor = true;
@@ -120,23 +125,25 @@ namespace Spedycja {
 			this->dataGridViewKierowcy->AllowUserToAddRows = false;
 			this->dataGridViewKierowcy->AllowUserToDeleteRows = false;
 			this->dataGridViewKierowcy->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridViewKierowcy->Location = System::Drawing::Point(49, 97);
+			this->dataGridViewKierowcy->Location = System::Drawing::Point(65, 119);
+			this->dataGridViewKierowcy->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->dataGridViewKierowcy->Name = L"dataGridViewKierowcy";
 			this->dataGridViewKierowcy->ReadOnly = true;
 			this->dataGridViewKierowcy->RowHeadersVisible = false;
-			this->dataGridViewKierowcy->Size = System::Drawing::Size(715, 228);
+			this->dataGridViewKierowcy->Size = System::Drawing::Size(953, 281);
 			this->dataGridViewKierowcy->TabIndex = 3;
 			// 
 			// KierowcyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(819, 455);
+			this->ClientSize = System::Drawing::Size(1092, 560);
 			this->Controls->Add(this->labelKierowcy);
 			this->Controls->Add(this->btnUsun);
 			this->Controls->Add(this->btnEdytuj);
 			this->Controls->Add(this->btnDodaj);
 			this->Controls->Add(this->dataGridViewKierowcy);
+			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Name = L"KierowcyForm";
 			this->Text = L"KierowcyForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewKierowcy))->EndInit();
@@ -194,6 +201,38 @@ private: System::Void btnEdytuj_Click(System::Object^ sender, System::EventArgs^
 	EdytujKierowceForm^ EditForm = gcnew EdytujKierowceForm(idKierowcy, connectionString);
 	EditForm->ShowDialog();
 	this->generateView();
+}
+private: System::Void btnUsun_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (MessageBox::Show("Usunąć kierowcę?", "Usuwanie kierowcy", MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes) {
+
+		int idKierowcy = (int)dataGridViewKierowcy->CurrentRow->Cells[0]->Value;
+		if (idKierowcy) {
+			try {
+
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				sqlConnection->Open();
+				SqlCommand^ sqlCommand = gcnew SqlCommand("select count(*) as liczba from dbo.Trasy where idKierowcy = " + idKierowcy, sqlConnection);
+				SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+				sqlDataReader->Read();
+				int liczba = (int)sqlDataReader["liczba"];
+				sqlDataReader->Close();
+				if (liczba > 0) { //jeśli istnieją jakieś trasy dla kierowcy
+					MessageBox::Show("Nie można usunąć kierowcy który wykonał już zlecenie.");
+				}
+				else {
+					sqlCommand = gcnew SqlCommand("delete from dbo.Kierowcy where id = @id", sqlConnection);
+					sqlCommand->Parameters->Add("@id", idKierowcy);
+					sqlCommand->ExecuteNonQuery();
+				}
+				sqlConnection->Close();
+			}
+			catch (Exception^ e) {
+				MessageBox::Show(e->ToString());
+			}
+
+			this->generateView();
+		}
+	}
 }
 };
 }

@@ -237,6 +237,36 @@ private: System::Void btnEdytuj_Click(System::Object^  sender, System::EventArgs
 	this->generateView();
 }
 private: System::Void btnUsun_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (MessageBox::Show("Usunąć zlecenie?", "Usuwanie zlecenia", MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes) {
+
+		int idZlecenia= (int)dataGridViewZlecenia->CurrentRow->Cells[0]->Value;
+		if (idZlecenia) {
+			try {
+
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				sqlConnection->Open();
+				SqlCommand^ sqlCommand = gcnew SqlCommand("select count(*) as liczba from dbo.Trasy where idZlecenia = " + idZlecenia, sqlConnection);
+				SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+				sqlDataReader->Read();
+				int liczba = (int)sqlDataReader["liczba"];
+				sqlDataReader->Close();
+				if (liczba > 0) { //jeśli istnieją jakieś trasy dla samochodu
+					MessageBox::Show("Nie można usunąć zlecenia dla którego wykonano trasę.");
+				}
+				else {
+					sqlCommand = gcnew SqlCommand("delete from dbo.Zlecenia where id = @id", sqlConnection);
+					sqlCommand->Parameters->Add("@id", idZlecenia);
+					sqlCommand->ExecuteNonQuery();
+				}
+				sqlConnection->Close();
+			}
+			catch (Exception^ e) {
+				MessageBox::Show(e->ToString());
+			}
+
+			this->generateView();
+		}
+	}
 }
 };
 }

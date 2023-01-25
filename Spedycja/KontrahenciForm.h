@@ -203,13 +203,7 @@ private: System::Void btnDodajKontrahenta_Click(System::Object^ sender, System::
 }
 private: System::Void btnUsunKontrahenta_Click(System::Object^ sender, System::EventArgs^ e) {
 
-	
-
-
-
 	if (MessageBox::Show("Usunąć kontrahenta?", "Usuwanie kontrahenta", MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes) {
-
-		
 
 		int idKontrahenta = (int)dataGridViewKontrahenci->CurrentRow->Cells[0]->Value;
 		if (idKontrahenta) {
@@ -238,9 +232,6 @@ private: System::Void btnUsunKontrahenta_Click(System::Object^ sender, System::E
 
 			this->generateView();
 		}
-
-
-
 	}
 }
 };

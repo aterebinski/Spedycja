@@ -194,6 +194,36 @@ private: System::Void btnEdytuj_Click(System::Object^ sender, System::EventArgs^
 	this->generateView();
 }
 private: System::Void btnUsun_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (MessageBox::Show("Usunąć samochód?", "Usuwanie samochodu", MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes) {
+
+		int idSamochodu = (int)dataGridViewSamochody->CurrentRow->Cells[0]->Value;
+		if (idSamochodu) {
+			try {
+
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				sqlConnection->Open();
+				SqlCommand^ sqlCommand = gcnew SqlCommand("select count(*) as liczba from dbo.Trasy where idSamochodu = " + idSamochodu, sqlConnection);
+				SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+				sqlDataReader->Read();
+				int liczba = (int)sqlDataReader["liczba"];
+				sqlDataReader->Close();
+				if (liczba > 0) { //jeśli istnieją jakieś trasy dla samochodu
+					MessageBox::Show("Nie można usunąć kierowcy który wykonał już zlecenie.");
+				}
+				else {
+					sqlCommand = gcnew SqlCommand("delete from dbo.Samochody where id = @id", sqlConnection);
+					sqlCommand->Parameters->Add("@id", idSamochodu);
+					sqlCommand->ExecuteNonQuery();
+				}
+				sqlConnection->Close();
+			}
+			catch (Exception^ e) {
+				MessageBox::Show(e->ToString());
+			}
+
+			this->generateView();
+		}
+	}
 }
 };
 }
