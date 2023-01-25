@@ -1,4 +1,5 @@
 #pragma once
+#include "ZestawienieKierowcowForm.h"
 
 namespace Spedycja {
 
@@ -14,13 +15,16 @@ namespace Spedycja {
 	/// </summary>
 	public ref class ZestawieniaForm : public System::Windows::Forms::Form
 	{
+	private:
+		String^ connectionString;
 	public:
-		ZestawieniaForm(void)
+		ZestawieniaForm(String^ connectionString)
 		{
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
 			//
+			this->connectionString = connectionString;
 		}
 
 	protected:
@@ -34,7 +38,19 @@ namespace Spedycja {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::DataVisualization::Charting::Chart^  chart1;
+	private: System::Windows::Forms::Button^ btnZestawianiaKierowcow;
+	private: System::Windows::Forms::Button^ btnZestawieniaSamochodow;
+	private: System::Windows::Forms::Button^ btnZestawieniaZlecen;
+	protected:
+
+
+	protected:
+
+
+
+	private: System::Windows::Forms::Label^ labelEditKontrahent;
+
+
 	protected:
 
 	private:
@@ -50,44 +66,87 @@ namespace Spedycja {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^  legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^  series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart1))->BeginInit();
+			this->btnZestawianiaKierowcow = (gcnew System::Windows::Forms::Button());
+			this->btnZestawieniaSamochodow = (gcnew System::Windows::Forms::Button());
+			this->btnZestawieniaZlecen = (gcnew System::Windows::Forms::Button());
+			this->labelEditKontrahent = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
-			// chart1
+			// btnZestawianiaKierowcow
 			// 
-			chartArea1->Name = L"ChartArea1";
-			this->chart1->ChartAreas->Add(chartArea1);
-			legend1->Name = L"Legend1";
-			this->chart1->Legends->Add(legend1);
-			this->chart1->Location = System::Drawing::Point(61, 296);
-			this->chart1->Name = L"chart1";
-			series1->ChartArea = L"ChartArea1";
-			series1->Legend = L"Legend1";
-			series1->Name = L"Series1";
-			this->chart1->Series->Add(series1);
-			this->chart1->Size = System::Drawing::Size(300, 300);
-			this->chart1->TabIndex = 0;
-			this->chart1->Text = L"chart1";
-			this->chart1->Click += gcnew System::EventHandler(this, &ZestawieniaForm::chart1_Click);
+			this->btnZestawianiaKierowcow->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
+			this->btnZestawianiaKierowcow->Location = System::Drawing::Point(236, 149);
+			this->btnZestawianiaKierowcow->Margin = System::Windows::Forms::Padding(4);
+			this->btnZestawianiaKierowcow->Name = L"btnZestawianiaKierowcow";
+			this->btnZestawianiaKierowcow->Size = System::Drawing::Size(131, 42);
+			this->btnZestawianiaKierowcow->TabIndex = 92;
+			this->btnZestawianiaKierowcow->Text = L"Kierowcy";
+			this->btnZestawianiaKierowcow->UseVisualStyleBackColor = true;
+			this->btnZestawianiaKierowcow->Click += gcnew System::EventHandler(this, &ZestawieniaForm::btnZestawianiaKierowcow_Click);
+			// 
+			// btnZestawieniaSamochodow
+			// 
+			this->btnZestawieniaSamochodow->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
+			this->btnZestawieniaSamochodow->Location = System::Drawing::Point(236, 244);
+			this->btnZestawieniaSamochodow->Margin = System::Windows::Forms::Padding(4);
+			this->btnZestawieniaSamochodow->Name = L"btnZestawieniaSamochodow";
+			this->btnZestawieniaSamochodow->Size = System::Drawing::Size(131, 42);
+			this->btnZestawieniaSamochodow->TabIndex = 93;
+			this->btnZestawieniaSamochodow->Text = L"Samochody";
+			this->btnZestawieniaSamochodow->UseVisualStyleBackColor = true;
+			this->btnZestawieniaSamochodow->Click += gcnew System::EventHandler(this, &ZestawieniaForm::btnZestawieniaSamochodow_Click);
+			// 
+			// btnZestawieniaZlecen
+			// 
+			this->btnZestawieniaZlecen->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
+			this->btnZestawieniaZlecen->Location = System::Drawing::Point(236, 345);
+			this->btnZestawieniaZlecen->Margin = System::Windows::Forms::Padding(4);
+			this->btnZestawieniaZlecen->Name = L"btnZestawieniaZlecen";
+			this->btnZestawieniaZlecen->Size = System::Drawing::Size(131, 42);
+			this->btnZestawieniaZlecen->TabIndex = 94;
+			this->btnZestawieniaZlecen->Text = L"Zlecenia";
+			this->btnZestawieniaZlecen->UseVisualStyleBackColor = true;
+			this->btnZestawieniaZlecen->Click += gcnew System::EventHandler(this, &ZestawieniaForm::btnZestawieniaZlecen_Click);
+			// 
+			// labelEditKontrahent
+			// 
+			this->labelEditKontrahent->AutoSize = true;
+			this->labelEditKontrahent->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
+			this->labelEditKontrahent->Location = System::Drawing::Point(231, 37);
+			this->labelEditKontrahent->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->labelEditKontrahent->Name = L"labelEditKontrahent";
+			this->labelEditKontrahent->Size = System::Drawing::Size(142, 29);
+			this->labelEditKontrahent->TabIndex = 96;
+			this->labelEditKontrahent->Text = L"Zestawienia";
 			// 
 			// ZestawieniaForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(659, 620);
-			this->Controls->Add(this->chart1);
+			this->ClientSize = System::Drawing::Size(602, 621);
+			this->Controls->Add(this->labelEditKontrahent);
+			this->Controls->Add(this->btnZestawieniaZlecen);
+			this->Controls->Add(this->btnZestawieniaSamochodow);
+			this->Controls->Add(this->btnZestawianiaKierowcow);
 			this->Name = L"ZestawieniaForm";
 			this->Text = L"ZestawieniaForm";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart1))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void chart1_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	};
+
+private: System::Void btnZestawianiaKierowcow_Click(System::Object^ sender, System::EventArgs^ e) {
+	ZestawienieKierowcowForm^ zestawienieKierowcowForm = gcnew ZestawienieKierowcowForm(connectionString);
+	zestawienieKierowcowForm->ShowDialog();
+}
+private: System::Void btnZestawieniaSamochodow_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void btnZestawieniaZlecen_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+};
 }

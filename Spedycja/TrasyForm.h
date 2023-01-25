@@ -184,7 +184,7 @@ namespace Spedycja {
 					"where t.idZlecenia =  and z.idKontrahenta = ko.id and z.idLadunku = l.id and z.status = s.id; ";
 				*/
 
-				String^ sqlString = "select z.id, z.nrZlecenia as 'Nr zlecenia', z.data_zamowienia as 'Data zamówienia',ko.Nazwa, z.Opis,concat(k.imie,k.nazwisko) as Kierowca, concat(s.Marka,s.Model,s.Nr_rejestracyjny) as Samochod, t.Kilometry, t.data_wykonania as 'Data wykonania', t.koszt_paliwa as 'Koszt paliwa' " +
+				String^ sqlString = "select t.id, z.nrZlecenia as 'Nr zlecenia', z.data_zamowienia as 'Data zamówienia',ko.Nazwa, z.Opis,concat(k.imie,' ',k.nazwisko) as Kierowca, concat(s.Marka,' ',s.Model,' -- ',s.Nr_rejestracyjny) as Samochod, t.Kilometry, t.koszt_paliwa as 'Koszt paliwa', t.data_wykonania as 'Data wykonania', st.status  " +
 					"from dbo.Trasy t " +
 					"join dbo.Zlecenia z on t.idZlecenia = z.id " +
 					"join dbo.Statusy st on t.status = st.id " +

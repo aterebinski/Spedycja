@@ -24,7 +24,7 @@ namespace Spedycja {
 		int idKierowcy;
 		int idSamochodu;
 		int status;
-		String^ kilometry;
+		double kilometry;
 		String^ dataWykonania;
 		String^ kosztPaliwa;
 
@@ -41,6 +41,7 @@ namespace Spedycja {
 			SqlDataReader^ sqlDataReader;
 			sqlConnection->Open();
 
+			this->textBoxKilometry->Text = "0";
 
 			if (idTrasy != 0) //jesli edytujemy dane to trzeba wyswietlic dane w odpowiednich polach
 			{
@@ -50,29 +51,29 @@ namespace Spedycja {
 					SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
 					sqlDataReader->Read();
 
-					kilometry = sqlDataReader["kilometry"]->ToString();
-					this->textBoxKilometry->Text = kilometry;
+					kilometry = Convert::ToDouble(sqlDataReader["kilometry"]);
+					this->textBoxKilometry->Text = Convert::ToString( kilometry);
 
 					dataWykonania = sqlDataReader["data_wykonania"]->ToString();
 					this->dateTimeDataWykonania->Text = dataWykonania;
 
 
-					kosztPaliwa = sqlDataReader["koszt_paliwa"]->ToString();
-					this->textBoxKosztPaliwa->Text = kosztPaliwa;
+					//kosztPaliwa = sqlDataReader["koszt_paliwa"]->ToString();
+					//this->textBoxKosztPaliwa->Text = kosztPaliwa;
 
 					idZlecenia = (int)sqlDataReader["idZlecenia"];
 					idKierowcy = (int)sqlDataReader["idKierowcy"];
 					idSamochodu = (int)sqlDataReader["idSamochodu"];
 					status = (int)sqlDataReader["status"];
-
-
 					sqlDataReader->Close();
+
+					
 				}
 				catch (Exception^ ex)
 				{
 					MessageBox::Show(ex->Message);
 				}
-
+				
 			}
 			else {
 				status = 2;
@@ -94,7 +95,10 @@ namespace Spedycja {
 				int tempId;
 				String^ tempValue;
 
-				sqlCommand = gcnew SqlCommand("select z.id, concat(z.nrZlecenia,' -- ',k.Nazwa,' -- ',z.data_zamowienia) as Zlecenie from dbo.Zlecenia z, dbo.Kontrahenci k where z.idKontrahenta = k.id", sqlConnection);
+
+				//combobox Zlecenia
+				//sqlCommand = gcnew SqlCommand("select z.id, concat(z.nrZlecenia,' -- ',k.Nazwa,' -- ',z.data_zamowienia) as Zlecenie from dbo.Zlecenia z, dbo.Kontrahenci k where z.idKontrahenta = k.id and z.status<4", sqlConnection);
+				sqlCommand = gcnew SqlCommand("select z.id, concat(z.nrZlecenia,' -- ',k.Nazwa,' -- ',z.data_zamowienia) as Zlecenie from dbo.Zlecenia z, dbo.Kontrahenci k where z.idKontrahenta = k.id and z.status<4", sqlConnection);
 				sqlDataReader = sqlCommand->ExecuteReader();
 				while (sqlDataReader->Read()) {
 					tempId = (int)sqlDataReader["id"];
@@ -106,7 +110,8 @@ namespace Spedycja {
 
 				sqlDataReader->Close();
 
-				sqlCommand = gcnew SqlCommand("select id, concat(imie,' ', nazwisko) as Kierowca from dbo.Kierowcy", sqlConnection);
+				//combobox Kierowcy
+				sqlCommand = gcnew SqlCommand("select k.id, concat(k.imie,' ', k.nazwisko) as Kierowca from dbo.Kierowcy k", sqlConnection);
 				sqlDataReader = sqlCommand->ExecuteReader();
 				while (sqlDataReader->Read()) {
 					tempId = (int)sqlDataReader["ID"];
@@ -118,6 +123,7 @@ namespace Spedycja {
 
 				sqlDataReader->Close();
 
+				//combobox Samochody
 				sqlCommand = gcnew SqlCommand("select id, concat(marka,' ',model,' -- ', nr_rejestracyjny) as Samochod from dbo.Samochody", sqlConnection);
 				sqlDataReader = sqlCommand->ExecuteReader();
 				while (sqlDataReader->Read()) {
@@ -125,11 +131,12 @@ namespace Spedycja {
 					tempValue = sqlDataReader["Samochod"]->ToString();
 					tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
 					this->comboBoxSamochod->Items->Add(tempComboBoxItem);
-					if ((idTrasy != 0) && (idKierowcy == tempId)) this->comboBoxSamochod->SelectedItem = tempComboBoxItem;
+					if ((idTrasy != 0) && (idSamochodu == tempId)) this->comboBoxSamochod->SelectedItem = tempComboBoxItem;
 				}
 
 				sqlDataReader->Close();
 
+				//combobox statusy
 				sqlCommand = gcnew SqlCommand("select * from dbo.Statusy", sqlConnection);
 				sqlDataReader = sqlCommand->ExecuteReader();
 				while (sqlDataReader->Read()) {
@@ -139,14 +146,14 @@ namespace Spedycja {
 					this->comboBoxStatus->Items->Add(tempComboBoxItem);
 					if (status == tempId) this->comboBoxStatus->SelectedItem = tempComboBoxItem;
 				}
-
+				sqlDataReader->Close();
 
 			}
 			catch (Exception^ e) {
 				MessageBox::Show(e->ToString());
 			};
 
-			sqlDataReader->Close();
+			
 			sqlConnection->Close();
 
 		}
@@ -161,6 +168,7 @@ namespace Spedycja {
 			{
 				delete components;
 			}
+			//this->sqlConnection->Close();
 		}
 
 	protected:
@@ -192,9 +200,9 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 	private: System::Windows::Forms::ComboBox^ comboBoxKierowca;
 
 	private: System::Windows::Forms::Label^ label8;
-	private: System::Windows::Forms::TextBox^ textBoxKosztPaliwa;
 
-	private: System::Windows::Forms::Label^ label9;
+
+
 
 	private:
 		/// <summary>
@@ -224,8 +232,6 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->labelEditKontrahent = (gcnew System::Windows::Forms::Label());
 			this->comboBoxKierowca = (gcnew System::Windows::Forms::ComboBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
-			this->textBoxKosztPaliwa = (gcnew System::Windows::Forms::TextBox());
-			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// comboBoxStatus
@@ -233,9 +239,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->comboBoxStatus->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->comboBoxStatus->FormattingEnabled = true;
-			this->comboBoxStatus->Location = System::Drawing::Point(174, 313);
+			this->comboBoxStatus->Location = System::Drawing::Point(232, 385);
+			this->comboBoxStatus->Margin = System::Windows::Forms::Padding(4);
 			this->comboBoxStatus->Name = L"comboBoxStatus";
-			this->comboBoxStatus->Size = System::Drawing::Size(179, 28);
+			this->comboBoxStatus->Size = System::Drawing::Size(237, 33);
 			this->comboBoxStatus->TabIndex = 90;
 			// 
 			// label4
@@ -243,9 +250,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label4->Location = System::Drawing::Point(82, 316);
+			this->label4->Location = System::Drawing::Point(109, 389);
+			this->label4->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(60, 20);
+			this->label4->Size = System::Drawing::Size(74, 25);
 			this->label4->TabIndex = 102;
 			this->label4->Text = L"Status:";
 			// 
@@ -254,9 +262,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->comboBoxSamochod->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->comboBoxSamochod->FormattingEnabled = true;
-			this->comboBoxSamochod->Location = System::Drawing::Point(174, 244);
+			this->comboBoxSamochod->Location = System::Drawing::Point(232, 300);
+			this->comboBoxSamochod->Margin = System::Windows::Forms::Padding(4);
 			this->comboBoxSamochod->Name = L"comboBoxSamochod";
-			this->comboBoxSamochod->Size = System::Drawing::Size(397, 28);
+			this->comboBoxSamochod->Size = System::Drawing::Size(528, 33);
 			this->comboBoxSamochod->TabIndex = 85;
 			// 
 			// label11
@@ -264,9 +273,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->label11->AutoSize = true;
 			this->label11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label11->Location = System::Drawing::Point(82, 247);
+			this->label11->Location = System::Drawing::Point(109, 304);
+			this->label11->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label11->Name = L"label11";
-			this->label11->Size = System::Drawing::Size(90, 20);
+			this->label11->Size = System::Drawing::Size(113, 25);
 			this->label11->TabIndex = 101;
 			this->label11->Text = L"Samochód:";
 			// 
@@ -275,19 +285,20 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->dateTimeDataWykonania->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
 			this->dateTimeDataWykonania->Format = System::Windows::Forms::DateTimePickerFormat::Short;
-			this->dateTimeDataWykonania->Location = System::Drawing::Point(213, 368);
-			this->dateTimeDataWykonania->Margin = System::Windows::Forms::Padding(2);
+			this->dateTimeDataWykonania->Location = System::Drawing::Point(284, 453);
+			this->dateTimeDataWykonania->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->dateTimeDataWykonania->Name = L"dateTimeDataWykonania";
-			this->dateTimeDataWykonania->Size = System::Drawing::Size(151, 26);
+			this->dateTimeDataWykonania->Size = System::Drawing::Size(200, 30);
 			this->dateTimeDataWykonania->TabIndex = 84;
 			// 
 			// textBoxKilometry
 			// 
 			this->textBoxKilometry->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxKilometry->Location = System::Drawing::Point(174, 422);
+			this->textBoxKilometry->Location = System::Drawing::Point(232, 519);
+			this->textBoxKilometry->Margin = System::Windows::Forms::Padding(4);
 			this->textBoxKilometry->Name = L"textBoxKilometry";
-			this->textBoxKilometry->Size = System::Drawing::Size(179, 26);
+			this->textBoxKilometry->Size = System::Drawing::Size(237, 30);
 			this->textBoxKilometry->TabIndex = 89;
 			// 
 			// label10
@@ -295,9 +306,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->label10->AutoSize = true;
 			this->label10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label10->Location = System::Drawing::Point(82, 425);
+			this->label10->Location = System::Drawing::Point(109, 523);
+			this->label10->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(77, 20);
+			this->label10->Size = System::Drawing::Size(99, 25);
 			this->label10->TabIndex = 100;
 			this->label10->Text = L"Kilometry:";
 			// 
@@ -306,9 +318,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->comboBoxZlecenie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->comboBoxZlecenie->FormattingEnabled = true;
-			this->comboBoxZlecenie->Location = System::Drawing::Point(174, 124);
+			this->comboBoxZlecenie->Location = System::Drawing::Point(232, 153);
+			this->comboBoxZlecenie->Margin = System::Windows::Forms::Padding(4);
 			this->comboBoxZlecenie->Name = L"comboBoxZlecenie";
-			this->comboBoxZlecenie->Size = System::Drawing::Size(547, 28);
+			this->comboBoxZlecenie->Size = System::Drawing::Size(728, 33);
 			this->comboBoxZlecenie->TabIndex = 81;
 			// 
 			// label2
@@ -316,9 +329,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label2->Location = System::Drawing::Point(82, 127);
+			this->label2->Location = System::Drawing::Point(109, 156);
+			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(73, 20);
+			this->label2->Size = System::Drawing::Size(92, 25);
 			this->label2->TabIndex = 99;
 			this->label2->Text = L"Zlecenie:";
 			// 
@@ -327,9 +341,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label1->Location = System::Drawing::Point(82, 373);
+			this->label1->Location = System::Drawing::Point(109, 459);
+			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(126, 20);
+			this->label1->Size = System::Drawing::Size(157, 25);
 			this->label1->TabIndex = 95;
 			this->label1->Text = L"Data wykonania:";
 			// 
@@ -337,9 +352,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			// 
 			this->btnAnuluj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnAnuluj->Location = System::Drawing::Point(434, 573);
+			this->btnAnuluj->Location = System::Drawing::Point(579, 705);
+			this->btnAnuluj->Margin = System::Windows::Forms::Padding(4);
 			this->btnAnuluj->Name = L"btnAnuluj";
-			this->btnAnuluj->Size = System::Drawing::Size(87, 34);
+			this->btnAnuluj->Size = System::Drawing::Size(116, 42);
 			this->btnAnuluj->TabIndex = 92;
 			this->btnAnuluj->Text = L"Anuluj";
 			this->btnAnuluj->UseVisualStyleBackColor = true;
@@ -349,9 +365,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			// 
 			this->btnZatwierdz->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnZatwierdz->Location = System::Drawing::Point(316, 573);
+			this->btnZatwierdz->Location = System::Drawing::Point(421, 705);
+			this->btnZatwierdz->Margin = System::Windows::Forms::Padding(4);
 			this->btnZatwierdz->Name = L"btnZatwierdz";
-			this->btnZatwierdz->Size = System::Drawing::Size(98, 34);
+			this->btnZatwierdz->Size = System::Drawing::Size(131, 42);
 			this->btnZatwierdz->TabIndex = 91;
 			this->btnZatwierdz->Text = L"ZatwierdŸ";
 			this->btnZatwierdz->UseVisualStyleBackColor = true;
@@ -362,9 +379,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->labelEditKontrahent->AutoSize = true;
 			this->labelEditKontrahent->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->labelEditKontrahent->Location = System::Drawing::Point(385, 47);
+			this->labelEditKontrahent->Location = System::Drawing::Point(513, 58);
+			this->labelEditKontrahent->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->labelEditKontrahent->Name = L"labelEditKontrahent";
-			this->labelEditKontrahent->Size = System::Drawing::Size(57, 24);
+			this->labelEditKontrahent->Size = System::Drawing::Size(75, 29);
 			this->labelEditKontrahent->TabIndex = 93;
 			this->labelEditKontrahent->Text = L"Trasa";
 			// 
@@ -373,9 +391,10 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->comboBoxKierowca->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->comboBoxKierowca->FormattingEnabled = true;
-			this->comboBoxKierowca->Location = System::Drawing::Point(174, 181);
+			this->comboBoxKierowca->Location = System::Drawing::Point(232, 223);
+			this->comboBoxKierowca->Margin = System::Windows::Forms::Padding(4);
 			this->comboBoxKierowca->Name = L"comboBoxKierowca";
-			this->comboBoxKierowca->Size = System::Drawing::Size(397, 28);
+			this->comboBoxKierowca->Size = System::Drawing::Size(528, 33);
 			this->comboBoxKierowca->TabIndex = 104;
 			// 
 			// label8
@@ -383,39 +402,18 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->label8->AutoSize = true;
 			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label8->Location = System::Drawing::Point(82, 184);
+			this->label8->Location = System::Drawing::Point(109, 226);
+			this->label8->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label8->Name = L"label8";
-			this->label8->Size = System::Drawing::Size(77, 20);
+			this->label8->Size = System::Drawing::Size(99, 25);
 			this->label8->TabIndex = 105;
 			this->label8->Text = L"Kierowca:";
 			// 
-			// textBoxKosztPaliwa
-			// 
-			this->textBoxKosztPaliwa->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(238)));
-			this->textBoxKosztPaliwa->Location = System::Drawing::Point(189, 477);
-			this->textBoxKosztPaliwa->Name = L"textBoxKosztPaliwa";
-			this->textBoxKosztPaliwa->Size = System::Drawing::Size(164, 26);
-			this->textBoxKosztPaliwa->TabIndex = 106;
-			// 
-			// label9
-			// 
-			this->label9->AutoSize = true;
-			this->label9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(238)));
-			this->label9->Location = System::Drawing::Point(82, 480);
-			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(101, 20);
-			this->label9->TabIndex = 107;
-			this->label9->Text = L"Koszt paliwa:";
-			// 
 			// EdytujTraseForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(825, 665);
-			this->Controls->Add(this->textBoxKosztPaliwa);
-			this->Controls->Add(this->label9);
+			this->ClientSize = System::Drawing::Size(1100, 818);
 			this->Controls->Add(this->comboBoxKierowca);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->comboBoxStatus);
@@ -431,6 +429,7 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 			this->Controls->Add(this->btnAnuluj);
 			this->Controls->Add(this->btnZatwierdz);
 			this->Controls->Add(this->labelEditKontrahent);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"EdytujTraseForm";
 			this->Text = L"EdytujTraseForm";
 			this->ResumeLayout(false);
@@ -444,19 +443,11 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 		ComboBoxItem^ selectedZlecenie = (ComboBoxItem^)this->comboBoxZlecenie->SelectedItem;
 		ComboBoxItem^ selectedStatus = (ComboBoxItem^)this->comboBoxStatus->SelectedItem;
 
-		/*int idZlecenia;
-		int idKierowcy;
-		int idSamochodu;
-		int status;
-		int kilometry = 0;
-		String^ dataWykonania;
-		double kosztPaliwa = 0;*/
-
-		kilometry = textBoxKilometry->Text;
+		kilometry = Convert::ToDouble(textBoxKilometry->Text);
 		
 		dataWykonania = this->dateTimeDataWykonania->Text;
 
-		kosztPaliwa = this->textBoxKosztPaliwa->Text;
+		//kosztPaliwa = this->textBoxKosztPaliwa->Text;
 		
 
 		idZlecenia = selectedZlecenie->getId();
@@ -486,21 +477,46 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 					"WHERE id = @idTrasy;";
 			}
 
+			
+
 			try {
 				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
 				sqlConnection->Open();
-				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
+
+				SqlCommand^ sqlCommand;
+
+				sqlCommand = gcnew SqlCommand("select * from dbo.Konfiguracja", sqlConnection);
+				SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+				sqlDataReader->Read();
+				double cenaPaliwa = (double)sqlDataReader["cena_paliwa"];
+				
+				sqlDataReader->Close();
+
+				double kosztyPaliwa = cenaPaliwa * kilometry;
+
+				MessageBox::Show("CenaPaliwa: " + cenaPaliwa + " , kilometry: " + kilometry + " ,koszty: " + kosztyPaliwa);
+
+				sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
 				sqlCommand->Parameters->Add("@idZlecenia", idZlecenia);
 				sqlCommand->Parameters->Add("@idKierowcy", idKierowcy);
 				sqlCommand->Parameters->Add("@idSamochodu", idSamochodu);
 				sqlCommand->Parameters->Add("@status", status);
 				sqlCommand->Parameters->Add("@kilometry", kilometry);
 				sqlCommand->Parameters->Add("@data_wykonania", dataWykonania);
-				sqlCommand->Parameters->Add("@koszt_paliwa", kosztPaliwa);
+				sqlCommand->Parameters->Add("@koszt_paliwa", Convert::ToString(kosztyPaliwa));
 
 				if (idTrasy != 0) sqlCommand->Parameters->Add("@idTrasy", idTrasy);
 
 				sqlCommand->ExecuteNonQuery();
+
+				
+
+				//zamykanie zlecenia
+				if ((status == 4)&&(MessageBox::Show("Zamkn¹æ zlecenie?", "Zlecenie", MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes)) {
+					sqlCommand = gcnew SqlCommand("update dbo.Zlecenia set status=4 where id = @id", sqlConnection);
+					sqlCommand->Parameters->Add("@id", idZlecenia);
+					sqlCommand->ExecuteNonQuery();
+				}
 
 				sqlConnection->Close();
 			}
@@ -514,5 +530,25 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 private: System::Void btnAnuluj_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Close();
 }
+/*
+private: System::Void ustawComboboxKierowcy(SqlConnection^ sqlConnection) {
+		   //combobox Kierowcy
+		   int tempId;
+		   String^ tempValue;
+		   ComboBoxItem^ tempComboBoxItem;
+
+		   SqlCommand^ sqlCommand = gcnew SqlCommand("select k.id, concat(k.imie,' ', k.nazwisko) as Kierowca from dbo.Kierowcy k where k.id not in (select k1.id from ) ", sqlConnection);
+		   SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+		   while (sqlDataReader->Read()) {
+			   tempId = (int)sqlDataReader["ID"];
+			   tempValue = sqlDataReader["Kierowca"]->ToString();
+			   tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
+			   this->comboBoxKierowca->Items->Add(tempComboBoxItem);
+			   if ((idTrasy != 0) && (idKierowcy == tempId)) this->comboBoxKierowca->SelectedItem = tempComboBoxItem;
+		   }
+
+		   sqlDataReader->Close();
+	   }
+	   */
 };
 }

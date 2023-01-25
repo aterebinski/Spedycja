@@ -25,7 +25,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>Spedycja</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -134,6 +134,7 @@
     <ClCompile Include="MenuForm.cpp" />
     <ClCompile Include="SamochodyForm.cpp" />
     <ClCompile Include="TrasyForm.cpp" />
+    <ClCompile Include="ZestawienieKierowcowForm.cpp" />
     <ClCompile Include="ZestawieniaForm.cpp" />
     <ClCompile Include="ZleceniaForm.cpp" />
   </ItemGroup>
@@ -170,6 +171,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="TrasyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ZestawienieKierowcowForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="ZestawieniaForm.h">
@@ -212,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TrasyForm.resx">
       <DependentUpon>TrasyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZestawienieKierowcowForm.resx">
+      <DependentUpon>ZestawienieKierowcowForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ZestawieniaForm.resx">
       <DependentUpon>ZestawieniaForm.h</DependentUpon>

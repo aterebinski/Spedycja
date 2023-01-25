@@ -72,7 +72,7 @@ namespace Spedycja {
 					opis = sqlDataReader["opis"]->ToString();
 					this->textBoxOpis->Text = opis;
 
-					naleznosc = (double)sqlDataReader["naleznosc"];
+					naleznosc = Convert::ToDouble(sqlDataReader["naleznosc"]);
 					this->textBoxNaleznosc->Text = naleznosc.ToString();
 					
 					idKontrahenta = (int)sqlDataReader["idKontrahenta"];

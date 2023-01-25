@@ -5,6 +5,7 @@
 #include "ZleceniaForm.h"
 #include "KonfiguracjaForm.h"
 #include "TrasyForm.h"
+#include "ZestawieniaForm.h"
 
 namespace Spedycja {
 
@@ -92,7 +93,7 @@ namespace Spedycja {
 			// konfiguracjaBtn
 			// 
 			this->konfiguracjaBtn->Location = System::Drawing::Point(75, 693);
-			this->konfiguracjaBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->konfiguracjaBtn->Margin = System::Windows::Forms::Padding(4);
 			this->konfiguracjaBtn->Name = L"konfiguracjaBtn";
 			this->konfiguracjaBtn->Size = System::Drawing::Size(100, 28);
 			this->konfiguracjaBtn->TabIndex = 1;
@@ -103,7 +104,7 @@ namespace Spedycja {
 			// exitBtn
 			// 
 			this->exitBtn->Location = System::Drawing::Point(833, 693);
-			this->exitBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->exitBtn->Margin = System::Windows::Forms::Padding(4);
 			this->exitBtn->Name = L"exitBtn";
 			this->exitBtn->Size = System::Drawing::Size(100, 28);
 			this->exitBtn->TabIndex = 2;
@@ -116,7 +117,7 @@ namespace Spedycja {
 			this->zleceniaBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->zleceniaBtn->Location = System::Drawing::Point(384, 196);
-			this->zleceniaBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->zleceniaBtn->Margin = System::Windows::Forms::Padding(4);
 			this->zleceniaBtn->Name = L"zleceniaBtn";
 			this->zleceniaBtn->Size = System::Drawing::Size(239, 46);
 			this->zleceniaBtn->TabIndex = 3;
@@ -129,7 +130,7 @@ namespace Spedycja {
 			this->trasyBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->trasyBtn->Location = System::Drawing::Point(384, 273);
-			this->trasyBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->trasyBtn->Margin = System::Windows::Forms::Padding(4);
 			this->trasyBtn->Name = L"trasyBtn";
 			this->trasyBtn->Size = System::Drawing::Size(239, 46);
 			this->trasyBtn->TabIndex = 3;
@@ -142,7 +143,7 @@ namespace Spedycja {
 			this->kontrahenciBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->kontrahenciBtn->Location = System::Drawing::Point(384, 351);
-			this->kontrahenciBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->kontrahenciBtn->Margin = System::Windows::Forms::Padding(4);
 			this->kontrahenciBtn->Name = L"kontrahenciBtn";
 			this->kontrahenciBtn->Size = System::Drawing::Size(239, 46);
 			this->kontrahenciBtn->TabIndex = 3;
@@ -155,7 +156,7 @@ namespace Spedycja {
 			this->kierowcyBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->kierowcyBtn->Location = System::Drawing::Point(384, 431);
-			this->kierowcyBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->kierowcyBtn->Margin = System::Windows::Forms::Padding(4);
 			this->kierowcyBtn->Name = L"kierowcyBtn";
 			this->kierowcyBtn->Size = System::Drawing::Size(239, 46);
 			this->kierowcyBtn->TabIndex = 3;
@@ -168,7 +169,7 @@ namespace Spedycja {
 			this->samochodyBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->samochodyBtn->Location = System::Drawing::Point(384, 503);
-			this->samochodyBtn->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->samochodyBtn->Margin = System::Windows::Forms::Padding(4);
 			this->samochodyBtn->Name = L"samochodyBtn";
 			this->samochodyBtn->Size = System::Drawing::Size(239, 46);
 			this->samochodyBtn->TabIndex = 3;
@@ -187,6 +188,7 @@ namespace Spedycja {
 			this->buttonZestawienia->TabIndex = 4;
 			this->buttonZestawienia->Text = L"Zestawienia";
 			this->buttonZestawienia->UseVisualStyleBackColor = true;
+			this->buttonZestawienia->Click += gcnew System::EventHandler(this, &MenuForm::buttonZestawienia_Click);
 			// 
 			// MenuForm
 			// 
@@ -202,7 +204,7 @@ namespace Spedycja {
 			this->Controls->Add(this->exitBtn);
 			this->Controls->Add(this->konfiguracjaBtn);
 			this->Controls->Add(this->label1);
-			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"MenuForm";
 			this->Text = L"MenuForm";
 			this->ResumeLayout(false);
@@ -236,6 +238,10 @@ private: System::Void exitBtn_Click(System::Object^ sender, System::EventArgs^ e
 private: System::Void trasyBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	TrasyForm^ trasyForm = gcnew TrasyForm(connectionString);
 	trasyForm->ShowDialog();
+}
+private: System::Void buttonZestawienia_Click(System::Object^ sender, System::EventArgs^ e) {
+	ZestawieniaForm^ zestawieniaForm = gcnew ZestawieniaForm(connectionString);
+	zestawieniaForm->ShowDialog();
 }
 };
 }
