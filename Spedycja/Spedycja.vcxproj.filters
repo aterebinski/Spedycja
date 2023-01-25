@@ -54,6 +54,9 @@
     <ClCompile Include="EdytujTraseForm.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="ZestawieniaForm.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MenuForm.h">
@@ -95,6 +98,9 @@
     <ClInclude Include="EdytujTraseForm.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="ZestawieniaForm.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EdytujKontrahentaForm.resx">
@@ -122,6 +128,15 @@
       <Filter>Pliki zasobów</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="EdytujSamochodForm.resx">
+      <Filter>Pliki zasobów</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EdytujTraseForm.resx">
+      <Filter>Pliki zasobów</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EdytujZlecenieForm.resx">
+      <Filter>Pliki zasobów</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrasyForm.resx">
       <Filter>Pliki zasobów</Filter>
     </EmbeddedResource>
   </ItemGroup>
