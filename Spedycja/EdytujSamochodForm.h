@@ -26,8 +26,7 @@ namespace Spedycja {
 		int idLadunku;
 		String^ ladownosc;
 		String^ przebieg;
-		String^ spalanieNaPusto;
-		String^ spalanieZLadunkiem;
+		String^ spalanie;
 		String^ DMC;
 		String^ iloscPalet;
 		String^ objetosc;
@@ -62,10 +61,9 @@ namespace Spedycja {
 
 					przebieg = sqlDataReader["Przebieg"]->ToString();
 					this->textBoxPrzebieg->Text = przebieg;
-					spalanieNaPusto = sqlDataReader["spalanie_na_pusto"]->ToString();
-					this->textBoxSpalanieBezLadunku->Text = spalanieNaPusto;
-					spalanieZLadunkiem = sqlDataReader["spalanie_z_ladunkiem"]->ToString();
-					this->textBoxSpalanieZLadunkiem->Text = spalanieZLadunkiem;
+					spalanie = sqlDataReader["spalanie"]->ToString();
+					this->textBoxSpalanie->Text = spalanie;
+					
 
 					DMC = sqlDataReader["DMC"]->ToString();
 					this->textBoxDMC->Text = DMC;
@@ -130,7 +128,9 @@ namespace Spedycja {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::TextBox^ textBoxSpalanieBezLadunku;
+private: System::Windows::Forms::TextBox^  textBoxSpalanie;
+protected:
+
 	protected:
 
 	protected:
@@ -158,10 +158,10 @@ namespace Spedycja {
 	private: System::Windows::Forms::Label^ labelEditKontrahent;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::ComboBox^ comboBoxLadunek;
-	private: System::Windows::Forms::TextBox^ textBoxSpalanieZLadunkiem;
 
 
-	private: System::Windows::Forms::Label^ label4;
+
+
 	private: System::Windows::Forms::TextBox^ textBoxObjetosc;
 
 	private: System::Windows::Forms::Label^ label9;
@@ -182,7 +182,7 @@ namespace Spedycja {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->textBoxSpalanieBezLadunku = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxSpalanie = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->textBoxDMC = (gcnew System::Windows::Forms::TextBox());
 			this->label7 = (gcnew System::Windows::Forms::Label());
@@ -201,41 +201,42 @@ namespace Spedycja {
 			this->labelEditKontrahent = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->comboBoxLadunek = (gcnew System::Windows::Forms::ComboBox());
-			this->textBoxSpalanieZLadunkiem = (gcnew System::Windows::Forms::TextBox());
-			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->textBoxObjetosc = (gcnew System::Windows::Forms::TextBox());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->textBoxIloscPalet = (gcnew System::Windows::Forms::TextBox());
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
-			// textBoxSpalanieBezLadunku
+			// textBoxSpalanie
 			// 
-			this->textBoxSpalanieBezLadunku->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->textBoxSpalanieBezLadunku->Location = System::Drawing::Point(237, 489);
-			this->textBoxSpalanieBezLadunku->Name = L"textBoxSpalanieBezLadunku";
-			this->textBoxSpalanieBezLadunku->Size = System::Drawing::Size(102, 26);
-			this->textBoxSpalanieBezLadunku->TabIndex = 10;
+			this->textBoxSpalanie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->textBoxSpalanie->Location = System::Drawing::Point(264, 262);
+			this->textBoxSpalanie->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->textBoxSpalanie->Name = L"textBoxSpalanie";
+			this->textBoxSpalanie->Size = System::Drawing::Size(135, 30);
+			this->textBoxSpalanie->TabIndex = 10;
 			// 
 			// label8
 			// 
 			this->label8->AutoSize = true;
 			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label8->Location = System::Drawing::Point(69, 492);
+			this->label8->Location = System::Drawing::Point(92, 267);
+			this->label8->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label8->Name = L"label8";
-			this->label8->Size = System::Drawing::Size(166, 20);
+			this->label8->Size = System::Drawing::Size(164, 25);
 			this->label8->TabIndex = 39;
-			this->label8->Text = L"Spalanie bez ładunku:";
+			this->label8->Text = L"Średnie spalanie:";
 			// 
 			// textBoxDMC
 			// 
 			this->textBoxDMC->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxDMC->Location = System::Drawing::Point(500, 330);
+			this->textBoxDMC->Location = System::Drawing::Point(667, 406);
+			this->textBoxDMC->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->textBoxDMC->Name = L"textBoxDMC";
-			this->textBoxDMC->Size = System::Drawing::Size(133, 26);
+			this->textBoxDMC->Size = System::Drawing::Size(176, 30);
 			this->textBoxDMC->TabIndex = 7;
 			// 
 			// label7
@@ -243,9 +244,10 @@ namespace Spedycja {
 			this->label7->AutoSize = true;
 			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label7->Location = System::Drawing::Point(414, 333);
+			this->label7->Location = System::Drawing::Point(552, 410);
+			this->label7->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(72, 20);
+			this->label7->Size = System::Drawing::Size(96, 25);
 			this->label7->TabIndex = 37;
 			this->label7->Text = L"DMC (T):";
 			// 
@@ -253,9 +255,10 @@ namespace Spedycja {
 			// 
 			this->textBoxPrzebieg->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxPrzebieg->Location = System::Drawing::Point(500, 162);
+			this->textBoxPrzebieg->Location = System::Drawing::Point(667, 199);
+			this->textBoxPrzebieg->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->textBoxPrzebieg->Name = L"textBoxPrzebieg";
-			this->textBoxPrzebieg->Size = System::Drawing::Size(207, 26);
+			this->textBoxPrzebieg->Size = System::Drawing::Size(275, 30);
 			this->textBoxPrzebieg->TabIndex = 4;
 			// 
 			// label6
@@ -263,9 +266,10 @@ namespace Spedycja {
 			this->label6->AutoSize = true;
 			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label6->Location = System::Drawing::Point(419, 165);
+			this->label6->Location = System::Drawing::Point(559, 203);
+			this->label6->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(75, 20);
+			this->label6->Size = System::Drawing::Size(95, 25);
 			this->label6->TabIndex = 35;
 			this->label6->Text = L"Przebieg:";
 			// 
@@ -273,9 +277,10 @@ namespace Spedycja {
 			// 
 			this->textBoxNrRej->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxNrRej->Location = System::Drawing::Point(204, 162);
+			this->textBoxNrRej->Location = System::Drawing::Point(264, 199);
+			this->textBoxNrRej->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->textBoxNrRej->Name = L"textBoxNrRej";
-			this->textBoxNrRej->Size = System::Drawing::Size(135, 26);
+			this->textBoxNrRej->Size = System::Drawing::Size(187, 30);
 			this->textBoxNrRej->TabIndex = 3;
 			// 
 			// label5
@@ -283,9 +288,10 @@ namespace Spedycja {
 			this->label5->AutoSize = true;
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label5->Location = System::Drawing::Point(69, 165);
+			this->label5->Location = System::Drawing::Point(92, 203);
+			this->label5->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(120, 20);
+			this->label5->Size = System::Drawing::Size(152, 25);
 			this->label5->TabIndex = 33;
 			this->label5->Text = L"Nr rejestracyjny:";
 			// 
@@ -293,18 +299,20 @@ namespace Spedycja {
 			// 
 			this->textBoxLadownosc->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxLadownosc->Location = System::Drawing::Point(204, 327);
+			this->textBoxLadownosc->Location = System::Drawing::Point(272, 402);
+			this->textBoxLadownosc->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->textBoxLadownosc->Name = L"textBoxLadownosc";
-			this->textBoxLadownosc->Size = System::Drawing::Size(135, 26);
+			this->textBoxLadownosc->Size = System::Drawing::Size(179, 30);
 			this->textBoxLadownosc->TabIndex = 6;
 			// 
 			// textBoxModel
 			// 
 			this->textBoxModel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxModel->Location = System::Drawing::Point(500, 115);
+			this->textBoxModel->Location = System::Drawing::Point(667, 142);
+			this->textBoxModel->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->textBoxModel->Name = L"textBoxModel";
-			this->textBoxModel->Size = System::Drawing::Size(207, 26);
+			this->textBoxModel->Size = System::Drawing::Size(275, 30);
 			this->textBoxModel->TabIndex = 2;
 			// 
 			// label3
@@ -312,9 +320,10 @@ namespace Spedycja {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label3->Location = System::Drawing::Point(69, 330);
+			this->label3->Location = System::Drawing::Point(92, 406);
+			this->label3->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(117, 20);
+			this->label3->Size = System::Drawing::Size(150, 25);
 			this->label3->TabIndex = 30;
 			this->label3->Text = L"Ładowność (T):";
 			// 
@@ -323,9 +332,10 @@ namespace Spedycja {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label1->Location = System::Drawing::Point(438, 118);
+			this->label1->Location = System::Drawing::Point(584, 145);
+			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(56, 20);
+			this->label1->Size = System::Drawing::Size(72, 25);
 			this->label1->TabIndex = 29;
 			this->label1->Text = L"Model:";
 			// 
@@ -333,18 +343,20 @@ namespace Spedycja {
 			// 
 			this->textBoxMarka->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxMarka->Location = System::Drawing::Point(132, 115);
+			this->textBoxMarka->Location = System::Drawing::Point(176, 142);
+			this->textBoxMarka->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->textBoxMarka->Name = L"textBoxMarka";
-			this->textBoxMarka->Size = System::Drawing::Size(207, 26);
+			this->textBoxMarka->Size = System::Drawing::Size(275, 30);
 			this->textBoxMarka->TabIndex = 1;
 			// 
 			// btnAnuluj
 			// 
 			this->btnAnuluj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnAnuluj->Location = System::Drawing::Point(191, 589);
+			this->btnAnuluj->Location = System::Drawing::Point(564, 595);
+			this->btnAnuluj->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btnAnuluj->Name = L"btnAnuluj";
-			this->btnAnuluj->Size = System::Drawing::Size(87, 34);
+			this->btnAnuluj->Size = System::Drawing::Size(116, 42);
 			this->btnAnuluj->TabIndex = 13;
 			this->btnAnuluj->Text = L"Anuluj";
 			this->btnAnuluj->UseVisualStyleBackColor = true;
@@ -354,9 +366,10 @@ namespace Spedycja {
 			// 
 			this->btnZatwierdz->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnZatwierdz->Location = System::Drawing::Point(73, 589);
+			this->btnZatwierdz->Location = System::Drawing::Point(406, 595);
+			this->btnZatwierdz->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btnZatwierdz->Name = L"btnZatwierdz";
-			this->btnZatwierdz->Size = System::Drawing::Size(98, 34);
+			this->btnZatwierdz->Size = System::Drawing::Size(131, 42);
 			this->btnZatwierdz->TabIndex = 12;
 			this->btnZatwierdz->Text = L"Zatwierdź";
 			this->btnZatwierdz->UseVisualStyleBackColor = true;
@@ -367,9 +380,10 @@ namespace Spedycja {
 			this->labelNazwa->AutoSize = true;
 			this->labelNazwa->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelNazwa->Location = System::Drawing::Point(69, 118);
+			this->labelNazwa->Location = System::Drawing::Point(92, 145);
+			this->labelNazwa->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->labelNazwa->Name = L"labelNazwa";
-			this->labelNazwa->Size = System::Drawing::Size(57, 20);
+			this->labelNazwa->Size = System::Drawing::Size(73, 25);
 			this->labelNazwa->TabIndex = 25;
 			this->labelNazwa->Text = L"Marka:";
 			// 
@@ -378,9 +392,10 @@ namespace Spedycja {
 			this->labelEditKontrahent->AutoSize = true;
 			this->labelEditKontrahent->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->labelEditKontrahent->Location = System::Drawing::Point(307, 35);
+			this->labelEditKontrahent->Location = System::Drawing::Point(409, 43);
+			this->labelEditKontrahent->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->labelEditKontrahent->Name = L"labelEditKontrahent";
-			this->labelEditKontrahent->Size = System::Drawing::Size(192, 24);
+			this->labelEditKontrahent->Size = System::Drawing::Size(244, 29);
 			this->labelEditKontrahent->TabIndex = 24;
 			this->labelEditKontrahent->Text = L"Poprawa Samochodu";
 			// 
@@ -389,9 +404,10 @@ namespace Spedycja {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label2->Location = System::Drawing::Point(69, 277);
+			this->label2->Location = System::Drawing::Point(92, 341);
+			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(209, 20);
+			this->label2->Size = System::Drawing::Size(264, 25);
 			this->label2->TabIndex = 41;
 			this->label2->Text = L"Typ ładunku/rodzaj naczepy:";
 			// 
@@ -400,38 +416,20 @@ namespace Spedycja {
 			this->comboBoxLadunek->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->comboBoxLadunek->FormattingEnabled = true;
-			this->comboBoxLadunek->Location = System::Drawing::Point(293, 277);
+			this->comboBoxLadunek->Location = System::Drawing::Point(391, 341);
+			this->comboBoxLadunek->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->comboBoxLadunek->Name = L"comboBoxLadunek";
-			this->comboBoxLadunek->Size = System::Drawing::Size(293, 28);
+			this->comboBoxLadunek->Size = System::Drawing::Size(389, 33);
 			this->comboBoxLadunek->TabIndex = 5;
-			// 
-			// textBoxSpalanieZLadunkiem
-			// 
-			this->textBoxSpalanieZLadunkiem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->textBoxSpalanieZLadunkiem->Location = System::Drawing::Point(564, 489);
-			this->textBoxSpalanieZLadunkiem->Name = L"textBoxSpalanieZLadunkiem";
-			this->textBoxSpalanieZLadunkiem->Size = System::Drawing::Size(133, 26);
-			this->textBoxSpalanieZLadunkiem->TabIndex = 11;
-			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(238)));
-			this->label4->Location = System::Drawing::Point(396, 492);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(164, 20);
-			this->label4->TabIndex = 43;
-			this->label4->Text = L"Spalanie z ładunkiem:";
 			// 
 			// textBoxObjetosc
 			// 
 			this->textBoxObjetosc->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxObjetosc->Location = System::Drawing::Point(500, 384);
+			this->textBoxObjetosc->Location = System::Drawing::Point(667, 473);
+			this->textBoxObjetosc->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->textBoxObjetosc->Name = L"textBoxObjetosc";
-			this->textBoxObjetosc->Size = System::Drawing::Size(133, 26);
+			this->textBoxObjetosc->Size = System::Drawing::Size(176, 30);
 			this->textBoxObjetosc->TabIndex = 9;
 			// 
 			// label9
@@ -439,9 +437,10 @@ namespace Spedycja {
 			this->label9->AutoSize = true;
 			this->label9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label9->Location = System::Drawing::Point(410, 390);
+			this->label9->Location = System::Drawing::Point(547, 480);
+			this->label9->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(76, 20);
+			this->label9->Size = System::Drawing::Size(96, 25);
 			this->label9->TabIndex = 47;
 			this->label9->Text = L"Objętość:";
 			// 
@@ -449,9 +448,10 @@ namespace Spedycja {
 			// 
 			this->textBoxIloscPalet->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBoxIloscPalet->Location = System::Drawing::Point(204, 387);
+			this->textBoxIloscPalet->Location = System::Drawing::Point(272, 476);
+			this->textBoxIloscPalet->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->textBoxIloscPalet->Name = L"textBoxIloscPalet";
-			this->textBoxIloscPalet->Size = System::Drawing::Size(135, 26);
+			this->textBoxIloscPalet->Size = System::Drawing::Size(179, 30);
 			this->textBoxIloscPalet->TabIndex = 8;
 			// 
 			// label10
@@ -459,26 +459,25 @@ namespace Spedycja {
 			this->label10->AutoSize = true;
 			this->label10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label10->Location = System::Drawing::Point(69, 390);
+			this->label10->Location = System::Drawing::Point(92, 480);
+			this->label10->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(85, 20);
+			this->label10->Size = System::Drawing::Size(105, 25);
 			this->label10->TabIndex = 45;
 			this->label10->Text = L"Ilość palet:";
 			// 
 			// EdytujSamochodForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(812, 678);
+			this->ClientSize = System::Drawing::Size(1083, 663);
 			this->Controls->Add(this->textBoxObjetosc);
 			this->Controls->Add(this->label9);
 			this->Controls->Add(this->textBoxIloscPalet);
 			this->Controls->Add(this->label10);
-			this->Controls->Add(this->textBoxSpalanieZLadunkiem);
-			this->Controls->Add(this->label4);
 			this->Controls->Add(this->comboBoxLadunek);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->textBoxSpalanieBezLadunku);
+			this->Controls->Add(this->textBoxSpalanie);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->textBoxDMC);
 			this->Controls->Add(this->label7);
@@ -495,6 +494,7 @@ namespace Spedycja {
 			this->Controls->Add(this->btnZatwierdz);
 			this->Controls->Add(this->labelNazwa);
 			this->Controls->Add(this->labelEditKontrahent);
+			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Name = L"EdytujSamochodForm";
 			this->Text = L"EdytujSamochodForm";
 			this->ResumeLayout(false);
@@ -512,8 +512,7 @@ private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventAr
 	nrRejestracyjny = this->textBoxNrRej->Text;
 	ladownosc = this->textBoxLadownosc->Text;
 	przebieg = this->textBoxPrzebieg->Text;
-	spalanieNaPusto = this->textBoxSpalanieBezLadunku->Text;
-	spalanieZLadunkiem = this->textBoxSpalanieZLadunkiem->Text;
+	spalanie = this->textBoxSpalanie->Text;
 	DMC = this->textBoxDMC->Text;
 	iloscPalet = this->textBoxIloscPalet->Text;
 	objetosc = this->textBoxObjetosc->Text;
@@ -524,7 +523,7 @@ private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventAr
 	//int intIdLadunku;
 	String^ sqlString;
 
-	if ((marka == "") || (model == "") || (nrRejestracyjny == "") || (ladownosc == "") || (przebieg == "") || (spalanieNaPusto == "") || (spalanieZLadunkiem == "") || (DMC == "") || (iloscPalet == "") || (objetosc == "") || (idLadunku == 0))
+	if ((marka == "") || (model == "") || (nrRejestracyjny == "") || (ladownosc == "") || (przebieg == "") || (spalanie == "") ||  (DMC == "") || (iloscPalet == "") || (objetosc == "") || (idLadunku == 0))
 	{
 		MessageBox::Show("Wypełnij wszystkie pola");
 	}
@@ -533,12 +532,12 @@ private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventAr
 
 		if (idSamochodu == 0) //dodanie nowego rekordu do tabeli Samochod
 		{
-			sqlString = "insert into dbo.Samochody(marka,model,nr_rejestracyjny,ladownosc,przebieg,spalanie_na_pusto,spalanie_z_ladunkiem,DMC,ilosc_palet,objetosc,idLadunku) " +
-				"values(@marka, @model, @nrRejestracyjny, @ladownosc, @przebieg, @spalanieNaPusto,@spalanieZLadunkiem,@DMC,@iloscPalet,@objetosc,@idLadunku); ";
+			sqlString = "insert into dbo.Samochody(marka,model,nr_rejestracyjny,ladownosc,przebieg,spalanie,DMC,ilosc_palet,objetosc,idLadunku) " +
+				"values(@marka, @model, @nrRejestracyjny, @ladownosc, @przebieg, @spalanie,@DMC,@iloscPalet,@objetosc,@idLadunku); ";
 		}
 		else { //edycja rekordu tabeli Samochod
 			sqlString = "update dbo.Samochody set marka = @marka, model = @model, nr_rejestracyjny = @nrRejestracyjny, ladownosc = @ladownosc, przebieg = @przebieg, " +
-				"spalanie_na_pusto = @spalanieNaPusto, spalanie_z_ladunkiem = @spalanieZLadunkiem, DMC = @DMC, ilosc_palet = @iloscPalet,objetosc=@objetosc,idLadunku=@idLadunku " +
+				"spalanie = @spalanie,  DMC = @DMC, ilosc_palet = @iloscPalet,objetosc=@objetosc,idLadunku=@idLadunku " +
 				"where ID = @idSamochodu ;";
 		}
 
@@ -551,8 +550,7 @@ private: System::Void btnZatwierdz_Click(System::Object^ sender, System::EventAr
 			sqlCommand->Parameters->Add("@nr_rejestracyjny", nrRejestracyjny);
 			sqlCommand->Parameters->Add("@ladownosc", ladownosc);
 			sqlCommand->Parameters->Add("@przebieg", przebieg);
-			sqlCommand->Parameters->Add("@spalanieNaPusto", spalanieNaPusto);
-			sqlCommand->Parameters->Add("@spalanieZLadunkiem", spalanieZLadunkiem);
+			sqlCommand->Parameters->Add("@spalanie", spalanie);
 			sqlCommand->Parameters->Add("@DMC", DMC);
 			sqlCommand->Parameters->Add("@iloscPalet", iloscPalet);
 			sqlCommand->Parameters->Add("@objetosc", objetosc);

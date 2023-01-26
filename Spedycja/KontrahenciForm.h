@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "EdytujKontrahentaForm.h"
+#include "ZestawienieKontrahentowForm.h"
 
 namespace Spedycja {
 
@@ -50,6 +51,7 @@ namespace Spedycja {
 	private: System::Windows::Forms::Label^ labelKontrahenci;
 	private: System::Windows::Forms::Button^ btnEdytujKontrahenta;
 	private: System::Windows::Forms::Button^ btnUsunKontrahenta;
+	private: System::Windows::Forms::Button^  btnZestawienie;
 
 
 	private:
@@ -70,6 +72,7 @@ namespace Spedycja {
 			this->labelKontrahenci = (gcnew System::Windows::Forms::Label());
 			this->btnEdytujKontrahenta = (gcnew System::Windows::Forms::Button());
 			this->btnUsunKontrahenta = (gcnew System::Windows::Forms::Button());
+			this->btnZestawienie = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewKontrahenci))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -77,21 +80,24 @@ namespace Spedycja {
 			// 
 			this->dataGridViewKontrahenci->AllowUserToAddRows = false;
 			this->dataGridViewKontrahenci->AllowUserToDeleteRows = false;
+			this->dataGridViewKontrahenci->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 			this->dataGridViewKontrahenci->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridViewKontrahenci->Location = System::Drawing::Point(59, 84);
+			this->dataGridViewKontrahenci->Location = System::Drawing::Point(79, 103);
+			this->dataGridViewKontrahenci->Margin = System::Windows::Forms::Padding(4);
 			this->dataGridViewKontrahenci->Name = L"dataGridViewKontrahenci";
 			this->dataGridViewKontrahenci->ReadOnly = true;
 			this->dataGridViewKontrahenci->RowHeadersVisible = false;
-			this->dataGridViewKontrahenci->Size = System::Drawing::Size(855, 228);
+			this->dataGridViewKontrahenci->Size = System::Drawing::Size(1140, 281);
 			this->dataGridViewKontrahenci->TabIndex = 0;
 			// 
 			// btnDodajKontrahenta
 			// 
 			this->btnDodajKontrahenta->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->btnDodajKontrahenta->Location = System::Drawing::Point(59, 355);
+			this->btnDodajKontrahenta->Location = System::Drawing::Point(79, 437);
+			this->btnDodajKontrahenta->Margin = System::Windows::Forms::Padding(4);
 			this->btnDodajKontrahenta->Name = L"btnDodajKontrahenta";
-			this->btnDodajKontrahenta->Size = System::Drawing::Size(87, 34);
+			this->btnDodajKontrahenta->Size = System::Drawing::Size(116, 42);
 			this->btnDodajKontrahenta->TabIndex = 1;
 			this->btnDodajKontrahenta->Text = L"Dodaj";
 			this->btnDodajKontrahenta->UseVisualStyleBackColor = true;
@@ -102,9 +108,10 @@ namespace Spedycja {
 			this->labelKontrahenci->AutoSize = true;
 			this->labelKontrahenci->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelKontrahenci->Location = System::Drawing::Point(59, 31);
+			this->labelKontrahenci->Location = System::Drawing::Point(79, 38);
+			this->labelKontrahenci->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->labelKontrahenci->Name = L"labelKontrahenci";
-			this->labelKontrahenci->Size = System::Drawing::Size(111, 24);
+			this->labelKontrahenci->Size = System::Drawing::Size(141, 29);
 			this->labelKontrahenci->TabIndex = 2;
 			this->labelKontrahenci->Text = L"Kontrahenci";
 			// 
@@ -112,9 +119,10 @@ namespace Spedycja {
 			// 
 			this->btnEdytujKontrahenta->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->btnEdytujKontrahenta->Location = System::Drawing::Point(183, 355);
+			this->btnEdytujKontrahenta->Location = System::Drawing::Point(244, 437);
+			this->btnEdytujKontrahenta->Margin = System::Windows::Forms::Padding(4);
 			this->btnEdytujKontrahenta->Name = L"btnEdytujKontrahenta";
-			this->btnEdytujKontrahenta->Size = System::Drawing::Size(87, 34);
+			this->btnEdytujKontrahenta->Size = System::Drawing::Size(116, 42);
 			this->btnEdytujKontrahenta->TabIndex = 1;
 			this->btnEdytujKontrahenta->Text = L"Popraw";
 			this->btnEdytujKontrahenta->UseVisualStyleBackColor = true;
@@ -124,24 +132,40 @@ namespace Spedycja {
 			// 
 			this->btnUsunKontrahenta->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnUsunKontrahenta->Location = System::Drawing::Point(298, 355);
+			this->btnUsunKontrahenta->Location = System::Drawing::Point(397, 437);
+			this->btnUsunKontrahenta->Margin = System::Windows::Forms::Padding(4);
 			this->btnUsunKontrahenta->Name = L"btnUsunKontrahenta";
-			this->btnUsunKontrahenta->Size = System::Drawing::Size(87, 34);
+			this->btnUsunKontrahenta->Size = System::Drawing::Size(116, 42);
 			this->btnUsunKontrahenta->TabIndex = 1;
 			this->btnUsunKontrahenta->Text = L"Usuń";
 			this->btnUsunKontrahenta->UseVisualStyleBackColor = true;
 			this->btnUsunKontrahenta->Click += gcnew System::EventHandler(this, &KontrahenciForm::btnUsunKontrahenta_Click);
 			// 
+			// btnZestawienie
+			// 
+			this->btnZestawienie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->btnZestawienie->Location = System::Drawing::Point(975, 437);
+			this->btnZestawienie->Margin = System::Windows::Forms::Padding(4);
+			this->btnZestawienie->Name = L"btnZestawienie";
+			this->btnZestawienie->Size = System::Drawing::Size(244, 42);
+			this->btnZestawienie->TabIndex = 3;
+			this->btnZestawienie->Text = L"Zestawienie";
+			this->btnZestawienie->UseVisualStyleBackColor = true;
+			this->btnZestawienie->Click += gcnew System::EventHandler(this, &KontrahenciForm::btnZestawienie_Click);
+			// 
 			// KontrahenciForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(976, 419);
+			this->ClientSize = System::Drawing::Size(1301, 516);
+			this->Controls->Add(this->btnZestawienie);
 			this->Controls->Add(this->labelKontrahenci);
 			this->Controls->Add(this->btnUsunKontrahenta);
 			this->Controls->Add(this->btnEdytujKontrahenta);
 			this->Controls->Add(this->btnDodajKontrahenta);
 			this->Controls->Add(this->dataGridViewKontrahenci);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"KontrahenciForm";
 			this->Text = L"Kontrahenci";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewKontrahenci))->EndInit();
@@ -233,6 +257,10 @@ private: System::Void btnUsunKontrahenta_Click(System::Object^ sender, System::E
 			this->generateView();
 		}
 	}
+}
+private: System::Void btnZestawienie_Click(System::Object^  sender, System::EventArgs^  e) {
+	ZestawienieKontrahentowForm^ zestawienieKontrahentowForm = gcnew ZestawienieKontrahentowForm(connectionString);
+	zestawienieKontrahentowForm->ShowDialog();
 }
 };
 }

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "EdytujSamochodForm.h"
+#include "ZestawienieSamochodowForm.h"
 
 namespace Spedycja {
 
@@ -46,6 +47,7 @@ namespace Spedycja {
 	private: System::Windows::Forms::Button^ btnEdytuj;
 	private: System::Windows::Forms::Button^ btnDodaj;
 	private: System::Windows::Forms::DataGridView^ dataGridViewSamochody;
+	private: System::Windows::Forms::Button^  btnZestawienie;
 
 	private:
 		/// <summary>
@@ -65,6 +67,7 @@ namespace Spedycja {
 			this->btnEdytuj = (gcnew System::Windows::Forms::Button());
 			this->btnDodaj = (gcnew System::Windows::Forms::Button());
 			this->dataGridViewSamochody = (gcnew System::Windows::Forms::DataGridView());
+			this->btnZestawienie = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewSamochody))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -73,9 +76,10 @@ namespace Spedycja {
 			this->labelSamochody->AutoSize = true;
 			this->labelSamochody->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelSamochody->Location = System::Drawing::Point(40, 66);
+			this->labelSamochody->Location = System::Drawing::Point(53, 81);
+			this->labelSamochody->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->labelSamochody->Name = L"labelSamochody";
-			this->labelSamochody->Size = System::Drawing::Size(111, 24);
+			this->labelSamochody->Size = System::Drawing::Size(140, 29);
 			this->labelSamochody->TabIndex = 12;
 			this->labelSamochody->Text = L"Samochody";
 			// 
@@ -83,9 +87,10 @@ namespace Spedycja {
 			// 
 			this->btnUsun->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnUsun->Location = System::Drawing::Point(294, 397);
+			this->btnUsun->Location = System::Drawing::Point(392, 489);
+			this->btnUsun->Margin = System::Windows::Forms::Padding(4);
 			this->btnUsun->Name = L"btnUsun";
-			this->btnUsun->Size = System::Drawing::Size(87, 34);
+			this->btnUsun->Size = System::Drawing::Size(116, 42);
 			this->btnUsun->TabIndex = 9;
 			this->btnUsun->Text = L"Usuń";
 			this->btnUsun->UseVisualStyleBackColor = true;
@@ -95,9 +100,10 @@ namespace Spedycja {
 			// 
 			this->btnEdytuj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnEdytuj->Location = System::Drawing::Point(179, 397);
+			this->btnEdytuj->Location = System::Drawing::Point(239, 489);
+			this->btnEdytuj->Margin = System::Windows::Forms::Padding(4);
 			this->btnEdytuj->Name = L"btnEdytuj";
-			this->btnEdytuj->Size = System::Drawing::Size(87, 34);
+			this->btnEdytuj->Size = System::Drawing::Size(116, 42);
 			this->btnEdytuj->TabIndex = 10;
 			this->btnEdytuj->Text = L"Popraw";
 			this->btnEdytuj->UseVisualStyleBackColor = true;
@@ -107,9 +113,10 @@ namespace Spedycja {
 			// 
 			this->btnDodaj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnDodaj->Location = System::Drawing::Point(55, 397);
+			this->btnDodaj->Location = System::Drawing::Point(73, 489);
+			this->btnDodaj->Margin = System::Windows::Forms::Padding(4);
 			this->btnDodaj->Name = L"btnDodaj";
-			this->btnDodaj->Size = System::Drawing::Size(87, 34);
+			this->btnDodaj->Size = System::Drawing::Size(116, 42);
 			this->btnDodaj->TabIndex = 11;
 			this->btnDodaj->Text = L"Dodaj";
 			this->btnDodaj->UseVisualStyleBackColor = true;
@@ -119,24 +126,41 @@ namespace Spedycja {
 			// 
 			this->dataGridViewSamochody->AllowUserToAddRows = false;
 			this->dataGridViewSamochody->AllowUserToDeleteRows = false;
+			this->dataGridViewSamochody->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 			this->dataGridViewSamochody->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridViewSamochody->Location = System::Drawing::Point(31, 124);
+			this->dataGridViewSamochody->Location = System::Drawing::Point(41, 153);
+			this->dataGridViewSamochody->Margin = System::Windows::Forms::Padding(4);
 			this->dataGridViewSamochody->Name = L"dataGridViewSamochody";
 			this->dataGridViewSamochody->ReadOnly = true;
 			this->dataGridViewSamochody->RowHeadersVisible = false;
-			this->dataGridViewSamochody->Size = System::Drawing::Size(1111, 228);
+			this->dataGridViewSamochody->Size = System::Drawing::Size(1481, 281);
 			this->dataGridViewSamochody->TabIndex = 8;
+			// 
+			// btnZestawienie
+			// 
+			this->btnZestawienie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->btnZestawienie->Location = System::Drawing::Point(1278, 489);
+			this->btnZestawienie->Margin = System::Windows::Forms::Padding(4);
+			this->btnZestawienie->Name = L"btnZestawienie";
+			this->btnZestawienie->Size = System::Drawing::Size(244, 42);
+			this->btnZestawienie->TabIndex = 13;
+			this->btnZestawienie->Text = L"Zestawienie";
+			this->btnZestawienie->UseVisualStyleBackColor = true;
+			this->btnZestawienie->Click += gcnew System::EventHandler(this, &SamochodyForm::btnZestawienie_Click);
 			// 
 			// SamochodyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1253, 517);
+			this->ClientSize = System::Drawing::Size(1671, 636);
+			this->Controls->Add(this->btnZestawienie);
 			this->Controls->Add(this->labelSamochody);
 			this->Controls->Add(this->btnUsun);
 			this->Controls->Add(this->btnEdytuj);
 			this->Controls->Add(this->btnDodaj);
 			this->Controls->Add(this->dataGridViewSamochody);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"SamochodyForm";
 			this->Text = L"SamochodyForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewSamochody))->EndInit();
@@ -153,7 +177,7 @@ namespace Spedycja {
 			try
 			{
 				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-				String^ sqlString = "select s.ID, s.Marka, s.Model, s.Nr_rejestracyjny as 'Numer rejestracyjny', l.Nazwa, s.Ladownosc, s.Przebieg,  s.Spalanie_na_pusto as 'Spalanie bez ladunku', s.Spalanie_z_ladunkiem as 'Spalanie z ladunkiem', s.Ilosc_palet as 'Ilość palet', s.Objetosc " +
+				String^ sqlString = "select s.ID, s.Marka, s.Model, s.Nr_rejestracyjny as 'Numer rejestracyjny', l.Nazwa, s.Ladownosc, s.Przebieg,  s.Spalanie, s.Ilosc_palet as 'Ilość palet', s.Objetosc " +
 					"from dbo.Samochody s, dbo.Ladunki l where s.idLadunku = l.id; ";
 				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
 
@@ -170,7 +194,7 @@ namespace Spedycja {
 				dataGridViewSamochody->DataSource = dataTable;
 				sqlDataAdapter->Update(dataTable);
 
-				//chowa kolumn� ID w dataGridView
+				//chowa kolumne ID w dataGridView
 				this->dataGridViewSamochody->Columns["ID"]->Visible = false;
 			}
 			catch (Exception^ ex)
@@ -224,6 +248,10 @@ private: System::Void btnUsun_Click(System::Object^ sender, System::EventArgs^ e
 			this->generateView();
 		}
 	}
+}
+private: System::Void btnZestawienie_Click(System::Object^  sender, System::EventArgs^  e) {
+	ZestawienieSamochodowForm^ zestawienieSamochodowForm = gcnew ZestawienieSamochodowForm(connectionString);
+	zestawienieSamochodowForm->ShowDialog();
 }
 };
 }

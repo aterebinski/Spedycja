@@ -40,9 +40,9 @@ namespace Spedycja {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^ btnWykonaj;
+
 	protected:
-	private: System::Windows::Forms::Button^ btnRezerwuj;
+
 	private: System::Windows::Forms::Label^ labelZlecenia;
 	private: System::Windows::Forms::Button^ btnUsun;
 	private: System::Windows::Forms::Button^ btnEdytuj;
@@ -63,8 +63,6 @@ namespace Spedycja {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->btnWykonaj = (gcnew System::Windows::Forms::Button());
-			this->btnRezerwuj = (gcnew System::Windows::Forms::Button());
 			this->labelZlecenia = (gcnew System::Windows::Forms::Label());
 			this->btnUsun = (gcnew System::Windows::Forms::Button());
 			this->btnEdytuj = (gcnew System::Windows::Forms::Button());
@@ -73,36 +71,15 @@ namespace Spedycja {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewTrasy))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// btnWykonaj
-			// 
-			this->btnWykonaj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(238)));
-			this->btnWykonaj->Location = System::Drawing::Point(682, 505);
-			this->btnWykonaj->Name = L"btnWykonaj";
-			this->btnWykonaj->Size = System::Drawing::Size(87, 34);
-			this->btnWykonaj->TabIndex = 26;
-			this->btnWykonaj->Text = L"Usuń";
-			this->btnWykonaj->UseVisualStyleBackColor = true;
-			// 
-			// btnRezerwuj
-			// 
-			this->btnRezerwuj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(238)));
-			this->btnRezerwuj->Location = System::Drawing::Point(436, 505);
-			this->btnRezerwuj->Name = L"btnRezerwuj";
-			this->btnRezerwuj->Size = System::Drawing::Size(241, 34);
-			this->btnRezerwuj->TabIndex = 25;
-			this->btnRezerwuj->Text = L"Rezerwuj kierowcę/samochód";
-			this->btnRezerwuj->UseVisualStyleBackColor = true;
-			// 
 			// labelZlecenia
 			// 
 			this->labelZlecenia->AutoSize = true;
 			this->labelZlecenia->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->labelZlecenia->Location = System::Drawing::Point(37, 38);
+			this->labelZlecenia->Location = System::Drawing::Point(49, 47);
+			this->labelZlecenia->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->labelZlecenia->Name = L"labelZlecenia";
-			this->labelZlecenia->Size = System::Drawing::Size(56, 24);
+			this->labelZlecenia->Size = System::Drawing::Size(73, 29);
 			this->labelZlecenia->TabIndex = 24;
 			this->labelZlecenia->Text = L"Trasy";
 			// 
@@ -110,9 +87,10 @@ namespace Spedycja {
 			// 
 			this->btnUsun->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnUsun->Location = System::Drawing::Point(227, 505);
+			this->btnUsun->Location = System::Drawing::Point(303, 622);
+			this->btnUsun->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btnUsun->Name = L"btnUsun";
-			this->btnUsun->Size = System::Drawing::Size(87, 34);
+			this->btnUsun->Size = System::Drawing::Size(116, 42);
 			this->btnUsun->TabIndex = 21;
 			this->btnUsun->Text = L"Usuń";
 			this->btnUsun->UseVisualStyleBackColor = true;
@@ -122,9 +100,10 @@ namespace Spedycja {
 			// 
 			this->btnEdytuj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnEdytuj->Location = System::Drawing::Point(134, 505);
+			this->btnEdytuj->Location = System::Drawing::Point(179, 622);
+			this->btnEdytuj->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btnEdytuj->Name = L"btnEdytuj";
-			this->btnEdytuj->Size = System::Drawing::Size(87, 34);
+			this->btnEdytuj->Size = System::Drawing::Size(116, 42);
 			this->btnEdytuj->TabIndex = 22;
 			this->btnEdytuj->Text = L"Popraw";
 			this->btnEdytuj->UseVisualStyleBackColor = true;
@@ -134,9 +113,10 @@ namespace Spedycja {
 			// 
 			this->btnDodaj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnDodaj->Location = System::Drawing::Point(41, 505);
+			this->btnDodaj->Location = System::Drawing::Point(55, 622);
+			this->btnDodaj->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btnDodaj->Name = L"btnDodaj";
-			this->btnDodaj->Size = System::Drawing::Size(87, 34);
+			this->btnDodaj->Size = System::Drawing::Size(116, 42);
 			this->btnDodaj->TabIndex = 23;
 			this->btnDodaj->Text = L"Dodaj";
 			this->btnDodaj->UseVisualStyleBackColor = true;
@@ -146,26 +126,27 @@ namespace Spedycja {
 			// 
 			this->dataGridViewTrasy->AllowUserToAddRows = false;
 			this->dataGridViewTrasy->AllowUserToDeleteRows = false;
+			this->dataGridViewTrasy->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 			this->dataGridViewTrasy->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridViewTrasy->Location = System::Drawing::Point(41, 91);
+			this->dataGridViewTrasy->Location = System::Drawing::Point(55, 112);
+			this->dataGridViewTrasy->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->dataGridViewTrasy->Name = L"dataGridViewTrasy";
 			this->dataGridViewTrasy->ReadOnly = true;
 			this->dataGridViewTrasy->RowHeadersVisible = false;
-			this->dataGridViewTrasy->Size = System::Drawing::Size(1041, 374);
+			this->dataGridViewTrasy->Size = System::Drawing::Size(1388, 460);
 			this->dataGridViewTrasy->TabIndex = 20;
 			// 
 			// TrasyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1130, 571);
-			this->Controls->Add(this->btnWykonaj);
-			this->Controls->Add(this->btnRezerwuj);
+			this->ClientSize = System::Drawing::Size(1507, 703);
 			this->Controls->Add(this->labelZlecenia);
 			this->Controls->Add(this->btnUsun);
 			this->Controls->Add(this->btnEdytuj);
 			this->Controls->Add(this->btnDodaj);
 			this->Controls->Add(this->dataGridViewTrasy);
+			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Name = L"TrasyForm";
 			this->Text = L"TrasyForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewTrasy))->EndInit();

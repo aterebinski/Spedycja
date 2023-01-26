@@ -124,7 +124,7 @@ namespace Spedycja {
 				sqlDataReader->Close();
 
 				//combobox Samochody
-				sqlCommand = gcnew SqlCommand("select id, concat(marka,' ',model,' -- ', nr_rejestracyjny) as Samochod from dbo.Samochody", sqlConnection);
+				sqlCommand = gcnew SqlCommand("select s.id, concat(s.marka,' ',s.model,' -- ', s.nr_rejestracyjny,' -- ',l.nazwa) as Samochod from dbo.Samochody s, Ladunki l where s.idLadunku = l.id", sqlConnection);
 				sqlDataReader = sqlCommand->ExecuteReader();
 				while (sqlDataReader->Read()) {
 					tempId = (int)sqlDataReader["ID"];
@@ -466,13 +466,13 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 		else {
 			//intIdLadunku = Convert::ToInt32(idLadunku);
 
-			if (idTrasy == 0) //dodanie nowego rekordu do tabeli Samochod
+			if (idTrasy == 0) //dodanie nowego rekordu do tabeli
 			{
 				sqlString = "INSERT INTO dbo.Trasy (idZlecenia, idKierowcy, idSamochodu, status, kilometry, data_wykonania, koszt_paliwa) " +
 					"VALUES(@idZlecenia, @idKierowcy, @idSamochodu, @status, @kilometry, @data_wykonania, @koszt_paliwa)";
 					
 			}
-			else { //edycja rekordu tabeli Samochod
+			else { //edycja rekordu tabeli 
 				sqlString = "UPDATE dbo.Trasy SET idZlecenia = @idZlecenia, idKierowcy = @idKierowcy, idSamochodu = @idSamochodu, status = @status, kilometry = @kilometry, data_wykonania = @data_wykonania, koszt_paliwa = @koszt_paliwa " +
 					"WHERE id = @idTrasy;";
 			}
@@ -484,18 +484,30 @@ private: System::Windows::Forms::DateTimePicker^ dateTimeDataWykonania;
 				sqlConnection->Open();
 
 				SqlCommand^ sqlCommand;
+				SqlDataReader^ sqlDataReader;
 
+				//pobieranie ceny paliwa z konfiguracji programu
 				sqlCommand = gcnew SqlCommand("select * from dbo.Konfiguracja", sqlConnection);
-				SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+				sqlDataReader = sqlCommand->ExecuteReader();
 				sqlDataReader->Read();
 				double cenaPaliwa = (double)sqlDataReader["cena_paliwa"];
-				
 				sqlDataReader->Close();
 
-				double kosztyPaliwa = cenaPaliwa * kilometry;
+				//pobieranie spalania konkretnego samochodu
+				sqlCommand = gcnew SqlCommand("select * from dbo.Samochod where id=@id", sqlConnection);
+				sqlCommand->Parameters->Add("@id", idSamochodu);
+				sqlDataReader = sqlCommand->ExecuteReader();
+				sqlDataReader->Read();
+				double spalanie = (double)sqlDataReader["spalanie"];
+				sqlDataReader->Close();
 
-				MessageBox::Show("CenaPaliwa: " + cenaPaliwa + " , kilometry: " + kilometry + " ,koszty: " + kosztyPaliwa);
 
+				double kosztyPaliwa = cenaPaliwa * spalanie * kilometry /100;
+
+				//MessageBox::Show("CenaPaliwa: " + cenaPaliwa + " , kilometry: " + kilometry + " ,koszty: " + kosztyPaliwa);
+
+
+				//zapisywanie danych o trasie do bazy
 				sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
 				sqlCommand->Parameters->Add("@idZlecenia", idZlecenia);
 				sqlCommand->Parameters->Add("@idKierowcy", idKierowcy);

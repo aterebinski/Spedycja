@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "EdytujKierowceForm.h"
+#include "ZestawienieKierowcowForm.h"
 
 namespace Spedycja {
 
@@ -46,6 +47,7 @@ namespace Spedycja {
 	private: System::Windows::Forms::Button^ btnEdytuj;
 	private: System::Windows::Forms::Button^ btnDodaj;
 	private: System::Windows::Forms::DataGridView^ dataGridViewKierowcy;
+	private: System::Windows::Forms::Button^  btnZestawienie;
 
 
 	private:
@@ -66,6 +68,7 @@ namespace Spedycja {
 			this->btnEdytuj = (gcnew System::Windows::Forms::Button());
 			this->btnDodaj = (gcnew System::Windows::Forms::Button());
 			this->dataGridViewKierowcy = (gcnew System::Windows::Forms::DataGridView());
+			this->btnZestawienie = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewKierowcy))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -86,7 +89,7 @@ namespace Spedycja {
 			this->btnUsun->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->btnUsun->Location = System::Drawing::Point(384, 453);
-			this->btnUsun->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->btnUsun->Margin = System::Windows::Forms::Padding(4);
 			this->btnUsun->Name = L"btnUsun";
 			this->btnUsun->Size = System::Drawing::Size(116, 42);
 			this->btnUsun->TabIndex = 4;
@@ -99,7 +102,7 @@ namespace Spedycja {
 			this->btnEdytuj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->btnEdytuj->Location = System::Drawing::Point(231, 453);
-			this->btnEdytuj->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->btnEdytuj->Margin = System::Windows::Forms::Padding(4);
 			this->btnEdytuj->Name = L"btnEdytuj";
 			this->btnEdytuj->Size = System::Drawing::Size(116, 42);
 			this->btnEdytuj->TabIndex = 5;
@@ -112,7 +115,7 @@ namespace Spedycja {
 			this->btnDodaj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->btnDodaj->Location = System::Drawing::Point(65, 453);
-			this->btnDodaj->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->btnDodaj->Margin = System::Windows::Forms::Padding(4);
 			this->btnDodaj->Name = L"btnDodaj";
 			this->btnDodaj->Size = System::Drawing::Size(116, 42);
 			this->btnDodaj->TabIndex = 6;
@@ -124,26 +127,41 @@ namespace Spedycja {
 			// 
 			this->dataGridViewKierowcy->AllowUserToAddRows = false;
 			this->dataGridViewKierowcy->AllowUserToDeleteRows = false;
+			this->dataGridViewKierowcy->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 			this->dataGridViewKierowcy->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridViewKierowcy->Location = System::Drawing::Point(65, 119);
-			this->dataGridViewKierowcy->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->dataGridViewKierowcy->Margin = System::Windows::Forms::Padding(4);
 			this->dataGridViewKierowcy->Name = L"dataGridViewKierowcy";
 			this->dataGridViewKierowcy->ReadOnly = true;
 			this->dataGridViewKierowcy->RowHeadersVisible = false;
 			this->dataGridViewKierowcy->Size = System::Drawing::Size(953, 281);
 			this->dataGridViewKierowcy->TabIndex = 3;
 			// 
+			// btnZestawienie
+			// 
+			this->btnZestawienie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->btnZestawienie->Location = System::Drawing::Point(829, 453);
+			this->btnZestawienie->Margin = System::Windows::Forms::Padding(4);
+			this->btnZestawienie->Name = L"btnZestawienie";
+			this->btnZestawienie->Size = System::Drawing::Size(189, 42);
+			this->btnZestawienie->TabIndex = 8;
+			this->btnZestawienie->Text = L"Zestawienie";
+			this->btnZestawienie->UseVisualStyleBackColor = true;
+			this->btnZestawienie->Click += gcnew System::EventHandler(this, &KierowcyForm::btnZestawienie_Click);
+			// 
 			// KierowcyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1092, 560);
+			this->Controls->Add(this->btnZestawienie);
 			this->Controls->Add(this->labelKierowcy);
 			this->Controls->Add(this->btnUsun);
 			this->Controls->Add(this->btnEdytuj);
 			this->Controls->Add(this->btnDodaj);
 			this->Controls->Add(this->dataGridViewKierowcy);
-			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"KierowcyForm";
 			this->Text = L"KierowcyForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewKierowcy))->EndInit();
@@ -233,6 +251,10 @@ private: System::Void btnUsun_Click(System::Object^  sender, System::EventArgs^ 
 			this->generateView();
 		}
 	}
+}
+private: System::Void btnZestawienie_Click(System::Object^  sender, System::EventArgs^  e) {
+	ZestawienieKierowcowForm^ zestawienieKierowcowForm = gcnew ZestawienieKierowcowForm(connectionString);
+	zestawienieKierowcowForm->ShowDialog();
 }
 };
 }

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "EdytujZlecenieForm.h"
+#include "ZestawienieZlecenForm.h"
 
 
 
@@ -49,8 +50,9 @@ namespace Spedycja {
 	private: System::Windows::Forms::Button^ btnEdytuj;
 	private: System::Windows::Forms::Button^ btnDodaj;
 	private: System::Windows::Forms::DataGridView^ dataGridViewZlecenia;
-	private: System::Windows::Forms::Button^ btnRezerwuj;
-	private: System::Windows::Forms::Button^ btnWykonaj;
+	private: System::Windows::Forms::Button^  btnZestawienie;
+
+
 
 	private:
 		/// <summary>
@@ -70,8 +72,7 @@ namespace Spedycja {
 			this->btnEdytuj = (gcnew System::Windows::Forms::Button());
 			this->btnDodaj = (gcnew System::Windows::Forms::Button());
 			this->dataGridViewZlecenia = (gcnew System::Windows::Forms::DataGridView());
-			this->btnRezerwuj = (gcnew System::Windows::Forms::Button());
-			this->btnWykonaj = (gcnew System::Windows::Forms::Button());
+			this->btnZestawienie = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridViewZlecenia))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -130,6 +131,7 @@ namespace Spedycja {
 			// 
 			this->dataGridViewZlecenia->AllowUserToAddRows = false;
 			this->dataGridViewZlecenia->AllowUserToDeleteRows = false;
+			this->dataGridViewZlecenia->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 			this->dataGridViewZlecenia->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridViewZlecenia->Location = System::Drawing::Point(92, 125);
 			this->dataGridViewZlecenia->Margin = System::Windows::Forms::Padding(4);
@@ -139,37 +141,25 @@ namespace Spedycja {
 			this->dataGridViewZlecenia->Size = System::Drawing::Size(1388, 460);
 			this->dataGridViewZlecenia->TabIndex = 13;
 			// 
-			// btnRezerwuj
+			// btnZestawienie
 			// 
-			this->btnRezerwuj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->btnZestawienie->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btnRezerwuj->Location = System::Drawing::Point(618, 635);
-			this->btnRezerwuj->Margin = System::Windows::Forms::Padding(4);
-			this->btnRezerwuj->Name = L"btnRezerwuj";
-			this->btnRezerwuj->Size = System::Drawing::Size(321, 42);
-			this->btnRezerwuj->TabIndex = 18;
-			this->btnRezerwuj->Text = L"Rezerwuj kierowcę/samochód";
-			this->btnRezerwuj->UseVisualStyleBackColor = true;
-			// 
-			// btnWykonaj
-			// 
-			this->btnWykonaj->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(238)));
-			this->btnWykonaj->Location = System::Drawing::Point(947, 635);
-			this->btnWykonaj->Margin = System::Windows::Forms::Padding(4);
-			this->btnWykonaj->Name = L"btnWykonaj";
-			this->btnWykonaj->Size = System::Drawing::Size(116, 42);
-			this->btnWykonaj->TabIndex = 19;
-			this->btnWykonaj->Text = L"Usuń";
-			this->btnWykonaj->UseVisualStyleBackColor = true;
+			this->btnZestawienie->Location = System::Drawing::Point(1236, 635);
+			this->btnZestawienie->Margin = System::Windows::Forms::Padding(4);
+			this->btnZestawienie->Name = L"btnZestawienie";
+			this->btnZestawienie->Size = System::Drawing::Size(244, 42);
+			this->btnZestawienie->TabIndex = 18;
+			this->btnZestawienie->Text = L"Zestawienie";
+			this->btnZestawienie->UseVisualStyleBackColor = true;
+			this->btnZestawienie->Click += gcnew System::EventHandler(this, &ZleceniaForm::btnZestawienie_Click);
 			// 
 			// ZleceniaForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1587, 783);
-			this->Controls->Add(this->btnWykonaj);
-			this->Controls->Add(this->btnRezerwuj);
+			this->Controls->Add(this->btnZestawienie);
 			this->Controls->Add(this->labelZlecenia);
 			this->Controls->Add(this->btnUsun);
 			this->Controls->Add(this->btnEdytuj);
@@ -267,6 +257,10 @@ private: System::Void btnUsun_Click(System::Object^  sender, System::EventArgs^ 
 			this->generateView();
 		}
 	}
+}
+private: System::Void btnZestawienie_Click(System::Object^  sender, System::EventArgs^  e) {
+	ZestawienieZlecenForm^ zestawienieZlecenForm = gcnew ZestawienieZlecenForm(connectionString);
+	zestawienieZlecenForm->ShowDialog();
 }
 };
 }

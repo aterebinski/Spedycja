@@ -25,7 +25,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>Spedycja</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -136,6 +136,9 @@
     <ClCompile Include="TrasyForm.cpp" />
     <ClCompile Include="ZestawienieKierowcowForm.cpp" />
     <ClCompile Include="ZestawieniaForm.cpp" />
+    <ClCompile Include="ZestawienieKontrahentowForm.cpp" />
+    <ClCompile Include="ZestawienieSamochodowForm.cpp" />
+    <ClCompile Include="ZestawienieZlecenForm.cpp" />
     <ClCompile Include="ZleceniaForm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +180,15 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="ZestawieniaForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ZestawienieKontrahentowForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ZestawienieSamochodowForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ZestawienieZlecenForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="ZleceniaForm.h">
@@ -222,6 +234,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ZestawieniaForm.resx">
       <DependentUpon>ZestawieniaForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZestawienieKontrahentowForm.resx">
+      <DependentUpon>ZestawienieKontrahentowForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZestawienieSamochodowForm.resx">
+      <DependentUpon>ZestawienieSamochodowForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZestawienieZlecenForm.resx">
+      <DependentUpon>ZestawienieZlecenForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ZleceniaForm.resx">
       <DependentUpon>ZleceniaForm.h</DependentUpon>
